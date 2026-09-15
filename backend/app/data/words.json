@@ -1,0 +1,5132 @@
+[
+  {
+    "id": "w0001",
+    "lemma": "le",
+    "pos": "determiner",
+    "frequency_rank": 5,
+    "translation_en": "the (masc.)",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le chat dort.",
+        "en": "The cat is sleeping."
+      },
+      {
+        "fr": "Je vois le train.",
+        "en": "I see the train."
+      }
+    ]
+  },
+  {
+    "id": "w0002",
+    "lemma": "que",
+    "pos": "pronoun",
+    "frequency_rank": 6,
+    "translation_en": "that / what",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je pense que c'est vrai.",
+        "en": "I think that it's true."
+      },
+      {
+        "fr": "Que fais-tu?",
+        "en": "What are you doing?"
+      }
+    ]
+  },
+  {
+    "id": "w0003",
+    "lemma": "un",
+    "pos": "determiner",
+    "frequency_rank": 10,
+    "translation_en": "a / one",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ai un frère.",
+        "en": "I have one brother."
+      },
+      {
+        "fr": "C'est un bon film.",
+        "en": "It's a good movie."
+      }
+    ]
+  },
+  {
+    "id": "w0004",
+    "lemma": "et",
+    "pos": "conjunction",
+    "frequency_rank": 13,
+    "translation_en": "and",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Toi et moi.",
+        "en": "You and me."
+      },
+      {
+        "fr": "Il mange et il boit.",
+        "en": "He eats and drinks."
+      }
+    ]
+  },
+  {
+    "id": "w0005",
+    "lemma": "ce",
+    "pos": "determiner",
+    "frequency_rank": 25,
+    "translation_en": "this / that",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ce livre est bon.",
+        "en": "This book is good."
+      },
+      {
+        "fr": "Ce soir, je sors.",
+        "en": "Tonight, I'm going out."
+      }
+    ]
+  },
+  {
+    "id": "w0006",
+    "lemma": "qui",
+    "pos": "pronoun",
+    "frequency_rank": 31,
+    "translation_en": "who",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Qui est-ce?",
+        "en": "Who is it?"
+      },
+      {
+        "fr": "L'homme qui parle est mon père.",
+        "en": "The man who is speaking is my father."
+      }
+    ]
+  },
+  {
+    "id": "w0007",
+    "lemma": "mais",
+    "pos": "conjunction",
+    "frequency_rank": 32,
+    "translation_en": "but",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'aime le café mais pas le thé.",
+        "en": "I like coffee but not tea."
+      },
+      {
+        "fr": "Il est petit mais fort.",
+        "en": "He is small but strong."
+      }
+    ]
+  },
+  {
+    "id": "w0008",
+    "lemma": "bien",
+    "pos": "adverb",
+    "frequency_rank": 37,
+    "translation_en": "well",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je vais bien, merci.",
+        "en": "I'm doing well, thank you."
+      },
+      {
+        "fr": "Il chante bien.",
+        "en": "He sings well."
+      }
+    ]
+  },
+  {
+    "id": "w0009",
+    "lemma": "si",
+    "pos": "conjunction",
+    "frequency_rank": 38,
+    "translation_en": "if",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Si tu veux, je reste.",
+        "en": "If you want, I'll stay."
+      },
+      {
+        "fr": "Dis-moi si tu as faim.",
+        "en": "Tell me if you are hungry."
+      }
+    ]
+  },
+  {
+    "id": "w0010",
+    "lemma": "tout",
+    "pos": "pronoun",
+    "frequency_rank": 45,
+    "translation_en": "all / everything",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Tout va bien.",
+        "en": "Everything is fine."
+      },
+      {
+        "fr": "Il mange tout.",
+        "en": "He eats everything."
+      }
+    ]
+  },
+  {
+    "id": "w0011",
+    "lemma": "plus",
+    "pos": "adverb",
+    "frequency_rank": 46,
+    "translation_en": "more",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je veux plus de café.",
+        "en": "I want more coffee."
+      },
+      {
+        "fr": "C'est plus facile maintenant.",
+        "en": "It's easier now."
+      }
+    ]
+  },
+  {
+    "id": "w0012",
+    "lemma": "mon",
+    "pos": "determiner",
+    "frequency_rank": 47,
+    "translation_en": "my (masc.)",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est mon frère.",
+        "en": "This is my brother."
+      },
+      {
+        "fr": "Mon chat s'appelle Milo.",
+        "en": "My cat's name is Milo."
+      }
+    ]
+  },
+  {
+    "id": "w0013",
+    "lemma": "fait",
+    "pos": "noun",
+    "frequency_rank": 51,
+    "translation_en": "fact",
+    "cefr_estimate": "B1",
+    "sentences": [
+      {
+        "fr": "C'est un fait important.",
+        "en": "That's an important fact."
+      },
+      {
+        "fr": "En fait, je ne sais pas.",
+        "en": "In fact, I don't know."
+      }
+    ]
+  },
+  {
+    "id": "w0014",
+    "lemma": "faire",
+    "pos": "verb",
+    "frequency_rank": 58,
+    "translation_en": "to do / to make",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je fais mes devoirs.",
+        "en": "I am doing my homework."
+      },
+      {
+        "fr": "Elle fait un gâteau.",
+        "en": "She is making a cake."
+      }
+    ]
+  },
+  {
+    "id": "w0015",
+    "lemma": "être",
+    "pos": "verb",
+    "frequency_rank": 65,
+    "translation_en": "to be",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je suis fatigué.",
+        "en": "I am tired."
+      },
+      {
+        "fr": "Elle est contente.",
+        "en": "She is happy."
+      }
+    ]
+  },
+  {
+    "id": "w0016",
+    "lemma": "ici",
+    "pos": "adverb",
+    "frequency_rank": 67,
+    "translation_en": "here",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Viens ici.",
+        "en": "Come here."
+      },
+      {
+        "fr": "Je vis ici.",
+        "en": "I live here."
+      }
+    ]
+  },
+  {
+    "id": "w0017",
+    "lemma": "pourquoi",
+    "pos": "adverb",
+    "frequency_rank": 75,
+    "translation_en": "why",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Pourquoi pleures-tu?",
+        "en": "Why are you crying?"
+      },
+      {
+        "fr": "Je ne sais pas pourquoi.",
+        "en": "I don't know why."
+      }
+    ]
+  },
+  {
+    "id": "w0018",
+    "lemma": "où",
+    "pos": "adverb",
+    "frequency_rank": 76,
+    "translation_en": "where",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Où habites-tu?",
+        "en": "Where do you live?"
+      },
+      {
+        "fr": "Je ne sais pas où il est.",
+        "en": "I don't know where he is."
+      }
+    ]
+  },
+  {
+    "id": "w0019",
+    "lemma": "là",
+    "pos": "adverb",
+    "frequency_rank": 77,
+    "translation_en": "there",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Mets-le là.",
+        "en": "Put it there."
+      },
+      {
+        "fr": "Elle est là.",
+        "en": "She is there."
+      }
+    ]
+  },
+  {
+    "id": "w0020",
+    "lemma": "rien",
+    "pos": "pronoun",
+    "frequency_rank": 78,
+    "translation_en": "nothing",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je ne vois rien.",
+        "en": "I see nothing."
+      },
+      {
+        "fr": "Ce n'est rien.",
+        "en": "It's nothing."
+      }
+    ]
+  },
+  {
+    "id": "w0021",
+    "lemma": "quand",
+    "pos": "adverb",
+    "frequency_rank": 81,
+    "translation_en": "when",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Quand arrives-tu?",
+        "en": "When are you arriving?"
+      },
+      {
+        "fr": "Je ne sais pas quand.",
+        "en": "I don't know when."
+      }
+    ]
+  },
+  {
+    "id": "w0022",
+    "lemma": "quand même",
+    "pos": "adverb",
+    "frequency_rank": 81,
+    "translation_en": "anyway / still",
+    "cefr_estimate": "B1",
+    "sentences": [
+      {
+        "fr": "Il pleut, mais je sors quand même.",
+        "en": "It's raining, but I'm going out anyway."
+      },
+      {
+        "fr": "Merci quand même.",
+        "en": "Thanks anyway."
+      }
+    ]
+  },
+  {
+    "id": "w0023",
+    "lemma": "dire",
+    "pos": "verb",
+    "frequency_rank": 83,
+    "translation_en": "to say",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il dit la vérité.",
+        "en": "He tells the truth."
+      },
+      {
+        "fr": "Que dis-tu?",
+        "en": "What are you saying?"
+      }
+    ]
+  },
+  {
+    "id": "w0024",
+    "lemma": "comment",
+    "pos": "adverb",
+    "frequency_rank": 89,
+    "translation_en": "how",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Comment vas-tu?",
+        "en": "How are you?"
+      },
+      {
+        "fr": "Comment faire?",
+        "en": "How to do it?"
+      }
+    ]
+  },
+  {
+    "id": "w0025",
+    "lemma": "ou",
+    "pos": "conjunction",
+    "frequency_rank": 91,
+    "translation_en": "or",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Thé ou café?",
+        "en": "Tea or coffee?"
+      },
+      {
+        "fr": "Tu viens ou tu restes?",
+        "en": "Are you coming or staying?"
+      }
+    ]
+  },
+  {
+    "id": "w0026",
+    "lemma": "chose",
+    "pos": "noun",
+    "frequency_rank": 92,
+    "translation_en": "thing",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est une bonne chose.",
+        "en": "That's a good thing."
+      },
+      {
+        "fr": "J'ai plusieurs choses à faire.",
+        "en": "I have several things to do."
+      }
+    ]
+  },
+  {
+    "id": "w0027",
+    "lemma": "bon",
+    "pos": "adjective",
+    "frequency_rank": 93,
+    "translation_en": "good",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est un bon film.",
+        "en": "It's a good movie."
+      },
+      {
+        "fr": "Bon appétit!",
+        "en": "Enjoy your meal!"
+      }
+    ]
+  },
+  {
+    "id": "w0028",
+    "lemma": "très",
+    "pos": "adverb",
+    "frequency_rank": 97,
+    "translation_en": "very",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il fait très chaud.",
+        "en": "It's very hot."
+      },
+      {
+        "fr": "Elle est très gentille.",
+        "en": "She is very kind."
+      }
+    ]
+  },
+  {
+    "id": "w0029",
+    "lemma": "jamais",
+    "pos": "adverb",
+    "frequency_rank": 98,
+    "translation_en": "never",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je ne mens jamais.",
+        "en": "I never lie."
+      },
+      {
+        "fr": "Elle n'est jamais en retard.",
+        "en": "She is never late."
+      }
+    ]
+  },
+  {
+    "id": "w0030",
+    "lemma": "été",
+    "pos": "noun",
+    "frequency_rank": 99,
+    "translation_en": "summer",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "En été, il fait chaud.",
+        "en": "In summer, it's hot."
+      },
+      {
+        "fr": "Nous partons en été.",
+        "en": "We leave in summer."
+      }
+    ]
+  },
+  {
+    "id": "w0031",
+    "lemma": "aussi",
+    "pos": "adverb",
+    "frequency_rank": 100,
+    "translation_en": "also / too",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Moi aussi, j'aime le café.",
+        "en": "I also like coffee."
+      },
+      {
+        "fr": "Elle vient aussi.",
+        "en": "She is coming too."
+      }
+    ]
+  },
+  {
+    "id": "w0032",
+    "lemma": "avoir",
+    "pos": "verb",
+    "frequency_rank": 101,
+    "translation_en": "to have",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ai un chat.",
+        "en": "I have a cat."
+      },
+      {
+        "fr": "Il a peur.",
+        "en": "He is afraid."
+      }
+    ]
+  },
+  {
+    "id": "w0033",
+    "lemma": "voir",
+    "pos": "verb",
+    "frequency_rank": 103,
+    "translation_en": "to see",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je vois la mer.",
+        "en": "I see the sea."
+      },
+      {
+        "fr": "Tu vois ce chien?",
+        "en": "Do you see that dog?"
+      }
+    ]
+  },
+  {
+    "id": "w0034",
+    "lemma": "même",
+    "pos": "adjective",
+    "frequency_rank": 104,
+    "translation_en": "same",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Nous avons la même voiture.",
+        "en": "We have the same car."
+      },
+      {
+        "fr": "C'est toujours la même chose.",
+        "en": "It's always the same thing."
+      }
+    ]
+  },
+  {
+    "id": "w0035",
+    "lemma": "maintenant",
+    "pos": "adverb",
+    "frequency_rank": 107,
+    "translation_en": "now",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je pars maintenant.",
+        "en": "I'm leaving now."
+      },
+      {
+        "fr": "Que fais-tu maintenant?",
+        "en": "What are you doing now?"
+      }
+    ]
+  },
+  {
+    "id": "w0036",
+    "lemma": "autre",
+    "pos": "adjective",
+    "frequency_rank": 115,
+    "translation_en": "other",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ai un autre livre.",
+        "en": "I have another book."
+      },
+      {
+        "fr": "L'autre jour, j'ai vu Marc.",
+        "en": "The other day, I saw Marc."
+      }
+    ]
+  },
+  {
+    "id": "w0037",
+    "lemma": "peu",
+    "pos": "adverb",
+    "frequency_rank": 116,
+    "translation_en": "little / few",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ai peu de temps.",
+        "en": "I have little time."
+      },
+      {
+        "fr": "Un peu, s'il vous plaît.",
+        "en": "A little, please."
+      }
+    ]
+  },
+  {
+    "id": "w0038",
+    "lemma": "temps",
+    "pos": "noun",
+    "frequency_rank": 117,
+    "translation_en": "time / weather",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je n'ai pas le temps.",
+        "en": "I don't have time."
+      },
+      {
+        "fr": "Le temps est beau aujourd'hui.",
+        "en": "The weather is nice today."
+      }
+    ]
+  },
+  {
+    "id": "w0039",
+    "lemma": "quelque",
+    "pos": "determiner",
+    "frequency_rank": 118,
+    "translation_en": "some",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "J'ai quelque chose pour toi.",
+        "en": "I have something for you."
+      },
+      {
+        "fr": "Il reste quelques minutes.",
+        "en": "A few minutes remain."
+      }
+    ]
+  },
+  {
+    "id": "w0040",
+    "lemma": "toujours",
+    "pos": "adverb",
+    "frequency_rank": 120,
+    "translation_en": "always",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il arrive toujours à l'heure.",
+        "en": "He always arrives on time."
+      },
+      {
+        "fr": "Je pense toujours à toi.",
+        "en": "I always think of you."
+      }
+    ]
+  },
+  {
+    "id": "w0041",
+    "lemma": "encore",
+    "pos": "adverb",
+    "frequency_rank": 121,
+    "translation_en": "still / again",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il pleut encore.",
+        "en": "It's still raining."
+      },
+      {
+        "fr": "Encore une fois, s'il te plaît.",
+        "en": "One more time, please."
+      }
+    ]
+  },
+  {
+    "id": "w0042",
+    "lemma": "notre",
+    "pos": "determiner",
+    "frequency_rank": 122,
+    "translation_en": "our",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est notre maison.",
+        "en": "This is our house."
+      },
+      {
+        "fr": "Notre équipe a gagné.",
+        "en": "Our team won."
+      }
+    ]
+  },
+  {
+    "id": "w0043",
+    "lemma": "vie",
+    "pos": "noun",
+    "frequency_rank": 129,
+    "translation_en": "life",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "La vie est belle.",
+        "en": "Life is beautiful."
+      },
+      {
+        "fr": "Elle aime sa vie.",
+        "en": "She loves her life."
+      }
+    ]
+  },
+  {
+    "id": "w0044",
+    "lemma": "peut-être",
+    "pos": "adverb",
+    "frequency_rank": 130,
+    "translation_en": "maybe",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Peut-être demain.",
+        "en": "Maybe tomorrow."
+      },
+      {
+        "fr": "Il vient peut-être ce soir.",
+        "en": "He might come tonight."
+      }
+    ]
+  },
+  {
+    "id": "w0045",
+    "lemma": "aller",
+    "pos": "verb",
+    "frequency_rank": 131,
+    "translation_en": "to go",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je vais à l'école.",
+        "en": "I go to school."
+      },
+      {
+        "fr": "Nous allons au marché.",
+        "en": "We are going to the market."
+      }
+    ]
+  },
+  {
+    "id": "w0046",
+    "lemma": "donc",
+    "pos": "conjunction",
+    "frequency_rank": 134,
+    "translation_en": "so / therefore",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je pense, donc je suis.",
+        "en": "I think, therefore I am."
+      },
+      {
+        "fr": "Il pleut, donc je reste.",
+        "en": "It's raining, so I'm staying."
+      }
+    ]
+  },
+  {
+    "id": "w0047",
+    "lemma": "monde",
+    "pos": "noun",
+    "frequency_rank": 136,
+    "translation_en": "world",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Le monde est grand.",
+        "en": "The world is big."
+      },
+      {
+        "fr": "Il y a du monde ici.",
+        "en": "There are a lot of people here."
+      }
+    ]
+  },
+  {
+    "id": "w0048",
+    "lemma": "parce que",
+    "pos": "conjunction",
+    "frequency_rank": 138,
+    "translation_en": "because",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je reste parce qu'il pleut.",
+        "en": "I'm staying because it's raining."
+      },
+      {
+        "fr": "Il est content parce qu'il a gagné.",
+        "en": "He's happy because he won."
+      }
+    ]
+  },
+  {
+    "id": "w0049",
+    "lemma": "sûr",
+    "pos": "adjective",
+    "frequency_rank": 140,
+    "translation_en": "sure / safe",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je suis sûr de ça.",
+        "en": "I am sure of that."
+      },
+      {
+        "fr": "Bien sûr!",
+        "en": "Of course!"
+      }
+    ]
+  },
+  {
+    "id": "w0050",
+    "lemma": "trop",
+    "pos": "adverb",
+    "frequency_rank": 141,
+    "translation_en": "too / too much",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est trop cher.",
+        "en": "It's too expensive."
+      },
+      {
+        "fr": "Tu manges trop vite.",
+        "en": "You eat too fast."
+      }
+    ]
+  },
+  {
+    "id": "w0051",
+    "lemma": "parler",
+    "pos": "verb",
+    "frequency_rank": 143,
+    "translation_en": "to speak",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je parle français.",
+        "en": "I speak French."
+      },
+      {
+        "fr": "Nous parlons souvent.",
+        "en": "We often talk."
+      }
+    ]
+  },
+  {
+    "id": "w0052",
+    "lemma": "personne",
+    "pos": "noun",
+    "frequency_rank": 144,
+    "translation_en": "person / nobody",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Une personne attend dehors.",
+        "en": "A person is waiting outside."
+      },
+      {
+        "fr": "Personne ne le sait.",
+        "en": "Nobody knows it."
+      }
+    ]
+  },
+  {
+    "id": "w0053",
+    "lemma": "père",
+    "pos": "noun",
+    "frequency_rank": 146,
+    "translation_en": "father",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Mon père travaille beaucoup.",
+        "en": "My father works a lot."
+      },
+      {
+        "fr": "Son père est gentil.",
+        "en": "His father is kind."
+      }
+    ]
+  },
+  {
+    "id": "w0054",
+    "lemma": "homme",
+    "pos": "noun",
+    "frequency_rank": 157,
+    "translation_en": "man",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Cet homme est grand.",
+        "en": "This man is tall."
+      },
+      {
+        "fr": "Un homme parle au téléphone.",
+        "en": "A man is talking on the phone."
+      }
+    ]
+  },
+  {
+    "id": "w0055",
+    "lemma": "vrai",
+    "pos": "adjective",
+    "frequency_rank": 159,
+    "translation_en": "true",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est vrai.",
+        "en": "That's true."
+      },
+      {
+        "fr": "Une histoire vraie.",
+        "en": "A true story."
+      }
+    ]
+  },
+  {
+    "id": "w0056",
+    "lemma": "femme",
+    "pos": "noun",
+    "frequency_rank": 160,
+    "translation_en": "woman / wife",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Cette femme travaille ici.",
+        "en": "This woman works here."
+      },
+      {
+        "fr": "Ma femme s'appelle Marie.",
+        "en": "My wife's name is Marie."
+      }
+    ]
+  },
+  {
+    "id": "w0057",
+    "lemma": "mal",
+    "pos": "adverb",
+    "frequency_rank": 166,
+    "translation_en": "badly",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il a mal dormi.",
+        "en": "He slept badly."
+      },
+      {
+        "fr": "Ça se passe mal.",
+        "en": "It's going badly."
+      }
+    ]
+  },
+  {
+    "id": "w0058",
+    "lemma": "déjà",
+    "pos": "adverb",
+    "frequency_rank": 168,
+    "translation_en": "already",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ai déjà mangé.",
+        "en": "I already ate."
+      },
+      {
+        "fr": "Elle est déjà partie.",
+        "en": "She has already left."
+      }
+    ]
+  },
+  {
+    "id": "w0059",
+    "lemma": "beaucoup",
+    "pos": "adverb",
+    "frequency_rank": 170,
+    "translation_en": "a lot / much",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je t'aime beaucoup.",
+        "en": "I love you very much."
+      },
+      {
+        "fr": "Il travaille beaucoup.",
+        "en": "He works a lot."
+      }
+    ]
+  },
+  {
+    "id": "w0060",
+    "lemma": "mère",
+    "pos": "noun",
+    "frequency_rank": 176,
+    "translation_en": "mother",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ma mère cuisine bien.",
+        "en": "My mother cooks well."
+      },
+      {
+        "fr": "Sa mère est médecin.",
+        "en": "Her mother is a doctor."
+      }
+    ]
+  },
+  {
+    "id": "w0061",
+    "lemma": "gens",
+    "pos": "noun",
+    "frequency_rank": 181,
+    "translation_en": "people",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Beaucoup de gens sont là.",
+        "en": "Many people are there."
+      },
+      {
+        "fr": "Les gens sont gentils ici.",
+        "en": "People are kind here."
+      }
+    ]
+  },
+  {
+    "id": "w0062",
+    "lemma": "petit",
+    "pos": "adjective",
+    "frequency_rank": 188,
+    "translation_en": "small",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est un petit chien.",
+        "en": "It's a small dog."
+      },
+      {
+        "fr": "Elle est petite.",
+        "en": "She is small."
+      }
+    ]
+  },
+  {
+    "id": "w0063",
+    "lemma": "maison",
+    "pos": "noun",
+    "frequency_rank": 189,
+    "translation_en": "house",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ma maison est petite.",
+        "en": "My house is small."
+      },
+      {
+        "fr": "Il rentre à la maison.",
+        "en": "He goes back home."
+      }
+    ]
+  },
+  {
+    "id": "w0064",
+    "lemma": "soir",
+    "pos": "noun",
+    "frequency_rank": 194,
+    "translation_en": "evening",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Bonsoir!",
+        "en": "Good evening!"
+      },
+      {
+        "fr": "Ce soir, je reste chez moi.",
+        "en": "Tonight, I'm staying home."
+      }
+    ]
+  },
+  {
+    "id": "w0065",
+    "lemma": "prendre",
+    "pos": "verb",
+    "frequency_rank": 196,
+    "translation_en": "to take",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je prends le bus.",
+        "en": "I take the bus."
+      },
+      {
+        "fr": "Elle prend son sac.",
+        "en": "She takes her bag."
+      }
+    ]
+  },
+  {
+    "id": "w0066",
+    "lemma": "jour",
+    "pos": "noun",
+    "frequency_rank": 197,
+    "translation_en": "day",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Bonjour, comment vas-tu?",
+        "en": "Hello, how are you?"
+      },
+      {
+        "fr": "Quel jour sommes-nous?",
+        "en": "What day is it?"
+      }
+    ]
+  },
+  {
+    "id": "w0067",
+    "lemma": "savoir",
+    "pos": "verb",
+    "frequency_rank": 200,
+    "translation_en": "to know (a fact)",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je sais nager.",
+        "en": "I know how to swim."
+      },
+      {
+        "fr": "Elle sait la réponse.",
+        "en": "She knows the answer."
+      }
+    ]
+  },
+  {
+    "id": "w0068",
+    "lemma": "nom",
+    "pos": "noun",
+    "frequency_rank": 204,
+    "translation_en": "name",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Quel est ton nom?",
+        "en": "What is your name?"
+      },
+      {
+        "fr": "J'ai oublié son nom.",
+        "en": "I forgot his name."
+      }
+    ]
+  },
+  {
+    "id": "w0069",
+    "lemma": "argent",
+    "pos": "noun",
+    "frequency_rank": 205,
+    "translation_en": "money",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je n'ai pas d'argent.",
+        "en": "I don't have money."
+      },
+      {
+        "fr": "Elle gagne de l'argent.",
+        "en": "She earns money."
+      }
+    ]
+  },
+  {
+    "id": "w0070",
+    "lemma": "argent de poche",
+    "pos": "noun",
+    "frequency_rank": 205,
+    "translation_en": "pocket money",
+    "cefr_estimate": "B1",
+    "sentences": [
+      {
+        "fr": "Il reçoit de l'argent de poche.",
+        "en": "He gets pocket money."
+      },
+      {
+        "fr": "Je garde mon argent de poche.",
+        "en": "I keep my pocket money."
+      }
+    ]
+  },
+  {
+    "id": "w0071",
+    "lemma": "nuit",
+    "pos": "noun",
+    "frequency_rank": 207,
+    "translation_en": "night",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Bonne nuit!",
+        "en": "Good night!"
+      },
+      {
+        "fr": "Il travaille la nuit.",
+        "en": "He works at night."
+      }
+    ]
+  },
+  {
+    "id": "w0072",
+    "lemma": "raison",
+    "pos": "noun",
+    "frequency_rank": 208,
+    "translation_en": "reason",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il a raison.",
+        "en": "He is right."
+      },
+      {
+        "fr": "Quelle est la raison?",
+        "en": "What is the reason?"
+      }
+    ]
+  },
+  {
+    "id": "w0073",
+    "lemma": "moins",
+    "pos": "adverb",
+    "frequency_rank": 209,
+    "translation_en": "less",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il travaille moins qu'avant.",
+        "en": "He works less than before."
+      },
+      {
+        "fr": "C'est moins cher ici.",
+        "en": "It's cheaper here."
+      }
+    ]
+  },
+  {
+    "id": "w0074",
+    "lemma": "moment",
+    "pos": "noun",
+    "frequency_rank": 213,
+    "translation_en": "moment",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Attends un moment.",
+        "en": "Wait a moment."
+      },
+      {
+        "fr": "C'est le bon moment.",
+        "en": "It's the right moment."
+      }
+    ]
+  },
+  {
+    "id": "w0075",
+    "lemma": "seul",
+    "pos": "adjective",
+    "frequency_rank": 215,
+    "translation_en": "alone / only",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je suis seul à la maison.",
+        "en": "I am alone at home."
+      },
+      {
+        "fr": "C'est le seul moyen.",
+        "en": "It's the only way."
+      }
+    ]
+  },
+  {
+    "id": "w0076",
+    "lemma": "aider",
+    "pos": "verb",
+    "frequency_rank": 216,
+    "translation_en": "to help",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je t'aide avec ça.",
+        "en": "I'll help you with that."
+      },
+      {
+        "fr": "Elle aide sa mère.",
+        "en": "She helps her mother."
+      }
+    ]
+  },
+  {
+    "id": "w0077",
+    "lemma": "trouver",
+    "pos": "verb",
+    "frequency_rank": 233,
+    "translation_en": "to find",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je trouve mes clés.",
+        "en": "I find my keys."
+      },
+      {
+        "fr": "Il trouve ça drôle.",
+        "en": "He finds that funny."
+      }
+    ]
+  },
+  {
+    "id": "w0078",
+    "lemma": "assez",
+    "pos": "adverb",
+    "frequency_rank": 235,
+    "translation_en": "enough / rather",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "J'ai assez mangé.",
+        "en": "I've eaten enough."
+      },
+      {
+        "fr": "C'est assez difficile.",
+        "en": "It's rather difficult."
+      }
+    ]
+  },
+  {
+    "id": "w0079",
+    "lemma": "famille",
+    "pos": "noun",
+    "frequency_rank": 236,
+    "translation_en": "family",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'aime ma famille.",
+        "en": "I love my family."
+      },
+      {
+        "fr": "Nous sommes une grande famille.",
+        "en": "We are a big family."
+      }
+    ]
+  },
+  {
+    "id": "w0080",
+    "lemma": "travail",
+    "pos": "noun",
+    "frequency_rank": 242,
+    "translation_en": "work / job",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'aime mon travail.",
+        "en": "I like my job."
+      },
+      {
+        "fr": "Il cherche du travail.",
+        "en": "He is looking for work."
+      }
+    ]
+  },
+  {
+    "id": "w0081",
+    "lemma": "tête",
+    "pos": "noun",
+    "frequency_rank": 245,
+    "translation_en": "head",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ai mal à la tête.",
+        "en": "I have a headache."
+      },
+      {
+        "fr": "Il tourne la tête.",
+        "en": "He turns his head."
+      }
+    ]
+  },
+  {
+    "id": "w0082",
+    "lemma": "vite",
+    "pos": "adverb",
+    "frequency_rank": 253,
+    "translation_en": "fast / quickly",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Viens vite!",
+        "en": "Come quickly!"
+      },
+      {
+        "fr": "Il parle très vite.",
+        "en": "He speaks very fast."
+      }
+    ]
+  },
+  {
+    "id": "w0083",
+    "lemma": "voiture",
+    "pos": "noun",
+    "frequency_rank": 257,
+    "translation_en": "car",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'achète une voiture.",
+        "en": "I am buying a car."
+      },
+      {
+        "fr": "Sa voiture est rouge.",
+        "en": "His car is red."
+      }
+    ]
+  },
+  {
+    "id": "w0084",
+    "lemma": "idée",
+    "pos": "noun",
+    "frequency_rank": 263,
+    "translation_en": "idea",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "C'est une bonne idée.",
+        "en": "That's a good idea."
+      },
+      {
+        "fr": "J'ai une idée!",
+        "en": "I have an idea!"
+      }
+    ]
+  },
+  {
+    "id": "w0085",
+    "lemma": "grand",
+    "pos": "adjective",
+    "frequency_rank": 270,
+    "translation_en": "big / tall",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est une grande maison.",
+        "en": "It's a big house."
+      },
+      {
+        "fr": "Il est très grand.",
+        "en": "He is very tall."
+      }
+    ]
+  },
+  {
+    "id": "w0086",
+    "lemma": "aujourd'hui",
+    "pos": "adverb",
+    "frequency_rank": 271,
+    "translation_en": "today",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Aujourd'hui, il fait beau.",
+        "en": "Today, the weather is nice."
+      },
+      {
+        "fr": "Que fais-tu aujourd'hui?",
+        "en": "What are you doing today?"
+      }
+    ]
+  },
+  {
+    "id": "w0087",
+    "lemma": "venir",
+    "pos": "verb",
+    "frequency_rank": 272,
+    "translation_en": "to come",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il vient ce soir.",
+        "en": "He is coming tonight."
+      },
+      {
+        "fr": "D'où viens-tu?",
+        "en": "Where do you come from?"
+      }
+    ]
+  },
+  {
+    "id": "w0088",
+    "lemma": "ami",
+    "pos": "noun",
+    "frequency_rank": 273,
+    "translation_en": "friend",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il est mon meilleur ami.",
+        "en": "He is my best friend."
+      },
+      {
+        "fr": "J'ai beaucoup d'amis.",
+        "en": "I have many friends."
+      }
+    ]
+  },
+  {
+    "id": "w0089",
+    "lemma": "demain",
+    "pos": "adverb",
+    "frequency_rank": 274,
+    "translation_en": "tomorrow",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "À demain!",
+        "en": "See you tomorrow!"
+      },
+      {
+        "fr": "Demain, je travaille.",
+        "en": "Tomorrow, I work."
+      }
+    ]
+  },
+  {
+    "id": "w0090",
+    "lemma": "passer",
+    "pos": "verb",
+    "frequency_rank": 279,
+    "translation_en": "to pass / to spend (time)",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je passe un bon moment.",
+        "en": "I am having a good time."
+      },
+      {
+        "fr": "Le bus passe ici.",
+        "en": "The bus passes here."
+      }
+    ]
+  },
+  {
+    "id": "w0091",
+    "lemma": "combien",
+    "pos": "adverb",
+    "frequency_rank": 283,
+    "translation_en": "how much / how many",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Combien ça coûte?",
+        "en": "How much does it cost?"
+      },
+      {
+        "fr": "Combien d'enfants avez-vous?",
+        "en": "How many children do you have?"
+      }
+    ]
+  },
+  {
+    "id": "w0092",
+    "lemma": "porte",
+    "pos": "noun",
+    "frequency_rank": 287,
+    "translation_en": "door",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ferme la porte.",
+        "en": "Close the door."
+      },
+      {
+        "fr": "La porte est ouverte.",
+        "en": "The door is open."
+      }
+    ]
+  },
+  {
+    "id": "w0093",
+    "lemma": "sortir",
+    "pos": "verb",
+    "frequency_rank": 288,
+    "translation_en": "to go out",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je sors ce soir.",
+        "en": "I am going out tonight."
+      },
+      {
+        "fr": "Elle sort du travail.",
+        "en": "She leaves work."
+      }
+    ]
+  },
+  {
+    "id": "w0094",
+    "lemma": "heure",
+    "pos": "noun",
+    "frequency_rank": 290,
+    "translation_en": "hour / time",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Quelle heure est-il?",
+        "en": "What time is it?"
+      },
+      {
+        "fr": "Il est trois heures.",
+        "en": "It is three o'clock."
+      }
+    ]
+  },
+  {
+    "id": "w0095",
+    "lemma": "ensemble",
+    "pos": "adverb",
+    "frequency_rank": 297,
+    "translation_en": "together",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Nous partons ensemble.",
+        "en": "We are leaving together."
+      },
+      {
+        "fr": "Ils vivent ensemble.",
+        "en": "They live together."
+      }
+    ]
+  },
+  {
+    "id": "w0096",
+    "lemma": "nouveau",
+    "pos": "adjective",
+    "frequency_rank": 298,
+    "translation_en": "new",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ai un nouveau vélo.",
+        "en": "I have a new bike."
+      },
+      {
+        "fr": "C'est un nouveau film.",
+        "en": "It's a new movie."
+      }
+    ]
+  },
+  {
+    "id": "w0097",
+    "lemma": "cas",
+    "pos": "noun",
+    "frequency_rank": 303,
+    "translation_en": "case",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Dans ce cas, je reste.",
+        "en": "In that case, I'm staying."
+      },
+      {
+        "fr": "C'est un cas rare.",
+        "en": "It's a rare case."
+      }
+    ]
+  },
+  {
+    "id": "w0098",
+    "lemma": "rester",
+    "pos": "verb",
+    "frequency_rank": 305,
+    "translation_en": "to stay",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je reste à la maison.",
+        "en": "I stay home."
+      },
+      {
+        "fr": "Il reste calme.",
+        "en": "He stays calm."
+      }
+    ]
+  },
+  {
+    "id": "w0099",
+    "lemma": "question",
+    "pos": "noun",
+    "frequency_rank": 311,
+    "translation_en": "question",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ai une question.",
+        "en": "I have a question."
+      },
+      {
+        "fr": "C'est une bonne question.",
+        "en": "That's a good question."
+      }
+    ]
+  },
+  {
+    "id": "w0100",
+    "lemma": "partie",
+    "pos": "noun",
+    "frequency_rank": 312,
+    "translation_en": "part",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "C'est une partie du problème.",
+        "en": "That's part of the problem."
+      },
+      {
+        "fr": "Cette partie est facile.",
+        "en": "This part is easy."
+      }
+    ]
+  },
+  {
+    "id": "w0101",
+    "lemma": "histoire",
+    "pos": "noun",
+    "frequency_rank": 313,
+    "translation_en": "story / history",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Raconte-moi une histoire.",
+        "en": "Tell me a story."
+      },
+      {
+        "fr": "J'étudie l'histoire.",
+        "en": "I study history."
+      }
+    ]
+  },
+  {
+    "id": "w0102",
+    "lemma": "chercher",
+    "pos": "verb",
+    "frequency_rank": 318,
+    "translation_en": "to look for",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je cherche mes clés.",
+        "en": "I am looking for my keys."
+      },
+      {
+        "fr": "Elle cherche un emploi.",
+        "en": "She is looking for a job."
+      }
+    ]
+  },
+  {
+    "id": "w0103",
+    "lemma": "mois",
+    "pos": "noun",
+    "frequency_rank": 324,
+    "translation_en": "month",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ce mois est très occupé.",
+        "en": "This month is very busy."
+      },
+      {
+        "fr": "Le mois prochain, je pars.",
+        "en": "Next month, I'm leaving."
+      }
+    ]
+  },
+  {
+    "id": "w0104",
+    "lemma": "frère",
+    "pos": "noun",
+    "frequency_rank": 325,
+    "translation_en": "brother",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Mon frère habite à Lyon.",
+        "en": "My brother lives in Lyon."
+      },
+      {
+        "fr": "J'ai un petit frère.",
+        "en": "I have a little brother."
+      }
+    ]
+  },
+  {
+    "id": "w0105",
+    "lemma": "laisser",
+    "pos": "verb",
+    "frequency_rank": 326,
+    "translation_en": "to let / to leave (something)",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je laisse un message.",
+        "en": "I leave a message."
+      },
+      {
+        "fr": "Laisse-moi tranquille.",
+        "en": "Leave me alone."
+      }
+    ]
+  },
+  {
+    "id": "w0106",
+    "lemma": "mettre",
+    "pos": "verb",
+    "frequency_rank": 328,
+    "translation_en": "to put",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je mets la table.",
+        "en": "I set the table."
+      },
+      {
+        "fr": "Elle met son manteau.",
+        "en": "She puts on her coat."
+      }
+    ]
+  },
+  {
+    "id": "w0107",
+    "lemma": "chaque",
+    "pos": "determiner",
+    "frequency_rank": 331,
+    "translation_en": "each / every",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Chaque jour est différent.",
+        "en": "Every day is different."
+      },
+      {
+        "fr": "Chaque enfant a un cadeau.",
+        "en": "Each child has a gift."
+      }
+    ]
+  },
+  {
+    "id": "w0108",
+    "lemma": "ville",
+    "pos": "noun",
+    "frequency_rank": 332,
+    "translation_en": "city",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Paris est une grande ville.",
+        "en": "Paris is a big city."
+      },
+      {
+        "fr": "J'habite en ville.",
+        "en": "I live in the city."
+      }
+    ]
+  },
+  {
+    "id": "w0109",
+    "lemma": "place",
+    "pos": "noun",
+    "frequency_rank": 342,
+    "translation_en": "place / seat",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est ma place.",
+        "en": "This is my seat."
+      },
+      {
+        "fr": "La place centrale est jolie.",
+        "en": "The main square is pretty."
+      }
+    ]
+  },
+  {
+    "id": "w0110",
+    "lemma": "donner",
+    "pos": "verb",
+    "frequency_rank": 351,
+    "translation_en": "to give",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je te donne un livre.",
+        "en": "I give you a book."
+      },
+      {
+        "fr": "Elle donne son avis.",
+        "en": "She gives her opinion."
+      }
+    ]
+  },
+  {
+    "id": "w0111",
+    "lemma": "corps",
+    "pos": "noun",
+    "frequency_rank": 355,
+    "translation_en": "body",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Le sport est bon pour le corps.",
+        "en": "Sport is good for the body."
+      },
+      {
+        "fr": "Il a un corps fort.",
+        "en": "He has a strong body."
+      }
+    ]
+  },
+  {
+    "id": "w0112",
+    "lemma": "train",
+    "pos": "noun",
+    "frequency_rank": 360,
+    "translation_en": "train",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je prends le train.",
+        "en": "I take the train."
+      },
+      {
+        "fr": "Le train est en retard.",
+        "en": "The train is late."
+      }
+    ]
+  },
+  {
+    "id": "w0113",
+    "lemma": "yeux",
+    "pos": "noun",
+    "frequency_rank": 363,
+    "translation_en": "eyes",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Elle a les yeux bleus.",
+        "en": "She has blue eyes."
+      },
+      {
+        "fr": "Ferme les yeux.",
+        "en": "Close your eyes."
+      }
+    ]
+  },
+  {
+    "id": "w0114",
+    "lemma": "pouvoir",
+    "pos": "verb",
+    "frequency_rank": 365,
+    "translation_en": "to be able to / can",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je peux venir demain.",
+        "en": "I can come tomorrow."
+      },
+      {
+        "fr": "Peux-tu m'aider?",
+        "en": "Can you help me?"
+      }
+    ]
+  },
+  {
+    "id": "w0115",
+    "lemma": "type",
+    "pos": "noun",
+    "frequency_rank": 366,
+    "translation_en": "type / kind",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Quel type de musique aimes-tu?",
+        "en": "What type of music do you like?"
+      },
+      {
+        "fr": "C'est un nouveau type de voiture.",
+        "en": "It's a new type of car."
+      }
+    ]
+  },
+  {
+    "id": "w0116",
+    "lemma": "premier",
+    "pos": "adjective",
+    "frequency_rank": 368,
+    "translation_en": "first",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est mon premier jour.",
+        "en": "It's my first day."
+      },
+      {
+        "fr": "Il est arrivé premier.",
+        "en": "He arrived first."
+      }
+    ]
+  },
+  {
+    "id": "w0117",
+    "lemma": "point",
+    "pos": "noun",
+    "frequency_rank": 371,
+    "translation_en": "point",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "C'est un bon point.",
+        "en": "That's a good point."
+      },
+      {
+        "fr": "Nous sommes au même point.",
+        "en": "We are at the same point."
+      }
+    ]
+  },
+  {
+    "id": "w0118",
+    "lemma": "main",
+    "pos": "noun",
+    "frequency_rank": 373,
+    "translation_en": "hand",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Donne-moi ta main.",
+        "en": "Give me your hand."
+      },
+      {
+        "fr": "Il lève la main.",
+        "en": "He raises his hand."
+      }
+    ]
+  },
+  {
+    "id": "w0119",
+    "lemma": "enfant",
+    "pos": "noun",
+    "frequency_rank": 376,
+    "translation_en": "child",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "L'enfant joue dans le parc.",
+        "en": "The child plays in the park."
+      },
+      {
+        "fr": "Ils ont deux enfants.",
+        "en": "They have two children."
+      }
+    ]
+  },
+  {
+    "id": "w0120",
+    "lemma": "vieux",
+    "pos": "adjective",
+    "frequency_rank": 377,
+    "translation_en": "old",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est un vieux livre.",
+        "en": "It's an old book."
+      },
+      {
+        "fr": "Mon grand-père est vieux.",
+        "en": "My grandfather is old."
+      }
+    ]
+  },
+  {
+    "id": "w0121",
+    "lemma": "matin",
+    "pos": "noun",
+    "frequency_rank": 378,
+    "translation_en": "morning",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je me lève tôt le matin.",
+        "en": "I get up early in the morning."
+      },
+      {
+        "fr": "Bon matin!",
+        "en": "Good morning!"
+      }
+    ]
+  },
+  {
+    "id": "w0122",
+    "lemma": "chambre",
+    "pos": "noun",
+    "frequency_rank": 394,
+    "translation_en": "bedroom",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ma chambre est petite.",
+        "en": "My bedroom is small."
+      },
+      {
+        "fr": "Il range sa chambre.",
+        "en": "He is tidying his room."
+      }
+    ]
+  },
+  {
+    "id": "w0123",
+    "lemma": "eau",
+    "pos": "noun",
+    "frequency_rank": 398,
+    "translation_en": "water",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je bois de l'eau.",
+        "en": "I drink water."
+      },
+      {
+        "fr": "L'eau est froide.",
+        "en": "The water is cold."
+      }
+    ]
+  },
+  {
+    "id": "w0124",
+    "lemma": "terre",
+    "pos": "noun",
+    "frequency_rank": 401,
+    "translation_en": "earth / ground",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il tombe par terre.",
+        "en": "He falls to the ground."
+      },
+      {
+        "fr": "La Terre est ronde.",
+        "en": "The Earth is round."
+      }
+    ]
+  },
+  {
+    "id": "w0125",
+    "lemma": "croire",
+    "pos": "verb",
+    "frequency_rank": 410,
+    "translation_en": "to believe",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je crois que oui.",
+        "en": "I believe so."
+      },
+      {
+        "fr": "Elle ne croit pas ça.",
+        "en": "She doesn't believe that."
+      }
+    ]
+  },
+  {
+    "id": "w0126",
+    "lemma": "prêt",
+    "pos": "adjective",
+    "frequency_rank": 417,
+    "translation_en": "ready",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Es-tu prêt?",
+        "en": "Are you ready?"
+      },
+      {
+        "fr": "Le dîner est prêt.",
+        "en": "Dinner is ready."
+      }
+    ]
+  },
+  {
+    "id": "w0127",
+    "lemma": "hier",
+    "pos": "adverb",
+    "frequency_rank": 421,
+    "translation_en": "yesterday",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Hier, j'étais malade.",
+        "en": "Yesterday, I was sick."
+      },
+      {
+        "fr": "Il est arrivé hier.",
+        "en": "He arrived yesterday."
+      }
+    ]
+  },
+  {
+    "id": "w0128",
+    "lemma": "possible",
+    "pos": "adjective",
+    "frequency_rank": 422,
+    "translation_en": "possible",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "C'est possible.",
+        "en": "It's possible."
+      },
+      {
+        "fr": "Est-ce possible?",
+        "en": "Is it possible?"
+      }
+    ]
+  },
+  {
+    "id": "w0129",
+    "lemma": "jouer",
+    "pos": "verb",
+    "frequency_rank": 423,
+    "translation_en": "to play",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Les enfants jouent dehors.",
+        "en": "The children are playing outside."
+      },
+      {
+        "fr": "Je joue de la guitare.",
+        "en": "I play the guitar."
+      }
+    ]
+  },
+  {
+    "id": "w0130",
+    "lemma": "demander",
+    "pos": "verb",
+    "frequency_rank": 424,
+    "translation_en": "to ask",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je demande de l'aide.",
+        "en": "I ask for help."
+      },
+      {
+        "fr": "Il demande l'heure.",
+        "en": "He asks for the time."
+      }
+    ]
+  },
+  {
+    "id": "w0131",
+    "lemma": "beau",
+    "pos": "adjective",
+    "frequency_rank": 427,
+    "translation_en": "beautiful / handsome",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il fait beau aujourd'hui.",
+        "en": "It's nice weather today."
+      },
+      {
+        "fr": "C'est un beau paysage.",
+        "en": "It's a beautiful landscape."
+      }
+    ]
+  },
+  {
+    "id": "w0132",
+    "lemma": "jeune",
+    "pos": "adjective",
+    "frequency_rank": 428,
+    "translation_en": "young",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Elle est jeune.",
+        "en": "She is young."
+      },
+      {
+        "fr": "Un jeune homme arrive.",
+        "en": "A young man arrives."
+      }
+    ]
+  },
+  {
+    "id": "w0133",
+    "lemma": "appeler",
+    "pos": "verb",
+    "frequency_rank": 434,
+    "translation_en": "to call",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je t'appelle ce soir.",
+        "en": "I'll call you tonight."
+      },
+      {
+        "fr": "Comment tu t'appelles?",
+        "en": "What is your name?"
+      }
+    ]
+  },
+  {
+    "id": "w0134",
+    "lemma": "école",
+    "pos": "noun",
+    "frequency_rank": 437,
+    "translation_en": "school",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je vais à l'école.",
+        "en": "I go to school."
+      },
+      {
+        "fr": "L'école commence à huit heures.",
+        "en": "School starts at eight."
+      }
+    ]
+  },
+  {
+    "id": "w0135",
+    "lemma": "semaine",
+    "pos": "noun",
+    "frequency_rank": 441,
+    "translation_en": "week",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Cette semaine est chargée.",
+        "en": "This week is busy."
+      },
+      {
+        "fr": "À la semaine prochaine!",
+        "en": "See you next week!"
+      }
+    ]
+  },
+  {
+    "id": "w0136",
+    "lemma": "vivre",
+    "pos": "verb",
+    "frequency_rank": 442,
+    "translation_en": "to live",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je vis à Paris.",
+        "en": "I live in Paris."
+      },
+      {
+        "fr": "Ils vivent ensemble.",
+        "en": "They live together."
+      }
+    ]
+  },
+  {
+    "id": "w0137",
+    "lemma": "feu",
+    "pos": "noun",
+    "frequency_rank": 444,
+    "translation_en": "fire",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Le feu brûle bien.",
+        "en": "The fire burns well."
+      },
+      {
+        "fr": "Attention au feu!",
+        "en": "Watch out for the fire!"
+      }
+    ]
+  },
+  {
+    "id": "w0138",
+    "lemma": "téléphone",
+    "pos": "noun",
+    "frequency_rank": 448,
+    "translation_en": "telephone",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Mon téléphone sonne.",
+        "en": "My phone is ringing."
+      },
+      {
+        "fr": "Il parle au téléphone.",
+        "en": "He is on the phone."
+      }
+    ]
+  },
+  {
+    "id": "w0139",
+    "lemma": "manger",
+    "pos": "verb",
+    "frequency_rank": 460,
+    "translation_en": "to eat",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je mange une pomme.",
+        "en": "I am eating an apple."
+      },
+      {
+        "fr": "Nous mangeons ensemble.",
+        "en": "We eat together."
+      }
+    ]
+  },
+  {
+    "id": "w0140",
+    "lemma": "arriver",
+    "pos": "verb",
+    "frequency_rank": 461,
+    "translation_en": "to arrive / to happen",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le train arrive à midi.",
+        "en": "The train arrives at noon."
+      },
+      {
+        "fr": "Qu'est-ce qui arrive?",
+        "en": "What is happening?"
+      }
+    ]
+  },
+  {
+    "id": "w0141",
+    "lemma": "important",
+    "pos": "adjective",
+    "frequency_rank": 470,
+    "translation_en": "important",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est très important.",
+        "en": "It's very important."
+      },
+      {
+        "fr": "Un homme important arrive.",
+        "en": "An important man arrives."
+      }
+    ]
+  },
+  {
+    "id": "w0142",
+    "lemma": "fort",
+    "pos": "adjective",
+    "frequency_rank": 474,
+    "translation_en": "strong / loud",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il est très fort.",
+        "en": "He is very strong."
+      },
+      {
+        "fr": "La musique est forte.",
+        "en": "The music is loud."
+      }
+    ]
+  },
+  {
+    "id": "w0143",
+    "lemma": "plein",
+    "pos": "adjective",
+    "frequency_rank": 476,
+    "translation_en": "full",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Le verre est plein.",
+        "en": "The glass is full."
+      },
+      {
+        "fr": "Le bus est plein.",
+        "en": "The bus is full."
+      }
+    ]
+  },
+  {
+    "id": "w0144",
+    "lemma": "dernier",
+    "pos": "adjective",
+    "frequency_rank": 482,
+    "translation_en": "last",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est le dernier train.",
+        "en": "It's the last train."
+      },
+      {
+        "fr": "La semaine dernière, j'étais malade.",
+        "en": "Last week, I was sick."
+      }
+    ]
+  },
+  {
+    "id": "w0145",
+    "lemma": "tomber",
+    "pos": "verb",
+    "frequency_rank": 485,
+    "translation_en": "to fall",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "La pluie tombe.",
+        "en": "The rain is falling."
+      },
+      {
+        "fr": "Il tombe de son vélo.",
+        "en": "He falls off his bike."
+      }
+    ]
+  },
+  {
+    "id": "w0146",
+    "lemma": "attendre",
+    "pos": "verb",
+    "frequency_rank": 486,
+    "translation_en": "to wait",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "J'attends le bus.",
+        "en": "I am waiting for the bus."
+      },
+      {
+        "fr": "Attends-moi ici.",
+        "en": "Wait for me here."
+      }
+    ]
+  },
+  {
+    "id": "w0147",
+    "lemma": "pays",
+    "pos": "noun",
+    "frequency_rank": 494,
+    "translation_en": "country",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "La France est un beau pays.",
+        "en": "France is a beautiful country."
+      },
+      {
+        "fr": "Quel pays visites-tu?",
+        "en": "Which country are you visiting?"
+      }
+    ]
+  },
+  {
+    "id": "w0148",
+    "lemma": "minute",
+    "pos": "noun",
+    "frequency_rank": 510,
+    "translation_en": "minute",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Attends une minute.",
+        "en": "Wait a minute."
+      },
+      {
+        "fr": "Ça prend dix minutes.",
+        "en": "It takes ten minutes."
+      }
+    ]
+  },
+  {
+    "id": "w0149",
+    "lemma": "penser",
+    "pos": "verb",
+    "frequency_rank": 516,
+    "translation_en": "to think",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je pense à toi.",
+        "en": "I am thinking of you."
+      },
+      {
+        "fr": "Elle pense que c'est vrai.",
+        "en": "She thinks it's true."
+      }
+    ]
+  },
+  {
+    "id": "w0150",
+    "lemma": "essayer",
+    "pos": "verb",
+    "frequency_rank": 517,
+    "translation_en": "to try",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "J'essaie de comprendre.",
+        "en": "I am trying to understand."
+      },
+      {
+        "fr": "Essaie encore.",
+        "en": "Try again."
+      }
+    ]
+  },
+  {
+    "id": "w0151",
+    "lemma": "mauvais",
+    "pos": "adjective",
+    "frequency_rank": 520,
+    "translation_en": "bad",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le temps est mauvais.",
+        "en": "The weather is bad."
+      },
+      {
+        "fr": "C'est une mauvaise idée.",
+        "en": "That's a bad idea."
+      }
+    ]
+  },
+  {
+    "id": "w0152",
+    "lemma": "travailler",
+    "pos": "verb",
+    "frequency_rank": 522,
+    "translation_en": "to work",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je travaille beaucoup.",
+        "en": "I work a lot."
+      },
+      {
+        "fr": "Elle travaille à l'hôpital.",
+        "en": "She works at the hospital."
+      }
+    ]
+  },
+  {
+    "id": "w0153",
+    "lemma": "regarder",
+    "pos": "verb",
+    "frequency_rank": 525,
+    "translation_en": "to watch / to look at",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je regarde la télé.",
+        "en": "I watch TV."
+      },
+      {
+        "fr": "Regarde ça!",
+        "en": "Look at that!"
+      }
+    ]
+  },
+  {
+    "id": "w0154",
+    "lemma": "parfois",
+    "pos": "adverb",
+    "frequency_rank": 528,
+    "translation_en": "sometimes",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Parfois, je cuisine.",
+        "en": "Sometimes, I cook."
+      },
+      {
+        "fr": "Il est parfois en retard.",
+        "en": "He is sometimes late."
+      }
+    ]
+  },
+  {
+    "id": "w0155",
+    "lemma": "film",
+    "pos": "noun",
+    "frequency_rank": 529,
+    "translation_en": "movie",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ce film est excellent.",
+        "en": "This movie is excellent."
+      },
+      {
+        "fr": "Nous regardons un film.",
+        "en": "We're watching a movie."
+      }
+    ]
+  },
+  {
+    "id": "w0156",
+    "lemma": "facile",
+    "pos": "adjective",
+    "frequency_rank": 533,
+    "translation_en": "easy",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est facile.",
+        "en": "It's easy."
+      },
+      {
+        "fr": "Ce test est facile.",
+        "en": "This test is easy."
+      }
+    ]
+  },
+  {
+    "id": "w0157",
+    "lemma": "bas",
+    "pos": "adjective",
+    "frequency_rank": 535,
+    "translation_en": "low",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Le prix est bas.",
+        "en": "The price is low."
+      },
+      {
+        "fr": "Le plafond est bas.",
+        "en": "The ceiling is low."
+      }
+    ]
+  },
+  {
+    "id": "w0158",
+    "lemma": "changer",
+    "pos": "verb",
+    "frequency_rank": 536,
+    "translation_en": "to change",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je change d'avis.",
+        "en": "I am changing my mind."
+      },
+      {
+        "fr": "Le temps change vite.",
+        "en": "The weather changes fast."
+      }
+    ]
+  },
+  {
+    "id": "w0159",
+    "lemma": "entendre",
+    "pos": "verb",
+    "frequency_rank": 537,
+    "translation_en": "to hear",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "J'entends la musique.",
+        "en": "I hear the music."
+      },
+      {
+        "fr": "Tu entends ce bruit?",
+        "en": "Do you hear that noise?"
+      }
+    ]
+  },
+  {
+    "id": "w0160",
+    "lemma": "heureux",
+    "pos": "adjective",
+    "frequency_rank": 539,
+    "translation_en": "happy",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je suis heureux.",
+        "en": "I am happy."
+      },
+      {
+        "fr": "Elle a l'air heureuse.",
+        "en": "She looks happy."
+      }
+    ]
+  },
+  {
+    "id": "w0161",
+    "lemma": "entrer",
+    "pos": "verb",
+    "frequency_rank": 540,
+    "translation_en": "to enter",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il entre dans la salle.",
+        "en": "He enters the room."
+      },
+      {
+        "fr": "Entrez, s'il vous plaît.",
+        "en": "Please come in."
+      }
+    ]
+  },
+  {
+    "id": "w0162",
+    "lemma": "propre",
+    "pos": "adjective",
+    "frequency_rank": 543,
+    "translation_en": "clean / own",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "La cuisine est propre.",
+        "en": "The kitchen is clean."
+      },
+      {
+        "fr": "C'est ma propre voiture.",
+        "en": "It's my own car."
+      }
+    ]
+  },
+  {
+    "id": "w0163",
+    "lemma": "année",
+    "pos": "noun",
+    "frequency_rank": 559,
+    "translation_en": "year",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Bonne année!",
+        "en": "Happy new year!"
+      },
+      {
+        "fr": "Cette année est difficile.",
+        "en": "This year is hard."
+      }
+    ]
+  },
+  {
+    "id": "w0164",
+    "lemma": "devoir",
+    "pos": "verb",
+    "frequency_rank": 563,
+    "translation_en": "to have to / must",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je dois partir.",
+        "en": "I must leave."
+      },
+      {
+        "fr": "Tu dois étudier.",
+        "en": "You must study."
+      }
+    ]
+  },
+  {
+    "id": "w0165",
+    "lemma": "difficile",
+    "pos": "adjective",
+    "frequency_rank": 566,
+    "translation_en": "difficult",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est difficile pour moi.",
+        "en": "It's difficult for me."
+      },
+      {
+        "fr": "Cette question est difficile.",
+        "en": "This question is difficult."
+      }
+    ]
+  },
+  {
+    "id": "w0166",
+    "lemma": "sujet",
+    "pos": "noun",
+    "frequency_rank": 571,
+    "translation_en": "subject / topic",
+    "cefr_estimate": "B1",
+    "sentences": [
+      {
+        "fr": "C'est un sujet difficile.",
+        "en": "That's a difficult topic."
+      },
+      {
+        "fr": "Changeons de sujet.",
+        "en": "Let's change the subject."
+      }
+    ]
+  },
+  {
+    "id": "w0167",
+    "lemma": "perdre",
+    "pos": "verb",
+    "frequency_rank": 576,
+    "translation_en": "to lose",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je perds mes clés.",
+        "en": "I lose my keys."
+      },
+      {
+        "fr": "Ils perdent le match.",
+        "en": "They lose the match."
+      }
+    ]
+  },
+  {
+    "id": "w0168",
+    "lemma": "payer",
+    "pos": "verb",
+    "frequency_rank": 589,
+    "translation_en": "to pay",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je paie l'addition.",
+        "en": "I pay the bill."
+      },
+      {
+        "fr": "Il paie en espèces.",
+        "en": "He pays in cash."
+      }
+    ]
+  },
+  {
+    "id": "w0169",
+    "lemma": "coeur",
+    "pos": "noun",
+    "frequency_rank": 590,
+    "translation_en": "heart",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Mon coeur bat vite.",
+        "en": "My heart beats fast."
+      },
+      {
+        "fr": "Elle a un bon coeur.",
+        "en": "She has a good heart."
+      }
+    ]
+  },
+  {
+    "id": "w0170",
+    "lemma": "chien",
+    "pos": "noun",
+    "frequency_rank": 594,
+    "translation_en": "dog",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Mon chien s'appelle Rex.",
+        "en": "My dog's name is Rex."
+      },
+      {
+        "fr": "Le chien aboie.",
+        "en": "The dog barks."
+      }
+    ]
+  },
+  {
+    "id": "w0171",
+    "lemma": "café",
+    "pos": "noun",
+    "frequency_rank": 598,
+    "translation_en": "coffee",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je bois un café.",
+        "en": "I drink a coffee."
+      },
+      {
+        "fr": "Le café est chaud.",
+        "en": "The coffee is hot."
+      }
+    ]
+  },
+  {
+    "id": "w0172",
+    "lemma": "montrer",
+    "pos": "verb",
+    "frequency_rank": 601,
+    "translation_en": "to show",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je te montre le chemin.",
+        "en": "I show you the way."
+      },
+      {
+        "fr": "Montre-moi ta photo.",
+        "en": "Show me your photo."
+      }
+    ]
+  },
+  {
+    "id": "w0173",
+    "lemma": "musique",
+    "pos": "noun",
+    "frequency_rank": 614,
+    "translation_en": "music",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'aime la musique.",
+        "en": "I like music."
+      },
+      {
+        "fr": "La musique est trop forte.",
+        "en": "The music is too loud."
+      }
+    ]
+  },
+  {
+    "id": "w0174",
+    "lemma": "hôpital",
+    "pos": "noun",
+    "frequency_rank": 622,
+    "translation_en": "hospital",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Elle travaille à l'hôpital.",
+        "en": "She works at the hospital."
+      },
+      {
+        "fr": "Il est à l'hôpital.",
+        "en": "He is at the hospital."
+      }
+    ]
+  },
+  {
+    "id": "w0175",
+    "lemma": "comprendre",
+    "pos": "verb",
+    "frequency_rank": 628,
+    "translation_en": "to understand",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je comprends la question.",
+        "en": "I understand the question."
+      },
+      {
+        "fr": "Tu comprends le français?",
+        "en": "Do you understand French?"
+      }
+    ]
+  },
+  {
+    "id": "w0176",
+    "lemma": "marché",
+    "pos": "noun",
+    "frequency_rank": 633,
+    "translation_en": "market",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le marché est ouvert le samedi.",
+        "en": "The market is open on Saturdays."
+      },
+      {
+        "fr": "Nous allons au marché.",
+        "en": "We're going to the market."
+      }
+    ]
+  },
+  {
+    "id": "w0177",
+    "lemma": "haut",
+    "pos": "adjective",
+    "frequency_rank": 636,
+    "translation_en": "high / tall",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "La tour est très haute.",
+        "en": "The tower is very tall."
+      },
+      {
+        "fr": "Parle plus haut.",
+        "en": "Speak louder."
+      }
+    ]
+  },
+  {
+    "id": "w0178",
+    "lemma": "malade",
+    "pos": "adjective",
+    "frequency_rank": 638,
+    "translation_en": "sick",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il est malade aujourd'hui.",
+        "en": "He is sick today."
+      },
+      {
+        "fr": "Je me sens malade.",
+        "en": "I feel sick."
+      }
+    ]
+  },
+  {
+    "id": "w0179",
+    "lemma": "gentil",
+    "pos": "adjective",
+    "frequency_rank": 640,
+    "translation_en": "kind / nice",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il est très gentil.",
+        "en": "He is very kind."
+      },
+      {
+        "fr": "C'est gentil de ta part.",
+        "en": "That's kind of you."
+      }
+    ]
+  },
+  {
+    "id": "w0180",
+    "lemma": "bras",
+    "pos": "noun",
+    "frequency_rank": 656,
+    "translation_en": "arm",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il a mal au bras.",
+        "en": "His arm hurts."
+      },
+      {
+        "fr": "Elle porte son sac sur le bras.",
+        "en": "She carries her bag on her arm."
+      }
+    ]
+  },
+  {
+    "id": "w0181",
+    "lemma": "visage",
+    "pos": "noun",
+    "frequency_rank": 659,
+    "translation_en": "face",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Elle a un joli visage.",
+        "en": "She has a pretty face."
+      },
+      {
+        "fr": "Son visage est triste.",
+        "en": "His face looks sad."
+      }
+    ]
+  },
+  {
+    "id": "w0182",
+    "lemma": "livre",
+    "pos": "noun",
+    "frequency_rank": 668,
+    "translation_en": "book",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je lis un livre.",
+        "en": "I am reading a book."
+      },
+      {
+        "fr": "Ce livre est intéressant.",
+        "en": "This book is interesting."
+      }
+    ]
+  },
+  {
+    "id": "w0183",
+    "lemma": "boire",
+    "pos": "verb",
+    "frequency_rank": 676,
+    "translation_en": "to drink",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je bois de l'eau.",
+        "en": "I drink water."
+      },
+      {
+        "fr": "Il boit son café.",
+        "en": "He drinks his coffee."
+      }
+    ]
+  },
+  {
+    "id": "w0184",
+    "lemma": "pauvre",
+    "pos": "adjective",
+    "frequency_rank": 691,
+    "translation_en": "poor",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "La famille est pauvre.",
+        "en": "The family is poor."
+      },
+      {
+        "fr": "Le pauvre homme est triste.",
+        "en": "The poor man is sad."
+      }
+    ]
+  },
+  {
+    "id": "w0185",
+    "lemma": "commencer",
+    "pos": "verb",
+    "frequency_rank": 696,
+    "translation_en": "to begin",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le film commence maintenant.",
+        "en": "The movie starts now."
+      },
+      {
+        "fr": "Je commence à comprendre.",
+        "en": "I'm starting to understand."
+      }
+    ]
+  },
+  {
+    "id": "w0186",
+    "lemma": "souvent",
+    "pos": "adverb",
+    "frequency_rank": 700,
+    "translation_en": "often",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je voyage souvent.",
+        "en": "I travel often."
+      },
+      {
+        "fr": "Il pleut souvent ici.",
+        "en": "It often rains here."
+      }
+    ]
+  },
+  {
+    "id": "w0187",
+    "lemma": "dormir",
+    "pos": "verb",
+    "frequency_rank": 707,
+    "translation_en": "to sleep",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je dors bien.",
+        "en": "I sleep well."
+      },
+      {
+        "fr": "Le bébé dort.",
+        "en": "The baby is sleeping."
+      }
+    ]
+  },
+  {
+    "id": "w0188",
+    "lemma": "faux",
+    "pos": "adjective",
+    "frequency_rank": 709,
+    "translation_en": "false / wrong",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "C'est faux.",
+        "en": "That's false."
+      },
+      {
+        "fr": "Sa réponse est fausse.",
+        "en": "His answer is wrong."
+      }
+    ]
+  },
+  {
+    "id": "w0189",
+    "lemma": "groupe",
+    "pos": "noun",
+    "frequency_rank": 711,
+    "translation_en": "group",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Nous formons un groupe.",
+        "en": "We form a group."
+      },
+      {
+        "fr": "Le groupe travaille bien.",
+        "en": "The group works well."
+      }
+    ]
+  },
+  {
+    "id": "w0190",
+    "lemma": "content",
+    "pos": "adjective",
+    "frequency_rank": 724,
+    "translation_en": "glad / pleased",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je suis content de te voir.",
+        "en": "I'm glad to see you."
+      },
+      {
+        "fr": "Elle est contente du résultat.",
+        "en": "She is pleased with the result."
+      }
+    ]
+  },
+  {
+    "id": "w0191",
+    "lemma": "cher",
+    "pos": "adjective",
+    "frequency_rank": 727,
+    "translation_en": "expensive / dear",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ce restaurant est cher.",
+        "en": "This restaurant is expensive."
+      },
+      {
+        "fr": "Cher ami,",
+        "en": "Dear friend,"
+      }
+    ]
+  },
+  {
+    "id": "w0192",
+    "lemma": "acheter",
+    "pos": "verb",
+    "frequency_rank": 733,
+    "translation_en": "to buy",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'achète du pain.",
+        "en": "I am buying bread."
+      },
+      {
+        "fr": "Elle achète une robe.",
+        "en": "She buys a dress."
+      }
+    ]
+  },
+  {
+    "id": "w0193",
+    "lemma": "voix",
+    "pos": "noun",
+    "frequency_rank": 734,
+    "translation_en": "voice",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Elle a une belle voix.",
+        "en": "She has a beautiful voice."
+      },
+      {
+        "fr": "Parle à voix basse.",
+        "en": "Speak quietly."
+      }
+    ]
+  },
+  {
+    "id": "w0194",
+    "lemma": "gagner",
+    "pos": "verb",
+    "frequency_rank": 738,
+    "translation_en": "to win / to earn",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Notre équipe gagne le match.",
+        "en": "Our team wins the match."
+      },
+      {
+        "fr": "Il gagne bien sa vie.",
+        "en": "He earns a good living."
+      }
+    ]
+  },
+  {
+    "id": "w0195",
+    "lemma": "long",
+    "pos": "adjective",
+    "frequency_rank": 745,
+    "translation_en": "long",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "C'est un long voyage.",
+        "en": "It's a long trip."
+      },
+      {
+        "fr": "Ses cheveux sont longs.",
+        "en": "Her hair is long."
+      }
+    ]
+  },
+  {
+    "id": "w0196",
+    "lemma": "rue",
+    "pos": "noun",
+    "frequency_rank": 746,
+    "translation_en": "street",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je traverse la rue.",
+        "en": "I cross the street."
+      },
+      {
+        "fr": "Il habite dans cette rue.",
+        "en": "He lives on this street."
+      }
+    ]
+  },
+  {
+    "id": "w0197",
+    "lemma": "apprendre",
+    "pos": "verb",
+    "frequency_rank": 748,
+    "translation_en": "to learn",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'apprends le français.",
+        "en": "I am learning French."
+      },
+      {
+        "fr": "Il apprend vite.",
+        "en": "He learns fast."
+      }
+    ]
+  },
+  {
+    "id": "w0198",
+    "lemma": "soeur",
+    "pos": "noun",
+    "frequency_rank": 788,
+    "translation_en": "sister",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Ma soeur est étudiante.",
+        "en": "My sister is a student."
+      },
+      {
+        "fr": "Sa soeur est gentille.",
+        "en": "His sister is kind."
+      }
+    ]
+  },
+  {
+    "id": "w0199",
+    "lemma": "finir",
+    "pos": "verb",
+    "frequency_rank": 797,
+    "translation_en": "to finish",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je finis mon travail.",
+        "en": "I am finishing my work."
+      },
+      {
+        "fr": "Le cours finit à midi.",
+        "en": "The class ends at noon."
+      }
+    ]
+  },
+  {
+    "id": "w0200",
+    "lemma": "libre",
+    "pos": "adjective",
+    "frequency_rank": 803,
+    "translation_en": "free",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Es-tu libre ce soir?",
+        "en": "Are you free tonight?"
+      },
+      {
+        "fr": "La place est libre.",
+        "en": "The seat is free."
+      }
+    ]
+  },
+  {
+    "id": "w0201",
+    "lemma": "table",
+    "pos": "noun",
+    "frequency_rank": 824,
+    "translation_en": "table",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le livre est sur la table.",
+        "en": "The book is on the table."
+      },
+      {
+        "fr": "Nous mangeons à table.",
+        "en": "We eat at the table."
+      }
+    ]
+  },
+  {
+    "id": "w0202",
+    "lemma": "système",
+    "pos": "noun",
+    "frequency_rank": 826,
+    "translation_en": "system",
+    "cefr_estimate": "B1",
+    "sentences": [
+      {
+        "fr": "Le système fonctionne bien.",
+        "en": "The system works well."
+      },
+      {
+        "fr": "C'est un nouveau système.",
+        "en": "It's a new system."
+      }
+    ]
+  },
+  {
+    "id": "w0203",
+    "lemma": "médecin",
+    "pos": "noun",
+    "frequency_rank": 828,
+    "translation_en": "doctor",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le médecin arrive.",
+        "en": "The doctor is arriving."
+      },
+      {
+        "fr": "Je vais chez le médecin.",
+        "en": "I'm going to the doctor."
+      }
+    ]
+  },
+  {
+    "id": "w0204",
+    "lemma": "clair",
+    "pos": "adjective",
+    "frequency_rank": 842,
+    "translation_en": "clear / light",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "C'est clair maintenant.",
+        "en": "It's clear now."
+      },
+      {
+        "fr": "Elle a les cheveux clairs.",
+        "en": "She has light hair."
+      }
+    ]
+  },
+  {
+    "id": "w0205",
+    "lemma": "pied",
+    "pos": "noun",
+    "frequency_rank": 881,
+    "translation_en": "foot",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'y vais à pied.",
+        "en": "I'm going there on foot."
+      },
+      {
+        "fr": "Il a un pied cassé.",
+        "en": "He has a broken foot."
+      }
+    ]
+  },
+  {
+    "id": "w0206",
+    "lemma": "marcher",
+    "pos": "verb",
+    "frequency_rank": 882,
+    "translation_en": "to walk",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je marche tous les jours.",
+        "en": "I walk every day."
+      },
+      {
+        "fr": "Elle marche vite.",
+        "en": "She walks fast."
+      }
+    ]
+  },
+  {
+    "id": "w0207",
+    "lemma": "envoyer",
+    "pos": "verb",
+    "frequency_rank": 885,
+    "translation_en": "to send",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "J'envoie un message.",
+        "en": "I am sending a message."
+      },
+      {
+        "fr": "Elle envoie une lettre.",
+        "en": "She sends a letter."
+      }
+    ]
+  },
+  {
+    "id": "w0208",
+    "lemma": "soleil",
+    "pos": "noun",
+    "frequency_rank": 892,
+    "translation_en": "sun",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le soleil brille.",
+        "en": "The sun is shining."
+      },
+      {
+        "fr": "Il fait du soleil aujourd'hui.",
+        "en": "It's sunny today."
+      }
+    ]
+  },
+  {
+    "id": "w0209",
+    "lemma": "tenir",
+    "pos": "verb",
+    "frequency_rank": 900,
+    "translation_en": "to hold",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je tiens ton sac.",
+        "en": "I am holding your bag."
+      },
+      {
+        "fr": "Elle tient la porte.",
+        "en": "She holds the door."
+      }
+    ]
+  },
+  {
+    "id": "w0210",
+    "lemma": "vouloir",
+    "pos": "verb",
+    "frequency_rank": 902,
+    "translation_en": "to want",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je veux un café.",
+        "en": "I want a coffee."
+      },
+      {
+        "fr": "Elle veut partir.",
+        "en": "She wants to leave."
+      }
+    ]
+  },
+  {
+    "id": "w0211",
+    "lemma": "continuer",
+    "pos": "verb",
+    "frequency_rank": 906,
+    "translation_en": "to continue",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Continue tout droit.",
+        "en": "Continue straight ahead."
+      },
+      {
+        "fr": "Elle continue ses études.",
+        "en": "She continues her studies."
+      }
+    ]
+  },
+  {
+    "id": "w0212",
+    "lemma": "lire",
+    "pos": "verb",
+    "frequency_rank": 911,
+    "translation_en": "to read",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je lis un livre.",
+        "en": "I am reading a book."
+      },
+      {
+        "fr": "Elle lit le journal.",
+        "en": "She reads the newspaper."
+      }
+    ]
+  },
+  {
+    "id": "w0213",
+    "lemma": "joli",
+    "pos": "adjective",
+    "frequency_rank": 913,
+    "translation_en": "pretty",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Quelle jolie robe!",
+        "en": "What a pretty dress!"
+      },
+      {
+        "fr": "Elle a un joli sourire.",
+        "en": "She has a pretty smile."
+      }
+    ]
+  },
+  {
+    "id": "w0214",
+    "lemma": "chaud",
+    "pos": "adjective",
+    "frequency_rank": 922,
+    "translation_en": "hot",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il fait chaud aujourd'hui.",
+        "en": "It's hot today."
+      },
+      {
+        "fr": "Le café est chaud.",
+        "en": "The coffee is hot."
+      }
+    ]
+  },
+  {
+    "id": "w0215",
+    "lemma": "professeur",
+    "pos": "noun",
+    "frequency_rank": 927,
+    "translation_en": "teacher",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le professeur explique bien.",
+        "en": "The teacher explains well."
+      },
+      {
+        "fr": "Elle est professeur.",
+        "en": "She is a teacher."
+      }
+    ]
+  },
+  {
+    "id": "w0216",
+    "lemma": "connaître",
+    "pos": "verb",
+    "frequency_rank": 933,
+    "translation_en": "to know (a person/place)",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je connais cette ville.",
+        "en": "I know this city."
+      },
+      {
+        "fr": "Il connaît mon frère.",
+        "en": "He knows my brother."
+      }
+    ]
+  },
+  {
+    "id": "w0217",
+    "lemma": "froid",
+    "pos": "adjective",
+    "frequency_rank": 949,
+    "translation_en": "cold",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il fait froid en hiver.",
+        "en": "It's cold in winter."
+      },
+      {
+        "fr": "L'eau est froide.",
+        "en": "The water is cold."
+      }
+    ]
+  },
+  {
+    "id": "w0218",
+    "lemma": "oublier",
+    "pos": "verb",
+    "frequency_rank": 970,
+    "translation_en": "to forget",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "J'oublie souvent mon parapluie.",
+        "en": "I often forget my umbrella."
+      },
+      {
+        "fr": "N'oublie pas!",
+        "en": "Don't forget!"
+      }
+    ]
+  },
+  {
+    "id": "w0219",
+    "lemma": "ciel",
+    "pos": "noun",
+    "frequency_rank": 973,
+    "translation_en": "sky",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le ciel est bleu.",
+        "en": "The sky is blue."
+      },
+      {
+        "fr": "Il n'y a pas de nuages dans le ciel.",
+        "en": "There are no clouds in the sky."
+      }
+    ]
+  },
+  {
+    "id": "w0220",
+    "lemma": "aimer",
+    "pos": "verb",
+    "frequency_rank": 976,
+    "translation_en": "to like / to love",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'aime le chocolat.",
+        "en": "I like chocolate."
+      },
+      {
+        "fr": "Il aime sa famille.",
+        "en": "He loves his family."
+      }
+    ]
+  },
+  {
+    "id": "w0221",
+    "lemma": "triste",
+    "pos": "adjective",
+    "frequency_rank": 985,
+    "translation_en": "sad",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il est triste aujourd'hui.",
+        "en": "He is sad today."
+      },
+      {
+        "fr": "C'est une histoire triste.",
+        "en": "It's a sad story."
+      }
+    ]
+  },
+  {
+    "id": "w0222",
+    "lemma": "ouvrir",
+    "pos": "verb",
+    "frequency_rank": 990,
+    "translation_en": "to open",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'ouvre la fenêtre.",
+        "en": "I open the window."
+      },
+      {
+        "fr": "Ouvre la porte!",
+        "en": "Open the door!"
+      }
+    ]
+  },
+  {
+    "id": "w0223",
+    "lemma": "santé",
+    "pos": "noun",
+    "frequency_rank": 992,
+    "translation_en": "health",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "À ta santé!",
+        "en": "To your health!"
+      },
+      {
+        "fr": "Sa santé s'améliore.",
+        "en": "His health is improving."
+      }
+    ]
+  },
+  {
+    "id": "w0224",
+    "lemma": "cuisine",
+    "pos": "noun",
+    "frequency_rank": 998,
+    "translation_en": "kitchen / cooking",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "La cuisine est propre.",
+        "en": "The kitchen is clean."
+      },
+      {
+        "fr": "J'aime la cuisine française.",
+        "en": "I like French cuisine."
+      }
+    ]
+  },
+  {
+    "id": "w0225",
+    "lemma": "différent",
+    "pos": "adjective",
+    "frequency_rank": 1022,
+    "translation_en": "different",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "C'est très différent.",
+        "en": "It's very different."
+      },
+      {
+        "fr": "Chaque pays est différent.",
+        "en": "Each country is different."
+      }
+    ]
+  },
+  {
+    "id": "w0226",
+    "lemma": "vendre",
+    "pos": "verb",
+    "frequency_rank": 1030,
+    "translation_en": "to sell",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il vend sa voiture.",
+        "en": "He is selling his car."
+      },
+      {
+        "fr": "Nous vendons des fleurs.",
+        "en": "We sell flowers."
+      }
+    ]
+  },
+  {
+    "id": "w0227",
+    "lemma": "monter",
+    "pos": "verb",
+    "frequency_rank": 1042,
+    "translation_en": "to go up / to climb",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je monte les escaliers.",
+        "en": "I go up the stairs."
+      },
+      {
+        "fr": "Nous montons dans le bus.",
+        "en": "We get on the bus."
+      }
+    ]
+  },
+  {
+    "id": "w0228",
+    "lemma": "écrire",
+    "pos": "verb",
+    "frequency_rank": 1047,
+    "translation_en": "to write",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'écris une lettre.",
+        "en": "I am writing a letter."
+      },
+      {
+        "fr": "Elle écrit bien.",
+        "en": "She writes well."
+      }
+    ]
+  },
+  {
+    "id": "w0229",
+    "lemma": "bouche",
+    "pos": "noun",
+    "frequency_rank": 1049,
+    "translation_en": "mouth",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Ouvre la bouche.",
+        "en": "Open your mouth."
+      },
+      {
+        "fr": "Il parle la bouche pleine.",
+        "en": "He talks with his mouth full."
+      }
+    ]
+  },
+  {
+    "id": "w0230",
+    "lemma": "rire",
+    "pos": "verb",
+    "frequency_rank": 1052,
+    "translation_en": "to laugh",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Les enfants rient.",
+        "en": "The children are laughing."
+      },
+      {
+        "fr": "Ça me fait rire.",
+        "en": "That makes me laugh."
+      }
+    ]
+  },
+  {
+    "id": "w0231",
+    "lemma": "exemple",
+    "pos": "noun",
+    "frequency_rank": 1109,
+    "translation_en": "example",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Donne-moi un exemple.",
+        "en": "Give me an example."
+      },
+      {
+        "fr": "Par exemple, ce livre.",
+        "en": "For example, this book."
+      }
+    ]
+  },
+  {
+    "id": "w0232",
+    "lemma": "mer",
+    "pos": "noun",
+    "frequency_rank": 1124,
+    "translation_en": "sea",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "La mer est calme.",
+        "en": "The sea is calm."
+      },
+      {
+        "fr": "Nous allons à la mer.",
+        "en": "We are going to the sea."
+      }
+    ]
+  },
+  {
+    "id": "w0233",
+    "lemma": "répondre",
+    "pos": "verb",
+    "frequency_rank": 1140,
+    "translation_en": "to answer",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je réponds à la question.",
+        "en": "I answer the question."
+      },
+      {
+        "fr": "Il ne répond pas.",
+        "en": "He is not answering."
+      }
+    ]
+  },
+  {
+    "id": "w0234",
+    "lemma": "lune",
+    "pos": "noun",
+    "frequency_rank": 1195,
+    "translation_en": "moon",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "La lune est pleine ce soir.",
+        "en": "The moon is full tonight."
+      },
+      {
+        "fr": "On voit la lune.",
+        "en": "We can see the moon."
+      }
+    ]
+  },
+  {
+    "id": "w0235",
+    "lemma": "occupé",
+    "pos": "adjective",
+    "frequency_rank": 1223,
+    "translation_en": "busy",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je suis très occupé.",
+        "en": "I am very busy."
+      },
+      {
+        "fr": "La ligne est occupée.",
+        "en": "The line is busy."
+      }
+    ]
+  },
+  {
+    "id": "w0236",
+    "lemma": "conduire",
+    "pos": "verb",
+    "frequency_rank": 1240,
+    "translation_en": "to drive",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je conduis une voiture.",
+        "en": "I drive a car."
+      },
+      {
+        "fr": "Elle conduit prudemment.",
+        "en": "She drives carefully."
+      }
+    ]
+  },
+  {
+    "id": "w0237",
+    "lemma": "magasin",
+    "pos": "noun",
+    "frequency_rank": 1262,
+    "translation_en": "store / shop",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le magasin est fermé.",
+        "en": "The store is closed."
+      },
+      {
+        "fr": "Je vais au magasin.",
+        "en": "I'm going to the store."
+      }
+    ]
+  },
+  {
+    "id": "w0238",
+    "lemma": "rapide",
+    "pos": "adjective",
+    "frequency_rank": 1288,
+    "translation_en": "fast",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Cette voiture est rapide.",
+        "en": "This car is fast."
+      },
+      {
+        "fr": "Il court vite et il est rapide.",
+        "en": "He runs fast and is quick."
+      }
+    ]
+  },
+  {
+    "id": "w0239",
+    "lemma": "danser",
+    "pos": "verb",
+    "frequency_rank": 1294,
+    "translation_en": "to dance",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Nous dansons ce soir.",
+        "en": "We are dancing tonight."
+      },
+      {
+        "fr": "Il danse très bien.",
+        "en": "He dances very well."
+      }
+    ]
+  },
+  {
+    "id": "w0240",
+    "lemma": "choisir",
+    "pos": "verb",
+    "frequency_rank": 1341,
+    "translation_en": "to choose",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je choisis le rouge.",
+        "en": "I choose the red one."
+      },
+      {
+        "fr": "Elle choisit un livre.",
+        "en": "She chooses a book."
+      }
+    ]
+  },
+  {
+    "id": "w0241",
+    "lemma": "ordinateur",
+    "pos": "noun",
+    "frequency_rank": 1354,
+    "translation_en": "computer",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'utilise mon ordinateur.",
+        "en": "I use my computer."
+      },
+      {
+        "fr": "L'ordinateur est lent.",
+        "en": "The computer is slow."
+      }
+    ]
+  },
+  {
+    "id": "w0242",
+    "lemma": "préparer",
+    "pos": "verb",
+    "frequency_rank": 1371,
+    "translation_en": "to prepare",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je prépare le dîner.",
+        "en": "I am preparing dinner."
+      },
+      {
+        "fr": "Elle prépare son examen.",
+        "en": "She is preparing for her exam."
+      }
+    ]
+  },
+  {
+    "id": "w0243",
+    "lemma": "court",
+    "pos": "adjective",
+    "frequency_rank": 1373,
+    "translation_en": "short",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "C'est un film court.",
+        "en": "It's a short film."
+      },
+      {
+        "fr": "La réponse est courte.",
+        "en": "The answer is short."
+      }
+    ]
+  },
+  {
+    "id": "w0244",
+    "lemma": "chanter",
+    "pos": "verb",
+    "frequency_rank": 1394,
+    "translation_en": "to sing",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Elle chante bien.",
+        "en": "She sings well."
+      },
+      {
+        "fr": "Je chante sous la douche.",
+        "en": "I sing in the shower."
+      }
+    ]
+  },
+  {
+    "id": "w0245",
+    "lemma": "riche",
+    "pos": "adjective",
+    "frequency_rank": 1408,
+    "translation_en": "rich",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il est très riche.",
+        "en": "He is very rich."
+      },
+      {
+        "fr": "Un pays riche en histoire.",
+        "en": "A country rich in history."
+      }
+    ]
+  },
+  {
+    "id": "w0246",
+    "lemma": "vent",
+    "pos": "noun",
+    "frequency_rank": 1437,
+    "translation_en": "wind",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il y a beaucoup de vent.",
+        "en": "It's very windy."
+      },
+      {
+        "fr": "Le vent souffle fort.",
+        "en": "The wind is blowing hard."
+      }
+    ]
+  },
+  {
+    "id": "w0247",
+    "lemma": "chat",
+    "pos": "noun",
+    "frequency_rank": 1442,
+    "translation_en": "cat",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le chat dort sur le lit.",
+        "en": "The cat sleeps on the bed."
+      },
+      {
+        "fr": "J'ai deux chats.",
+        "en": "I have two cats."
+      }
+    ]
+  },
+  {
+    "id": "w0248",
+    "lemma": "descendre",
+    "pos": "verb",
+    "frequency_rank": 1452,
+    "translation_en": "to go down",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je descends du train.",
+        "en": "I get off the train."
+      },
+      {
+        "fr": "Descends vite!",
+        "en": "Come down quickly!"
+      }
+    ]
+  },
+  {
+    "id": "w0249",
+    "lemma": "restaurant",
+    "pos": "noun",
+    "frequency_rank": 1495,
+    "translation_en": "restaurant",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Nous mangeons au restaurant.",
+        "en": "We are eating at the restaurant."
+      },
+      {
+        "fr": "Ce restaurant est cher.",
+        "en": "This restaurant is expensive."
+      }
+    ]
+  },
+  {
+    "id": "w0250",
+    "lemma": "pleurer",
+    "pos": "verb",
+    "frequency_rank": 1540,
+    "translation_en": "to cry",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Le bébé pleure.",
+        "en": "The baby is crying."
+      },
+      {
+        "fr": "Elle pleure de joie.",
+        "en": "She cries with joy."
+      }
+    ]
+  },
+  {
+    "id": "w0251",
+    "lemma": "fermer",
+    "pos": "verb",
+    "frequency_rank": 1546,
+    "translation_en": "to close",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je ferme les yeux.",
+        "en": "I close my eyes."
+      },
+      {
+        "fr": "Le magasin ferme à huit heures.",
+        "en": "The store closes at eight."
+      }
+    ]
+  },
+  {
+    "id": "w0252",
+    "lemma": "couleur",
+    "pos": "noun",
+    "frequency_rank": 1563,
+    "translation_en": "color",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Quelle est ta couleur préférée?",
+        "en": "What is your favorite color?"
+      },
+      {
+        "fr": "Le ciel a une belle couleur.",
+        "en": "The sky has a beautiful color."
+      }
+    ]
+  },
+  {
+    "id": "w0253",
+    "lemma": "faible",
+    "pos": "adjective",
+    "frequency_rank": 1578,
+    "translation_en": "weak",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il se sent faible.",
+        "en": "He feels weak."
+      },
+      {
+        "fr": "Le signal est faible.",
+        "en": "The signal is weak."
+      }
+    ]
+  },
+  {
+    "id": "w0254",
+    "lemma": "courir",
+    "pos": "verb",
+    "frequency_rank": 1583,
+    "translation_en": "to run",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je cours chaque matin.",
+        "en": "I run every morning."
+      },
+      {
+        "fr": "Il court vite.",
+        "en": "He runs fast."
+      }
+    ]
+  },
+  {
+    "id": "w0255",
+    "lemma": "nombre",
+    "pos": "noun",
+    "frequency_rank": 1672,
+    "translation_en": "number",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Quel est ce nombre?",
+        "en": "What is this number?"
+      },
+      {
+        "fr": "Un grand nombre de gens.",
+        "en": "A large number of people."
+      }
+    ]
+  },
+  {
+    "id": "w0256",
+    "lemma": "décider",
+    "pos": "verb",
+    "frequency_rank": 1714,
+    "translation_en": "to decide",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je décide de partir.",
+        "en": "I decide to leave."
+      },
+      {
+        "fr": "Nous devons décider.",
+        "en": "We must decide."
+      }
+    ]
+  },
+  {
+    "id": "w0257",
+    "lemma": "pain",
+    "pos": "noun",
+    "frequency_rank": 1741,
+    "translation_en": "bread",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'achète du pain.",
+        "en": "I'm buying bread."
+      },
+      {
+        "fr": "Le pain est frais.",
+        "en": "The bread is fresh."
+      }
+    ]
+  },
+  {
+    "id": "w0258",
+    "lemma": "falloir",
+    "pos": "verb",
+    "frequency_rank": 1742,
+    "translation_en": "to be necessary (impersonal)",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Il faut partir.",
+        "en": "We must leave."
+      },
+      {
+        "fr": "Il faut du temps.",
+        "en": "It takes time."
+      }
+    ]
+  },
+  {
+    "id": "w0259",
+    "lemma": "arbre",
+    "pos": "noun",
+    "frequency_rank": 1758,
+    "translation_en": "tree",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il y a un grand arbre.",
+        "en": "There is a big tree."
+      },
+      {
+        "fr": "Les oiseaux sont dans l'arbre.",
+        "en": "The birds are in the tree."
+      }
+    ]
+  },
+  {
+    "id": "w0260",
+    "lemma": "recevoir",
+    "pos": "verb",
+    "frequency_rank": 1787,
+    "translation_en": "to receive",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je reçois un cadeau.",
+        "en": "I receive a gift."
+      },
+      {
+        "fr": "Il reçoit des amis.",
+        "en": "He is hosting friends."
+      }
+    ]
+  },
+  {
+    "id": "w0261",
+    "lemma": "jardin",
+    "pos": "noun",
+    "frequency_rank": 1812,
+    "translation_en": "garden",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le jardin est fleuri.",
+        "en": "The garden is in bloom."
+      },
+      {
+        "fr": "Elle travaille dans le jardin.",
+        "en": "She is working in the garden."
+      }
+    ]
+  },
+  {
+    "id": "w0262",
+    "lemma": "saison",
+    "pos": "noun",
+    "frequency_rank": 1813,
+    "translation_en": "season",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "L'été est ma saison préférée.",
+        "en": "Summer is my favorite season."
+      },
+      {
+        "fr": "Quelle saison préfères-tu?",
+        "en": "Which season do you prefer?"
+      }
+    ]
+  },
+  {
+    "id": "w0263",
+    "lemma": "animal",
+    "pos": "noun",
+    "frequency_rank": 1900,
+    "translation_en": "animal",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Le chien est un animal.",
+        "en": "The dog is an animal."
+      },
+      {
+        "fr": "J'aime les animaux.",
+        "en": "I like animals."
+      }
+    ]
+  },
+  {
+    "id": "w0264",
+    "lemma": "fatigué",
+    "pos": "adjective",
+    "frequency_rank": 1901,
+    "translation_en": "tired",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je suis très fatigué.",
+        "en": "I am very tired."
+      },
+      {
+        "fr": "Elle a l'air fatiguée.",
+        "en": "She looks tired."
+      }
+    ]
+  },
+  {
+    "id": "w0265",
+    "lemma": "oiseau",
+    "pos": "noun",
+    "frequency_rank": 2046,
+    "translation_en": "bird",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "L'oiseau chante.",
+        "en": "The bird sings."
+      },
+      {
+        "fr": "Un oiseau vole dans le ciel.",
+        "en": "A bird flies in the sky."
+      }
+    ]
+  },
+  {
+    "id": "w0266",
+    "lemma": "sport",
+    "pos": "noun",
+    "frequency_rank": 2094,
+    "translation_en": "sport",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Je fais du sport.",
+        "en": "I do sports."
+      },
+      {
+        "fr": "Le sport est bon pour la santé.",
+        "en": "Sport is good for health."
+      }
+    ]
+  },
+  {
+    "id": "w0267",
+    "lemma": "permettre",
+    "pos": "verb",
+    "frequency_rank": 2105,
+    "translation_en": "to allow",
+    "cefr_estimate": "B1",
+    "sentences": [
+      {
+        "fr": "Je te permets de sortir.",
+        "en": "I allow you to go out."
+      },
+      {
+        "fr": "Ça ne permet pas ça.",
+        "en": "That doesn't allow that."
+      }
+    ]
+  },
+  {
+    "id": "w0268",
+    "lemma": "pluie",
+    "pos": "noun",
+    "frequency_rank": 2108,
+    "translation_en": "rain",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "La pluie tombe fort.",
+        "en": "The rain is falling hard."
+      },
+      {
+        "fr": "J'aime la pluie.",
+        "en": "I like the rain."
+      }
+    ]
+  },
+  {
+    "id": "w0269",
+    "lemma": "neige",
+    "pos": "noun",
+    "frequency_rank": 2123,
+    "translation_en": "snow",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "La neige tombe.",
+        "en": "Snow is falling."
+      },
+      {
+        "fr": "Il y a de la neige partout.",
+        "en": "There is snow everywhere."
+      }
+    ]
+  },
+  {
+    "id": "w0270",
+    "lemma": "casser",
+    "pos": "verb",
+    "frequency_rank": 2283,
+    "translation_en": "to break",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Je casse un verre.",
+        "en": "I break a glass."
+      },
+      {
+        "fr": "Il a cassé son téléphone.",
+        "en": "He broke his phone."
+      }
+    ]
+  },
+  {
+    "id": "w0271",
+    "lemma": "construire",
+    "pos": "verb",
+    "frequency_rank": 2309,
+    "translation_en": "to build",
+    "cefr_estimate": "B1",
+    "sentences": [
+      {
+        "fr": "Ils construisent une maison.",
+        "en": "They are building a house."
+      },
+      {
+        "fr": "On construit un pont.",
+        "en": "They are building a bridge."
+      }
+    ]
+  },
+  {
+    "id": "w0272",
+    "lemma": "fromage",
+    "pos": "noun",
+    "frequency_rank": 2385,
+    "translation_en": "cheese",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'aime le fromage.",
+        "en": "I like cheese."
+      },
+      {
+        "fr": "Ce fromage est délicieux.",
+        "en": "This cheese is delicious."
+      }
+    ]
+  },
+  {
+    "id": "w0273",
+    "lemma": "hiver",
+    "pos": "noun",
+    "frequency_rank": 2589,
+    "translation_en": "winter",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "En hiver, il neige.",
+        "en": "In winter, it snows."
+      },
+      {
+        "fr": "L'hiver est froid ici.",
+        "en": "Winter is cold here."
+      }
+    ]
+  },
+  {
+    "id": "w0274",
+    "lemma": "lourd",
+    "pos": "adjective",
+    "frequency_rank": 2702,
+    "translation_en": "heavy",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Ce sac est lourd.",
+        "en": "This bag is heavy."
+      },
+      {
+        "fr": "La valise est trop lourde.",
+        "en": "The suitcase is too heavy."
+      }
+    ]
+  },
+  {
+    "id": "w0275",
+    "lemma": "fleur",
+    "pos": "noun",
+    "frequency_rank": 2842,
+    "translation_en": "flower",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Elle offre des fleurs.",
+        "en": "She gives flowers."
+      },
+      {
+        "fr": "Cette fleur est belle.",
+        "en": "This flower is beautiful."
+      }
+    ]
+  },
+  {
+    "id": "w0276",
+    "lemma": "voisin",
+    "pos": "noun",
+    "frequency_rank": 2939,
+    "translation_en": "neighbor",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Mon voisin est sympa.",
+        "en": "My neighbor is nice."
+      },
+      {
+        "fr": "Les voisins font du bruit.",
+        "en": "The neighbors are making noise."
+      }
+    ]
+  },
+  {
+    "id": "w0277",
+    "lemma": "voyager",
+    "pos": "verb",
+    "frequency_rank": 3040,
+    "translation_en": "to travel",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "J'aime voyager.",
+        "en": "I like to travel."
+      },
+      {
+        "fr": "Ils voyagent en Europe.",
+        "en": "They travel in Europe."
+      }
+    ]
+  },
+  {
+    "id": "w0278",
+    "lemma": "printemps",
+    "pos": "noun",
+    "frequency_rank": 3150,
+    "translation_en": "spring",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Au printemps, les fleurs poussent.",
+        "en": "In spring, flowers grow."
+      },
+      {
+        "fr": "Le printemps est doux.",
+        "en": "Spring is mild."
+      }
+    ]
+  },
+  {
+    "id": "w0279",
+    "lemma": "étudiant",
+    "pos": "noun",
+    "frequency_rank": 3246,
+    "translation_en": "student",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "Il est étudiant.",
+        "en": "He is a student."
+      },
+      {
+        "fr": "Les étudiants étudient beaucoup.",
+        "en": "Students study a lot."
+      }
+    ]
+  },
+  {
+    "id": "w0280",
+    "lemma": "léger",
+    "pos": "adjective",
+    "frequency_rank": 3763,
+    "translation_en": "light (weight)",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Ce sac est léger.",
+        "en": "This bag is light."
+      },
+      {
+        "fr": "Un repas léger le soir.",
+        "en": "A light meal in the evening."
+      }
+    ]
+  },
+  {
+    "id": "w0281",
+    "lemma": "lent",
+    "pos": "adjective",
+    "frequency_rank": 5544,
+    "translation_en": "slow",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Ce train est lent.",
+        "en": "This train is slow."
+      },
+      {
+        "fr": "Il marche d'un pas lent.",
+        "en": "He walks at a slow pace."
+      }
+    ]
+  },
+  {
+    "id": "w0282",
+    "lemma": "habiter",
+    "pos": "verb",
+    "frequency_rank": 6318,
+    "translation_en": "to live (reside)",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "J'habite en France.",
+        "en": "I live in France."
+      },
+      {
+        "fr": "Où habites-tu?",
+        "en": "Where do you live?"
+      }
+    ]
+  },
+  {
+    "id": "w0283",
+    "lemma": "sembler",
+    "pos": "verb",
+    "frequency_rank": 6523,
+    "translation_en": "to seem",
+    "cefr_estimate": "B1",
+    "sentences": [
+      {
+        "fr": "Il semble fatigué.",
+        "en": "He seems tired."
+      },
+      {
+        "fr": "Ça semble facile.",
+        "en": "That seems easy."
+      }
+    ]
+  },
+  {
+    "id": "w0284",
+    "lemma": "boulangerie",
+    "pos": "noun",
+    "frequency_rank": 12751,
+    "translation_en": "bakery",
+    "cefr_estimate": "A1",
+    "sentences": [
+      {
+        "fr": "La boulangerie sent bon.",
+        "en": "The bakery smells good."
+      },
+      {
+        "fr": "Je vais à la boulangerie.",
+        "en": "I'm going to the bakery."
+      }
+    ]
+  },
+  {
+    "id": "w0285",
+    "lemma": "quelqu'un",
+    "pos": "pronoun",
+    "frequency_rank": 12752,
+    "translation_en": "someone",
+    "cefr_estimate": "A2",
+    "sentences": [
+      {
+        "fr": "Quelqu'un frappe à la porte.",
+        "en": "Someone is knocking at the door."
+      },
+      {
+        "fr": "J'attends quelqu'un.",
+        "en": "I'm waiting for someone."
+      }
+    ]
+  }
+]
