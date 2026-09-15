@@ -69,9 +69,9 @@ def get_due_cards(limit: int = 30, db: Session = Depends(get_db)):
 
     result: list[DueCard] = []
     for card, word in ordered:
-        mode = pick_mode(card)
         sentence_dict = pick_sentence(word, card)
-        sentence = Sentence(**sentence_dict)
+        mode = pick_mode(card, has_sentences=sentence_dict is not None)
+        sentence = Sentence(**sentence_dict) if sentence_dict else None
         options = None
         cloze_sentence = None
 

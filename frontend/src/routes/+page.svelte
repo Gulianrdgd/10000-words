@@ -76,7 +76,7 @@
 		<p class="text-xs text-slate-500">
 			Is the backend running? Check <code>VITE_API_BASE_URL</code>.
 		</p>
-		<button onclick={loadSession} class="rounded-xl bg-brand-500 px-4 py-2 text-white">Retry</button
+		<button onclick={loadSession} class="rounded-lg bg-brand-500 px-4 py-2 text-white">Retry</button
 		>
 	</div>
 {:else if current}
@@ -101,15 +101,14 @@
 		<FeedbackBanner result={feedback} onContinue={next} />
 	{/if}
 {:else}
-	<div class="flex h-64 flex-col items-center justify-center gap-3 text-center">
-		<p class="text-4xl">🎉</p>
-		<p class="text-lg font-medium text-slate-100">All caught up!</p>
+	<div class="flex h-64 flex-col items-center justify-center gap-2 text-center">
+		<p class="text-lg font-medium text-slate-100">All caught up</p>
 		<p class="text-sm text-slate-500">
 			{reviewedCount} card{reviewedCount === 1 ? '' : 's'} reviewed{masteredCount > 0
 				? ` · ${masteredCount} word${masteredCount === 1 ? '' : 's'} mastered`
 				: ''}
 		</p>
-		<button onclick={loadSession} class="mt-2 rounded-xl bg-brand-500 px-4 py-2 text-white">
+		<button onclick={loadSession} class="mt-2 rounded-lg bg-brand-500 px-4 py-2 text-sm text-white">
 			Check for more
 		</button>
 	</div>

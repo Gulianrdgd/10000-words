@@ -48,17 +48,17 @@
 {:else if growth}
 	<div class="space-y-6">
 		<section class="grid grid-cols-2 gap-3">
-			<div class="rounded-2xl border border-slate-800 bg-slate-900 p-4 text-center">
+			<div class="rounded-lg border border-slate-800 bg-slate-900 p-4 text-center">
 				<p class="text-2xl font-semibold text-slate-50">{growth.coverage_percent}%</p>
 				<p class="text-xs text-slate-500">of core vocabulary</p>
 			</div>
-			<div class="rounded-2xl border border-slate-800 bg-slate-900 p-4 text-center">
-				<p class="text-2xl font-semibold text-slate-50">🔥 {growth.current_streak}</p>
+			<div class="rounded-lg border border-slate-800 bg-slate-900 p-4 text-center">
+				<p class="text-2xl font-semibold text-slate-50">{growth.current_streak}</p>
 				<p class="text-xs text-slate-500">day streak (best {growth.longest_streak})</p>
 			</div>
 		</section>
 
-		<section class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+		<section class="rounded-lg border border-slate-800 bg-slate-900 p-4">
 			<p class="mb-2 text-sm font-medium text-slate-200">Words mastered over time</p>
 			{#if growth.points.length > 0}
 				<GrowthChart points={growth.points} />
@@ -85,7 +85,7 @@
 				{/each}
 			</div>
 
-			<div class="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900">
+			<div class="divide-y divide-slate-800 rounded-lg border border-slate-800 bg-slate-900">
 				{#each filtered.slice(0, 60) as w (w.id)}
 					<div class="flex items-center justify-between px-4 py-2.5">
 						<div>

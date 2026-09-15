@@ -57,11 +57,11 @@
 			autocapitalize="off"
 			spellcheck="false"
 			placeholder="Écris le mot en français…"
-			class="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-lg text-slate-50 placeholder-slate-600 focus:border-brand-400 focus:outline-none"
+			class="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-lg text-slate-50 placeholder-slate-600 focus:border-brand-400 focus:outline-none"
 		/>
 		<button
 			type="submit"
-			class="w-full rounded-xl bg-brand-500 py-3 text-base font-medium text-white disabled:opacity-40"
+			class="w-full rounded-lg bg-brand-500 py-3 text-base font-medium text-white disabled:opacity-40"
 			disabled={!value.trim()}
 		>
 			Check

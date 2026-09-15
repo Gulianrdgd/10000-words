@@ -41,19 +41,19 @@
 		bind:value={draft}
 		rows="2"
 		placeholder="Écris ta propre phrase… (optional, just for you)"
-		class="w-full resize-none rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-base text-slate-50 placeholder-slate-600 focus:border-brand-400 focus:outline-none"
+		class="w-full resize-none rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-base text-slate-50 placeholder-slate-600 focus:border-brand-400 focus:outline-none"
 	></textarea>
 
 	{#if !revealed}
 		<button
 			onclick={reveal}
-			class="w-full rounded-xl bg-brand-500 py-3 text-base font-medium text-white"
+			class="w-full rounded-lg bg-brand-500 py-3 text-base font-medium text-white"
 		>
 			Show a model sentence
 		</button>
 	{:else}
 		{#if card.sentence}
-			<div class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+			<div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
 				<p class="text-base text-slate-100">{card.sentence.fr}</p>
 				<p class="mt-1 text-sm text-slate-400">{card.sentence.en}</p>
 			</div>
@@ -62,13 +62,13 @@
 		<div class="grid grid-cols-2 gap-3">
 			<button
 				onclick={() => report(false)}
-				class="rounded-xl border border-rose-500/60 bg-rose-500/10 py-3 font-medium text-rose-300"
+				class="rounded-lg border border-rose-500/60 bg-rose-500/10 py-3 font-medium text-rose-300"
 			>
 				Needs work
 			</button>
 			<button
 				onclick={() => report(true)}
-				class="rounded-xl border border-emerald-500/60 bg-emerald-500/10 py-3 font-medium text-emerald-300"
+				class="rounded-lg border border-emerald-500/60 bg-emerald-500/10 py-3 font-medium text-emerald-300"
 			>
 				Got it right
 			</button>

@@ -14,17 +14,23 @@ PRODUCTION_MODE_UNLOCKS = {
 }
 
 
-def pick_mode(card: Card) -> int:
+def pick_mode(card: Card, has_sentences: bool) -> int:
     if card.track == "recognition":
         return 1
     unlocked = PRODUCTION_MODE_UNLOCKS.get(card.mastery_level, [2, 3, 4])
+    if not has_sentences:
+        # Mode 3 (cloze) needs an example sentence to blank a word out of;
+        # most of the bulk (automated-translation) tier has none.
+        unlocked = [m for m in unlocked if m != 3] or [2]
     # weight towards the highest unlocked mode so mastered words escalate in difficulty
     weights = [i + 1 for i in range(len(unlocked))]
     return random.choices(unlocked, weights=weights, k=1)[0]
 
 
-def pick_sentence(word: Word, card: Card) -> dict:
+def pick_sentence(word: Word, card: Card) -> dict | None:
     sentences = json.loads(word.sentences_json)
+    if not sentences:
+        return None
     idx = card.sentence_cursor % len(sentences)
     return sentences[idx]
 

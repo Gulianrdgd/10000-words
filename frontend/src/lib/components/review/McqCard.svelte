@@ -41,7 +41,7 @@
 			{@const isCorrect = option === card.translation_en}
 			{@const isPicked = option === picked}
 			<button
-				class="rounded-xl border px-4 py-3 text-left text-base transition-colors"
+				class="rounded-lg border px-4 py-3 text-left text-base transition-colors"
 				class:border-slate-700={picked === null}
 				class:bg-slate-900={picked === null}
 				class:hover:border-brand-400={picked === null}

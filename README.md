@@ -8,20 +8,46 @@ Pedagogy: retrieval-first, interleaved by part of speech, dual-track mastery
 (recognition vs. production tracked as separate FSRS cards per word), four
 escalating review modes, weekly goals with a soft (freeze-protected) streak.
 
-## Scope note on the dataset
+## Scope note on the dataset — how it actually reaches 10,000 words
 
 This sandboxed build environment's network egress only reaches
 GitHub/PyPI/npm — Tatoeba's sentence corpus, bilingual dictionary APIs, and
 LLM APIs (used in the original plan for sentence generation/validation) are
-unreachable. So instead of 1000 words sourced from Tatoeba + LLM-generated
-fillers, this ships a **curated ~285-word seed set** (hand-authored
-translations, POS tags, CEFR estimates, 2 example sentences each), covering
-the pronouns/articles/top verbs/nouns/adjectives/adverbs that make up most
-of everyday spoken French. Frequency ranks are still genuine, cross-referenced
-against the real [hermitdave/FrequencyWords](https://github.com/hermitdave/FrequencyWords)
-French corpus. `backend/scripts/build_dataset.py` is written so growing the
-deck is mechanical: add more entries to `curated_words.json` (or wire in a
-real sentence corpus / LLM call) and re-run it.
+unreachable. `backend/scripts/build_dataset.py` works around that with a
+two-tier pipeline:
+
+1. **Curated tier (~340 words, with sentences).** Hand-authored translation,
+   POS, CEFR estimate and 2 example sentences each, covering every core
+   closed-class word (pronouns, articles, possessives, prepositions) plus the
+   highest-frequency verbs/nouns/adjectives/adverbs. Closed-class words are
+   curated deliberately: an automated dictionary handles them badly (see
+   below), and there are few enough of them (~150 in French) to just get
+   right by hand.
+2. **Bulk tier (~9,660 words, no sentences).** Built from
+   [pquentin/wiktionary-translations](https://github.com/pquentin/wiktionary-translations)
+   (a ~81k-row French-Wiktionary extraction), cross-referenced against real
+   frequency rank from
+   [hermitdave/FrequencyWords](https://github.com/hermitdave/FrequencyWords).
+   Wiktionary lists every sense of a word, so picking the right one matters:
+   the picker prefers a French/English cognate when one exists (fixes
+   `milieu` → "mean" instead of "milieu"), else the most frequent English
+   candidate word (fixes `est` → "east" instead of recognizing it's really
+   the verb "is"). Both heuristics have known failure modes — cognates can be
+   false friends (`retard` → "retard", `avocat` → "advocate" instead of
+   "lawyer") — so `build_dataset.py` also carries an explicit, verified
+   `TRANSLATION_OVERRIDES` table and exclude-lists (redundant conjugated
+   forms, profanity, proper-noun collisions) built by manually auditing the
+   generated output rank-by-rank through roughly the top 2,500 words.
+
+Net effect: the ~2,500 most-used words (the ones a learner actually spends
+most of their time on) got hand-verified; quality past that point is
+good-but-automated and occasionally imprecise. Growing the curated tier or
+tightening the bulk-tier heuristics is just editing `curated_words.json` /
+`build_dataset.py` and re-running it — nothing else in the app changes.
+
+Because 9,660 of the 10,000 words have no example sentence, `session_composer.py`
+never offers mode 3 (sentence cloze) for a sentence-less word — it falls back
+to modes 1/2/4, which don't need one.
 
 ## Architecture
 
@@ -68,7 +94,9 @@ frontend/
   infinitive (`être` → `suis`, `aller` → `vais`). `session_composer.py`
   carries a small irregular-verb lookup plus stem-prefix matching so the
   blanked word (and the answer key used to grade it) is always the exact
-  token that was blanked — verified against all 570 authored sentences.
+  token that was blanked — verified against all 674 authored sentences
+  (mode 3 is only ever offered for one of the ~337 curated words that has
+  sentences; see the dataset scope note above).
 - **SQLite + UTC datetimes.** SQLite silently drops tzinfo on round-trip;
   `fsrs_engine._as_utc` re-attaches it before handing datetimes to the FSRS
   scheduler, which requires timezone-aware UTC.

@@ -56,7 +56,7 @@
 	<p class="text-rose-400">{error}</p>
 {:else}
 	<div class="space-y-8">
-		<section class="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+		<section class="rounded-lg border border-slate-800 bg-slate-900 p-5">
 			<p class="text-sm text-slate-400">Words to master this week</p>
 			<div class="mt-3 flex items-center gap-4">
 				<input
@@ -79,14 +79,14 @@
 			<button
 				onclick={saveGoal}
 				disabled={saving}
-				class="mt-4 w-full rounded-xl bg-brand-500 py-2.5 font-medium text-white disabled:opacity-50"
+				class="mt-4 w-full rounded-lg bg-brand-500 py-2.5 font-medium text-white disabled:opacity-50"
 			>
 				{saving ? 'Saving…' : 'Save goal'}
 			</button>
 		</section>
 
 		{#if goal}
-			<section class="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+			<section class="rounded-lg border border-slate-800 bg-slate-900 p-5">
 				<p class="text-sm text-slate-400">This week so far</p>
 				<div class="mt-2 flex items-end gap-2">
 					<span class="text-3xl font-semibold text-slate-50">{goal.achieved_words}</span>
@@ -103,7 +103,7 @@
 		{/if}
 
 		{#if lastWeek && (lastWeek.mastered_words.length > 0 || lastWeek.shaky_words.length > 0)}
-			<section class="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+			<section class="rounded-lg border border-slate-800 bg-slate-900 p-5">
 				<p class="text-sm font-medium text-slate-200">Last week's review</p>
 				<p class="mt-2 text-sm text-slate-400">{lastWeek.growth_stat}</p>
 
@@ -136,7 +136,7 @@
 		{/if}
 
 		{#if thisWeek}
-			<section class="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+			<section class="rounded-lg border border-slate-800 bg-slate-900 p-5">
 				<p class="text-sm font-medium text-slate-200">Growth</p>
 				<p class="mt-2 text-sm text-slate-400">{thisWeek.growth_stat}</p>
 			</section>
