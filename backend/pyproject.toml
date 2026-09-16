@@ -1,0 +1,15 @@
+[project]
+name = "10000-words-backend"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi==0.115.6",
+    "uvicorn[standard]==0.34.0",
+    "sqlalchemy==2.0.36",
+    "pydantic==2.10.4",
+    "fsrs==6.3.2",
+    "pywebpush==2.5.0",
+]
+
+[tool.uv]
+package = false

@@ -168,15 +168,17 @@ frontend/
 
 ### Backend
 
+Uses [uv](https://docs.astral.sh/uv/) for the virtualenv and dependencies
+(declared in `pyproject.toml`, locked in `uv.lock`).
+
 ```bash
 cd backend
-python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
+uv sync
 
 # regenerate the dataset (optional — app/data/words.json is already committed)
-python3 scripts/build_dataset.py
+uv run scripts/build_dataset.py
 
-uvicorn app.main:app --reload --port 8000
+uv run uvicorn app.main:app --reload --port 8000
 ```
 
 The SQLite DB (`app/data/app.db`) and word rows are created automatically on
