@@ -1,0 +1,18 @@
+# Python
+backend/venv/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/app/data/app.db
+backend/scripts/fr_50k_raw.txt
+backend/scripts/en_50k_raw.txt
+backend/scripts/frwiktionary_raw.csv
+
+# Node / SvelteKit
+frontend/node_modules/
+frontend/.svelte-kit/
+frontend/build/
+frontend/dev-dist/
+
+# misc
+.DS_Store
+*.log
