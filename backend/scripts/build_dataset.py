@@ -41,6 +41,8 @@ import unicodedata
 import urllib.request
 from pathlib import Path
 
+from enrich_dataset import enrich
+
 SCRIPT_DIR = Path(__file__).parent
 
 FR_FREQ_URL = "https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2018/fr/fr_50k.txt"
@@ -402,13 +404,14 @@ def build() -> list[dict]:
 
 
 def main():
-    words = build()
+    words = enrich(build())
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(words, f, ensure_ascii=False, indent=2)
         f.write("\n")
     with_sentences = sum(1 for w in words if w["sentences"])
-    print(f"Wrote {len(words)} words to {OUTPUT_PATH} ({with_sentences} with example sentences)")
+    gendered = sum(1 for w in words if w.get("gender"))
+    print(f"Wrote {len(words)} words to {OUTPUT_PATH} ({with_sentences} with example sentences, {gendered} gendered nouns)")
 
 
 if __name__ == "__main__":

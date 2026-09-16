@@ -30,6 +30,8 @@ class Word(Base):
     frequency_rank: Mapped[int] = mapped_column(Integer, index=True)
     translation_en: Mapped[str] = mapped_column(String)
     cefr_estimate: Mapped[str] = mapped_column(String)
+    gender: Mapped[str | None] = mapped_column(String, nullable=True)  # see app/gender.py
+    emoji: Mapped[str | None] = mapped_column(String, nullable=True)  # picture for concrete words
     sentences_json: Mapped[str] = mapped_column(String)  # JSON-encoded list
 
     cards: Mapped[list["Card"]] = relationship(back_populates="word")
@@ -82,6 +84,11 @@ class Review(Base):
     mode: Mapped[int] = mapped_column(Integer)  # 1-4
     correct: Mapped[bool] = mapped_column(Boolean)
     near_miss: Mapped[bool] = mapped_column(Boolean, default=False)
+    # None when the answer didn't test noun gender (non-nouns, MCQ, cloze, self-report)
+    gender_correct: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    # set by the client so a review retried after a dropped connection (or
+    # replayed from the offline queue) is only applied once
+    client_id: Mapped[str | None] = mapped_column(String, nullable=True, unique=True)
     latency_ms: Mapped[int] = mapped_column(Integer, default=0)
     rating: Mapped[int] = mapped_column(Integer)  # FSRS Rating 1-4
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, index=True)
@@ -118,3 +125,33 @@ class UserStreak(Base):
     freezes_available: Mapped[int] = mapped_column(Integer, default=2)
     freeze_week_start: Mapped[date | None] = mapped_column(Date, nullable=True)
     last_active_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    username: Mapped[str] = mapped_column(String, unique=True, index=True)
+    password_hash: Mapped[str] = mapped_column(String)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class AuthToken(Base):
+    __tablename__ = "auth_tokens"
+
+    token_hash: Mapped[str] = mapped_column(String, primary_key=True)  # sha256 of the bearer token
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class PushSubscription(Base):
+    __tablename__ = "push_subscriptions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
+    endpoint: Mapped[str] = mapped_column(String, unique=True)
+    p256dh: Mapped[str] = mapped_column(String)
+    auth: Mapped[str] = mapped_column(String)
+    timezone: Mapped[str] = mapped_column(String, default="UTC")  # IANA name, e.g. "Europe/Amsterdam"
+    reminder_hour: Mapped[int] = mapped_column(Integer, default=18)  # local hour of day
+    last_sent_date: Mapped[date | None] = mapped_column(Date, nullable=True)  # local date

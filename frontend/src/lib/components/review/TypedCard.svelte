@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { DueCard } from '$lib/api';
+	import PromptLabel from './PromptLabel.svelte';
 
 	let {
 		card,
@@ -10,35 +11,62 @@
 	} = $props();
 
 	let value = $state('');
-	let shownAt = $state(Date.now());
+	let answered = $state(false);
 	let inputEl: HTMLInputElement | undefined = $state();
+	const shownAt = Date.now();
+
+	const needsArticle = $derived(
+		card.mode !== 3 && card.pos === 'noun' && (card.gender === 'm' || card.gender === 'f')
+	);
+
+	// render the cloze blank as an underlined gap rather than literal underscores
+	const clozeParts = $derived(card.cloze_sentence?.split('____') ?? []);
 
 	$effect(() => {
-		card.card_id;
-		value = '';
-		shownAt = Date.now();
 		inputEl?.focus();
 	});
 
 	function submit() {
-		if (!value.trim()) return;
+		if (answered || !value.trim()) return;
+		answered = true;
 		onAnswer({ typedAnswer: value.trim(), latencyMs: Date.now() - shownAt });
 	}
 </script>
 
-<div class="space-y-6">
-	<div class="text-center">
-		<p class="text-xs uppercase tracking-wide text-slate-500">
-			{card.pos} · {card.mode === 3 ? 'complete the sentence' : 'type the French word'}
-		</p>
-
+<div class="space-y-9">
+	<div class="space-y-6">
 		{#if card.mode === 3 && card.cloze_sentence}
-			<h2 class="mt-2 text-2xl font-semibold leading-snug text-slate-50">{card.cloze_sentence}</h2>
+			<PromptLabel text="Complete the sentence" pos={card.pos} />
+			<h2 class="word text-center text-[2rem] leading-tight">
+				{#each clozeParts as part, i (i)}{part}{#if i < clozeParts.length - 1}<span
+							class="mx-1 inline-block w-20 translate-y-1 border-b-2 border-paper/70"
+							aria-label="blank"
+						></span>{/if}{/each}
+			</h2>
 			{#if card.sentence}
-				<p class="mt-3 text-sm italic text-slate-400">{card.sentence.en}</p>
+				<p class="text-center text-ink-400">{card.sentence.en}</p>
 			{/if}
 		{:else}
-			<h2 class="mt-2 text-3xl font-semibold text-slate-50">{card.translation_en}</h2>
+			<PromptLabel text="How do you say this in French?" pos={card.pos} />
+			<div class="flex flex-col items-center text-center">
+				{#if card.emoji}
+					<div
+						class="grid h-24 w-24 place-items-center rounded-[1.75rem] bg-ink-900 text-5xl ring-1 ring-inset ring-ink-800"
+						aria-hidden="true"
+					>
+						{card.emoji}
+					</div>
+				{/if}
+				<h2 class="text-4xl font-semibold tracking-tight text-ink-100" class:mt-5={!!card.emoji}>
+					{card.translation_en}
+				</h2>
+				{#if needsArticle}
+					<p class="mt-3 text-sm text-ink-500">
+						With its article — <span class="text-masc">le</span>/<span class="text-fem">la</span>
+						or <span class="text-masc">un</span>/<span class="text-fem">une</span>
+					</p>
+				{/if}
+			</div>
 		{/if}
 	</div>
 
@@ -52,18 +80,16 @@
 		<input
 			bind:this={inputEl}
 			bind:value
+			readonly={answered}
 			type="text"
 			autocomplete="off"
 			autocapitalize="off"
 			spellcheck="false"
-			placeholder="Écris le mot en français…"
-			class="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-lg text-slate-50 placeholder-slate-600 focus:border-brand-400 focus:outline-none"
+			lang="fr"
+			placeholder={needsArticle ? 'la maison, un arbre…' : 'Écris en français…'}
+			class="field font-serif text-xl"
 		/>
-		<button
-			type="submit"
-			class="w-full rounded-lg bg-brand-500 py-3 text-base font-medium text-white disabled:opacity-40"
-			disabled={!value.trim()}
-		>
+		<button type="submit" class="btn-primary w-full" disabled={!value.trim() || answered}>
 			Check
 		</button>
 	</form>

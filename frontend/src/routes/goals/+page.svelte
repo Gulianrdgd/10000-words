@@ -8,6 +8,7 @@
 	let draftTarget = $state(20);
 	let loading = $state(true);
 	let saving = $state(false);
+	let saved = $state(false);
 	let error = $state<string | null>(null);
 
 	async function load() {
@@ -38,108 +39,111 @@
 		saving = true;
 		try {
 			goal = await api.setGoal(draftTarget);
+			saved = true;
+			setTimeout(() => (saved = false), 1800);
 		} finally {
 			saving = false;
 		}
 	}
+
+	const pct = $derived(goal ? Math.min(100, (100 * goal.achieved_words) / Math.max(1, goal.target_words)) : 0);
+	const perDay = $derived(Math.max(1, Math.ceil(draftTarget / 7)));
 </script>
 
 <svelte:head>
 	<title>Goals — 1000 Mots</title>
 </svelte:head>
 
-<h1 class="mb-6 text-2xl font-semibold text-slate-50">Weekly goal</h1>
+<h1 class="word text-4xl">This week</h1>
 
 {#if loading}
-	<p class="text-slate-500">Loading…</p>
+	<div class="mt-6 space-y-3" aria-busy="true">
+		<div class="skeleton h-44"></div>
+		<div class="skeleton h-40"></div>
+	</div>
 {:else if error}
-	<p class="text-rose-400">{error}</p>
+	<p class="mt-6 text-bad">{error}</p>
 {:else}
-	<div class="space-y-8">
-		<section class="rounded-lg border border-slate-800 bg-slate-900 p-5">
-			<p class="text-sm text-slate-400">Words to master this week</p>
-			<div class="mt-3 flex items-center gap-4">
-				<input
-					type="range"
-					min="5"
-					max="60"
-					step="5"
-					bind:value={draftTarget}
-					class="flex-1 accent-brand-400"
-				/>
-				<span class="w-10 text-right text-xl font-semibold text-slate-50">{draftTarget}</span>
-			</div>
-			{#if lastWeek}
-				<p class="mt-2 text-xs text-slate-500">
-					Last week you mastered {lastWeek.achieved_words} word{lastWeek.achieved_words === 1
-						? ''
-						: 's'}.
-				</p>
-			{/if}
-			<button
-				onclick={saveGoal}
-				disabled={saving}
-				class="mt-4 w-full rounded-lg bg-brand-500 py-2.5 font-medium text-white disabled:opacity-50"
-			>
-				{saving ? 'Saving…' : 'Save goal'}
-			</button>
-		</section>
-
+	<div class="mt-6 space-y-3 animate-enter">
 		{#if goal}
-			<section class="rounded-lg border border-slate-800 bg-slate-900 p-5">
-				<p class="text-sm text-slate-400">This week so far</p>
-				<div class="mt-2 flex items-end gap-2">
-					<span class="text-3xl font-semibold text-slate-50">{goal.achieved_words}</span>
-					<span class="pb-1 text-slate-500">/ {goal.target_words} words mastered</span>
+			<section class="surface flex items-center gap-5 p-5">
+				<svg viewBox="0 0 64 64" class="h-24 w-24 shrink-0 -rotate-90" aria-hidden="true">
+					<circle cx="32" cy="32" r="27" fill="none" stroke-width="6" class="stroke-ink-800" />
+					<circle
+						cx="32"
+						cy="32"
+						r="27"
+						fill="none"
+						stroke-width="6"
+						stroke-linecap="round"
+						class="stroke-paper transition-[stroke-dashoffset] duration-700 ease-out"
+						stroke-dasharray={2 * Math.PI * 27}
+						stroke-dashoffset={2 * Math.PI * 27 * (1 - pct / 100)}
+					/>
+				</svg>
+				<div>
+					<p class="text-4xl font-semibold tracking-tight tabular">
+						{goal.achieved_words}<span class="text-lg font-normal text-ink-500"> / {goal.target_words}</span>
+					</p>
+					<p class="mt-1 text-sm text-ink-400">words mastered</p>
+					<p class="mt-2 text-xs text-ink-500 tabular">
+						{goal.days_remaining} day{goal.days_remaining === 1 ? '' : 's'} left
+					</p>
 				</div>
-				<div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-slate-800">
-					<div
-						class="h-full rounded-full bg-brand-400"
-						style="width: {Math.min(100, (100 * goal.achieved_words) / Math.max(1, goal.target_words))}%"
-					></div>
-				</div>
-				<p class="mt-2 text-xs text-slate-500">{goal.days_remaining} days left this week</p>
 			</section>
 		{/if}
 
+		<section class="surface p-5">
+			<div class="flex items-baseline justify-between">
+				<p class="label">Weekly target</p>
+				<p class="text-3xl font-semibold tabular">{draftTarget}</p>
+			</div>
+			<input
+				type="range"
+				min="5"
+				max="60"
+				step="5"
+				bind:value={draftTarget}
+				aria-label="Words to master per week"
+				class="mt-4 w-full accent-[#f1e6cf]"
+			/>
+			<p class="mt-2 text-xs text-ink-500">
+				About {perDay} new word{perDay === 1 ? '' : 's'} a day.{#if lastWeek}{` Last week you mastered ${lastWeek.achieved_words}.`}{/if}
+			</p>
+			<button
+				onclick={saveGoal}
+				disabled={saving || (goal?.target_words === draftTarget && !saved)}
+				class="btn-primary mt-4 w-full"
+			>
+				{saving ? 'Saving…' : saved ? 'Saved' : 'Save target'}
+			</button>
+		</section>
+
 		{#if lastWeek && (lastWeek.mastered_words.length > 0 || lastWeek.shaky_words.length > 0)}
-			<section class="rounded-lg border border-slate-800 bg-slate-900 p-5">
-				<p class="text-sm font-medium text-slate-200">Last week's review</p>
-				<p class="mt-2 text-sm text-slate-400">{lastWeek.growth_stat}</p>
+			<section class="surface p-5">
+				<h2 class="word text-2xl">Last week</h2>
+				<p class="mt-2 max-w-[48ch] text-sm text-ink-400">{lastWeek.growth_stat}</p>
 
 				{#if lastWeek.mastered_words.length > 0}
-					<div class="mt-4">
-						<p class="text-xs uppercase tracking-wide text-slate-500">Mastered</p>
-						<div class="mt-2 flex flex-wrap gap-2">
-							{#each lastWeek.mastered_words as w (w)}
-								<span class="rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs text-emerald-300"
-									>{w}</span
-								>
-							{/each}
-						</div>
+					<p class="label mt-5">Mastered</p>
+					<div class="mt-2 flex flex-wrap gap-1.5">
+						{#each lastWeek.mastered_words as w (w)}
+							<span class="rounded-lg bg-good/10 px-2.5 py-1 font-serif text-good">{w}</span>
+						{/each}
 					</div>
 				{/if}
 
 				{#if lastWeek.shaky_words.length > 0}
-					<div class="mt-4">
-						<p class="text-xs uppercase tracking-wide text-slate-500">Still shaky</p>
-						<div class="mt-2 flex flex-wrap gap-2">
-							{#each lastWeek.shaky_words as w (w)}
-								<span class="rounded-full bg-amber-500/15 px-2.5 py-1 text-xs text-amber-300"
-									>{w}</span
-								>
-							{/each}
-						</div>
+					<p class="label mt-5">Still shaky</p>
+					<div class="mt-2 flex flex-wrap gap-1.5">
+						{#each lastWeek.shaky_words as w (w)}
+							<span class="rounded-lg bg-bad/10 px-2.5 py-1 font-serif text-bad">{w}</span>
+						{/each}
 					</div>
 				{/if}
 			</section>
-		{/if}
-
-		{#if thisWeek}
-			<section class="rounded-lg border border-slate-800 bg-slate-900 p-5">
-				<p class="text-sm font-medium text-slate-200">Growth</p>
-				<p class="mt-2 text-sm text-slate-400">{thisWeek.growth_stat}</p>
-			</section>
+		{:else if thisWeek}
+			<p class="px-1 pt-2 text-sm text-ink-500">{thisWeek.growth_stat}</p>
 		{/if}
 	</div>
 {/if}

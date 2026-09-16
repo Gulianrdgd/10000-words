@@ -1,8 +1,97 @@
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/geist';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-	height: 100%;
+@layer base {
+	html,
+	body {
+		min-height: 100%;
+	}
+
+	body {
+		@apply bg-ink-950 font-sans text-ink-100 antialiased;
+		font-feature-settings: 'ss01', 'cv11';
+	}
+
+	/* faint paper grain so the dark surface doesn't feel sterile */
+	body::before {
+		content: '';
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		opacity: 0.035;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+
+	h1,
+	h2,
+	h3 {
+		text-wrap: balance;
+	}
+
+	:focus-visible {
+		@apply outline-none ring-2 ring-paper/70 ring-offset-2 ring-offset-ink-950;
+	}
+
+	kbd {
+		@apply font-sans;
+	}
+}
+
+@layer components {
+	.surface {
+		@apply rounded-card bg-ink-900 ring-1 ring-inset ring-ink-800;
+	}
+
+	.label {
+		@apply text-[0.8125rem] font-medium text-ink-400;
+	}
+
+	.word {
+		@apply font-serif font-medium tracking-[-0.01em] text-ink-100;
+		font-variation-settings: 'opsz' 96, 'SOFT' 50;
+	}
+
+	.btn {
+		@apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[0.9375rem] font-medium transition duration-200 ease-out active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
+	}
+
+	.btn-primary {
+		@apply btn bg-paper text-ink-950 hover:bg-white disabled:bg-ink-800 disabled:text-ink-500 disabled:opacity-100;
+	}
+
+	.btn-quiet {
+		@apply btn bg-ink-800 text-ink-200 hover:bg-ink-700 hover:text-ink-100;
+	}
+
+	.field {
+		@apply w-full rounded-xl bg-ink-900 px-4 py-3.5 text-lg text-ink-100 ring-1 ring-inset ring-ink-700 transition placeholder:text-ink-600 focus:outline-none focus:ring-2 focus:ring-paper/60 focus-visible:ring-offset-0;
+	}
+
+	.chip {
+		@apply rounded-lg px-3 py-1.5 text-[0.8125rem] font-medium transition;
+	}
+
+	.skeleton {
+		@apply animate-pulse rounded-xl bg-ink-850;
+	}
+}
+
+@layer utilities {
+	.tabular {
+		font-variant-numeric: tabular-nums;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 1ms !important;
+		transition-duration: 1ms !important;
+	}
 }

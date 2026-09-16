@@ -3,8 +3,9 @@ from datetime import date, datetime, timedelta, timezone
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from app.auth import get_current_user_id
 from app.database import get_db
-from app.models import Card, DEFAULT_USER_ID, Review, WeeklyGoal, Word, WordMastery
+from app.models import Card, WeeklyGoal, Word, WordMastery
 from app.schemas import GoalRequest, GoalResponse, WeekReviewResponse
 from app.weekly import DEFAULT_TARGET_WORDS, week_start
 
@@ -25,8 +26,7 @@ def _achieved_words(db: Session, user_id: str, ws: date) -> int:
 
 
 @router.get("/current", response_model=GoalResponse)
-def get_current_goal(db: Session = Depends(get_db)):
-    user_id = DEFAULT_USER_ID
+def get_current_goal(db: Session = Depends(get_db), user_id: str = Depends(get_current_user_id)):
     ws = week_start()
     goal = db.query(WeeklyGoal).filter(WeeklyGoal.user_id == user_id, WeeklyGoal.week_start == ws).first()
     target = goal.target_words if goal else DEFAULT_TARGET_WORDS
@@ -39,8 +39,7 @@ def get_current_goal(db: Session = Depends(get_db)):
 
 
 @router.post("", response_model=GoalResponse)
-def set_goal(body: GoalRequest, db: Session = Depends(get_db)):
-    user_id = DEFAULT_USER_ID
+def set_goal(body: GoalRequest, db: Session = Depends(get_db), user_id: str = Depends(get_current_user_id)):
     ws = week_start()
     goal = db.query(WeeklyGoal).filter(WeeklyGoal.user_id == user_id, WeeklyGoal.week_start == ws).first()
     if goal is None:
@@ -58,8 +57,7 @@ def set_goal(body: GoalRequest, db: Session = Depends(get_db)):
 
 
 @router.get("/{week}/review", response_model=WeekReviewResponse)
-def week_review(week: date, db: Session = Depends(get_db)):
-    user_id = DEFAULT_USER_ID
+def week_review(week: date, db: Session = Depends(get_db), user_id: str = Depends(get_current_user_id)):
     ws = week_start(week)
     we = ws + timedelta(days=7)
     ws_dt = datetime.combine(ws, datetime.min.time(), tzinfo=timezone.utc)

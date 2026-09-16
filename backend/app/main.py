@@ -1,11 +1,30 @@
+import asyncio
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database import Base, SessionLocal, engine
+from app import auth, push
+from app.database import SessionLocal, engine
 from app.routers import cards, goals, stats, words
-from app.seed import seed_words_and_cards
+from app.seed import ensure_cards_for_all_users, sync_words, upgrade_schema
 
-app = FastAPI(title="French Vocabulary API")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    upgrade_schema(engine)
+    db = SessionLocal()
+    try:
+        sync_words(db)
+        ensure_cards_for_all_users(db)
+    finally:
+        db.close()
+    reminders = asyncio.create_task(push.reminder_loop())
+    yield
+    reminders.cancel()
+
+
+app = FastAPI(title="French Vocabulary API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,20 +33,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(cards.router)
 app.include_router(goals.router)
 app.include_router(stats.router)
 app.include_router(words.router)
-
-
-@app.on_event("startup")
-def on_startup():
-    Base.metadata.create_all(bind=engine)
-    db = SessionLocal()
-    try:
-        seed_words_and_cards(db)
-    finally:
-        db.close()
+app.include_router(push.router)
 
 
 @app.get("/health")

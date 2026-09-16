@@ -15,13 +15,19 @@ class DueCard(BaseModel):
     pos: str
     translation_en: str
     cefr_estimate: str
+    gender: str | None = None  # see app/gender.py
+    display_lemma: str  # lemma with its article for nouns: "la maison"
+    emoji: str | None = None
     track: str  # recognition | production
-    mode: int  # 1-4
+    mode: int  # 1-5
     is_new: bool
     mastery_level: int
     sentence: Sentence | None = None
     options: list[str] | None = None  # MCQ distractors + correct, shuffled (mode 1)
     cloze_sentence: str | None = None  # mode 3, word blanked out
+    # what modes 2/3/5 grade the typed answer against. Sent to the client so it
+    # can grade offline and echo it back (mode 3's blank differs per fetch).
+    expected_answer: str | None = None
 
 
 class DueCardsResponse(BaseModel):
@@ -32,10 +38,13 @@ class DueCardsResponse(BaseModel):
 
 class ReviewRequest(BaseModel):
     mode: int
-    correct: bool = False  # authoritative for mode 1; ignored for modes 2/3 (server-graded) and 4 (self-report)
+    correct: bool = False  # authoritative for mode 1; ignored for modes 2/3/5 (server-graded) and 4 (self-report)
     latency_ms: int = 0
-    typed_answer: str | None = None  # for fuzzy-matched modes (2, 3)
+    typed_answer: str | None = None  # for fuzzy-matched modes (2, 3, 5)
     self_reported_correct: bool | None = None  # for mode 4 (free production)
+    expected_answer: str | None = None  # mode 3: the blank the client was actually shown
+    client_review_id: str | None = None  # idempotency key for retries / offline replay
+    reviewed_at: datetime | None = None  # when answered, if queued offline
 
 
 class ReviewResponse(BaseModel):
@@ -45,6 +54,7 @@ class ReviewResponse(BaseModel):
     rating: int
     correct: bool
     near_miss: bool
+    gender_correct: bool | None = None
     expected_answer: str | None = None
     interval_days: int
     mastery_level: int
@@ -83,3 +93,13 @@ class GrowthResponse(BaseModel):
     coverage_percent: float
     current_streak: int
     longest_streak: int
+
+
+class ActivityDay(BaseModel):
+    date: date
+    reviews: int
+    correct: int
+
+
+class ActivityResponse(BaseModel):
+    days: list[ActivityDay]

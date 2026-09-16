@@ -6,9 +6,11 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app import streaks
+from app.auth import get_current_user_id
 from app.database import get_db
-from app.fsrs_engine import apply_review, levenshtein, rating_for_answer
-from app.models import Card, DEFAULT_USER_ID, Review, Word, WordMastery
+from app.fsrs_engine import _as_utc, apply_review, levenshtein, rating_for_answer
+from app.gender import display_form, gender_correct, production_answer, split_article
+from app.models import Card, Review, UserStreak, Word, WordMastery
 from app.schemas import DueCard, DueCardsResponse, ReviewRequest, ReviewResponse, Sentence
 from app.session_composer import build_cloze, build_mcq_options, interleave_by_pos, pick_mode, pick_sentence
 from app.weekly import current_week_target
@@ -17,10 +19,9 @@ router = APIRouter(prefix="/cards", tags=["cards"])
 
 
 @router.get("/due", response_model=DueCardsResponse)
-def get_due_cards(limit: int = 30, db: Session = Depends(get_db)):
+def get_due_cards(limit: int = 30, db: Session = Depends(get_db), user_id: str = Depends(get_current_user_id)):
     now = datetime.now(timezone.utc)
     today = date.today()
-    user_id = DEFAULT_USER_ID
 
     target_words = current_week_target(db, user_id)
     daily_new_word_limit = max(1, math.ceil(target_words / 7))
@@ -74,15 +75,18 @@ def get_due_cards(limit: int = 30, db: Session = Depends(get_db)):
         sentence = Sentence(**sentence_dict) if sentence_dict else None
         options = None
         cloze_sentence = None
+        expected_answer = None
 
         if mode == 1:
             options = build_mcq_options(word, all_words)
             card.pending_answer = None
         elif mode == 3:
-            cloze_sentence, answer = build_cloze(sentence_dict["fr"], word.lemma)
-            card.pending_answer = answer
+            cloze_sentence, expected_answer = build_cloze(sentence_dict["fr"], word.lemma)
+            card.pending_answer = expected_answer
         else:
             card.pending_answer = None
+            if mode in (2, 5):
+                expected_answer = production_answer(word.lemma, word.gender) if word.pos == "noun" else word.lemma
 
         result.append(
             DueCard(
@@ -92,6 +96,9 @@ def get_due_cards(limit: int = 30, db: Session = Depends(get_db)):
                 pos=word.pos,
                 translation_en=word.translation_en,
                 cefr_estimate=word.cefr_estimate,
+                gender=word.gender,
+                display_lemma=display_form(word.lemma, word.gender),
+                emoji=word.emoji,
                 track=card.track,
                 mode=mode,
                 is_new=card.reps == 0,
@@ -99,6 +106,7 @@ def get_due_cards(limit: int = 30, db: Session = Depends(get_db)):
                 sentence=sentence,
                 options=options,
                 cloze_sentence=cloze_sentence,
+                expected_answer=expected_answer,
             )
         )
 
@@ -111,25 +119,79 @@ def get_due_cards(limit: int = 30, db: Session = Depends(get_db)):
     )
 
 
+def _grade_typed(word: Word, typed: str) -> tuple[bool, bool, bool | None, str]:
+    """Grades modes 2 and 5. Returns (correct, near_miss, gender_correct, expected_answer).
+    A noun answer needs its article: the right word with the wrong gender is wrong."""
+    if word.pos != "noun":
+        dist = levenshtein(typed, word.lemma)
+        return dist <= 1, dist == 1, None, word.lemma
+
+    article, bare = split_article(typed)
+    dist = levenshtein(bare, word.lemma)
+    gender_ok = gender_correct(article, word.gender)
+    correct = dist <= 1 and gender_ok is not False
+    return correct, correct and dist == 1, gender_ok, production_answer(word.lemma, word.gender)
+
+
+def _mastered(db: Session, user_id: str, word_id: str) -> bool:
+    both_cards = db.query(Card).filter(Card.user_id == user_id, Card.word_id == word_id).all()
+    return all(c.mastery_level >= 4 for c in both_cards) and len(both_cards) == 2
+
+
+def _replayed_response(db: Session, user_id: str, card: Card, review: Review) -> ReviewResponse:
+    """The review was already applied (a retry, or an offline replay that got
+    through before the connection dropped): report it without re-applying."""
+    due, reviewed = _as_utc(card.due_date), _as_utc(review.timestamp)
+    streak = db.get(UserStreak, user_id)
+    return ReviewResponse(
+        card_id=card.id,
+        word_id=card.word_id,
+        track=card.track,
+        rating=review.rating,
+        correct=review.correct,
+        near_miss=review.near_miss,
+        gender_correct=review.gender_correct,
+        interval_days=max(1, (due - reviewed).days) if due and reviewed else 1,
+        mastery_level=card.mastery_level,
+        word_mastered=_mastered(db, user_id, card.word_id),
+        streak=streak.current_streak if streak else 0,
+    )
+
+
 @router.post("/{card_id}/review", response_model=ReviewResponse)
-def submit_review(card_id: int, body: ReviewRequest, db: Session = Depends(get_db)):
-    user_id = DEFAULT_USER_ID
+def submit_review(
+    card_id: int,
+    body: ReviewRequest,
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
+):
     card = db.query(Card).filter(Card.id == card_id, Card.user_id == user_id).first()
     if card is None:
         raise HTTPException(status_code=404, detail="Card not found")
     word = db.query(Word).filter(Word.id == card.word_id).first()
 
+    if body.client_review_id:
+        previous = db.query(Review).filter(Review.client_id == body.client_review_id).first()
+        if previous is not None:
+            return _replayed_response(db, user_id, card, previous)
+
+    # Offline-queued reviews carry their real answer time; keep it within
+    # (last review, now] so FSRS never sees time running backwards.
+    now = datetime.now(timezone.utc)
+    reviewed_at = min(_as_utc(body.reviewed_at) or now, now)
+    last_review = _as_utc(card.last_review)
+    if last_review and reviewed_at < last_review:
+        reviewed_at = last_review
+
     near_miss = False
+    gender_ok: bool | None = None
     expected_answer: str | None = None
-    if body.mode == 2:
-        expected_answer = word.lemma
-        dist = levenshtein(body.typed_answer or "", expected_answer)
-        correct = dist == 0 or dist <= 1
-        near_miss = dist == 1
+    if body.mode in (2, 5):
+        correct, near_miss, gender_ok, expected_answer = _grade_typed(word, body.typed_answer or "")
     elif body.mode == 3:
-        expected_answer = card.pending_answer or word.lemma
+        expected_answer = body.expected_answer or card.pending_answer or word.lemma
         dist = levenshtein(body.typed_answer or "", expected_answer)
-        correct = dist == 0 or dist <= 1
+        correct = dist <= 1
         near_miss = dist == 1
     else:
         # mode 1 (MCQ, graded client-side against the revealed options) and
@@ -139,7 +201,7 @@ def submit_review(card_id: int, body: ReviewRequest, db: Session = Depends(get_d
     rating = rating_for_answer(correct, body.latency_ms, near_miss)
     was_first_review = card.reps == 0
 
-    updated, interval_days = apply_review(card, rating)
+    updated, interval_days = apply_review(card, rating, reviewed_at)
     card.fsrs_state = int(updated.state)
     card.fsrs_step = updated.step
     card.stability = updated.stability
@@ -165,8 +227,8 @@ def submit_review(card_id: int, body: ReviewRequest, db: Session = Depends(get_d
         )
         if production_card and not production_card.introduced:
             production_card.introduced = True
-            production_card.introduced_at = datetime.now(timezone.utc)
-            production_card.due_date = datetime.now(timezone.utc)
+            production_card.introduced_at = reviewed_at
+            production_card.due_date = reviewed_at
 
     db.add(
         Review(
@@ -177,13 +239,15 @@ def submit_review(card_id: int, body: ReviewRequest, db: Session = Depends(get_d
             mode=body.mode,
             correct=correct,
             near_miss=near_miss,
+            gender_correct=gender_ok,
+            client_id=body.client_review_id,
             latency_ms=body.latency_ms,
             rating=int(rating),
+            timestamp=reviewed_at,
         )
     )
 
-    both_cards = db.query(Card).filter(Card.user_id == user_id, Card.word_id == card.word_id).all()
-    word_mastered = all(c.mastery_level >= 4 for c in both_cards) and len(both_cards) == 2
+    word_mastered = _mastered(db, user_id, card.word_id)
     if word_mastered:
         existing = (
             db.query(WordMastery)
@@ -191,9 +255,9 @@ def submit_review(card_id: int, body: ReviewRequest, db: Session = Depends(get_d
             .first()
         )
         if existing is None:
-            db.add(WordMastery(user_id=user_id, word_id=card.word_id))
+            db.add(WordMastery(user_id=user_id, word_id=card.word_id, mastered_at=reviewed_at))
 
-    streak = streaks.record_activity(db, user_id)
+    streak = streaks.record_activity(db, user_id, reviewed_at.astimezone().date())
 
     db.commit()
 
@@ -204,6 +268,7 @@ def submit_review(card_id: int, body: ReviewRequest, db: Session = Depends(get_d
         rating=int(rating),
         correct=correct,
         near_miss=near_miss,
+        gender_correct=gender_ok,
         expected_answer=expected_answer,
         interval_days=interval_days,
         mastery_level=card.mastery_level,

@@ -9,10 +9,13 @@ def _week_start(d: date) -> date:
     return d - timedelta(days=d.weekday())
 
 
-def record_activity(db: Session, user_id: str = DEFAULT_USER_ID) -> UserStreak:
+def record_activity(db: Session, user_id: str = DEFAULT_USER_ID, today: date | None = None) -> UserStreak:
     """Call once per review. Advances the streak, silently spending a freeze
     day (up to 2/week) to protect it across a single missed day, per the
-    'soft streak' design — no guilt messaging, just quiet protection."""
+    'soft streak' design — no guilt messaging, just quiet protection.
+
+    `today` is the review's local date, which is earlier than the real today
+    for reviews replayed from the offline queue."""
     streak = db.get(UserStreak, user_id)
     if streak is None:
         streak = UserStreak(
@@ -25,7 +28,9 @@ def record_activity(db: Session, user_id: str = DEFAULT_USER_ID) -> UserStreak:
         )
         db.add(streak)
 
-    today = date.today()
+    today = today or date.today()
+    if streak.last_active_date is not None and today < streak.last_active_date:
+        return streak  # a late-synced offline review; that day was already counted or passed
     week_start = _week_start(today)
     if streak.freeze_week_start != week_start:
         streak.freezes_available = 2

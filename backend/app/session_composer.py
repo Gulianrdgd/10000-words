@@ -3,21 +3,23 @@ import random
 
 from app.models import Card, Word
 
-# Which production modes are unlocked at a given mastery_level.
+# Which production modes are unlocked at a given mastery_level, easiest first.
+# Mode 5 (dictation: hear the word, type it) sits between typed recall and
+# cloze: the audio gives the word away, so it drills spelling and listening.
 PRODUCTION_MODE_UNLOCKS = {
     0: [2],
-    1: [2, 3],
-    2: [2, 3],
-    3: [2, 3, 4],
-    4: [2, 3, 4],
-    5: [2, 3, 4],
+    1: [2, 5, 3],
+    2: [2, 5, 3],
+    3: [2, 5, 3, 4],
+    4: [2, 5, 3, 4],
+    5: [2, 5, 3, 4],
 }
 
 
 def pick_mode(card: Card, has_sentences: bool) -> int:
     if card.track == "recognition":
         return 1
-    unlocked = PRODUCTION_MODE_UNLOCKS.get(card.mastery_level, [2, 3, 4])
+    unlocked = PRODUCTION_MODE_UNLOCKS.get(card.mastery_level, [2, 5, 3, 4])
     if not has_sentences:
         # Mode 3 (cloze) needs an example sentence to blank a word out of;
         # most of the bulk (automated-translation) tier has none.

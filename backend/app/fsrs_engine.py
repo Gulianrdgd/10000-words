@@ -40,10 +40,11 @@ def card_from_row(row) -> FsrsCard:
     )
 
 
-def apply_review(row, rating: Rating) -> tuple[FsrsCard, int]:
-    """Runs the FSRS update for a Card row and returns (updated fsrs card, next interval in days)."""
+def apply_review(row, rating: Rating, now: datetime | None = None) -> tuple[FsrsCard, int]:
+    """Runs the FSRS update for a Card row and returns (updated fsrs card, next interval in days).
+    `now` is when the review happened (earlier than the real now for offline-queued reviews)."""
     fsrs_card = card_from_row(row)
-    now = datetime.now(timezone.utc)
+    now = now or datetime.now(timezone.utc)
     updated, _log = scheduler.review_card(fsrs_card, rating, review_datetime=now)
     interval_days = max(1, (updated.due - now).days)
     return updated, interval_days

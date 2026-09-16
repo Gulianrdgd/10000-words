@@ -38,11 +38,12 @@
 					{
 						label: 'Words mastered',
 						data,
-						borderColor: '#5588f5',
-						backgroundColor: 'rgba(85,136,245,0.15)',
+						borderColor: '#f1e6cf',
+						backgroundColor: 'rgba(241,230,207,0.08)',
 						fill: true,
 						tension: 0.3,
-						pointRadius: 2
+						pointRadius: 0,
+						borderWidth: 2
 					}
 				]
 			},
@@ -51,11 +52,12 @@
 				maintainAspectRatio: false,
 				plugins: { legend: { display: false } },
 				scales: {
-					x: { ticks: { color: '#64748b' }, grid: { color: '#1e293b' } },
+					x: { ticks: { color: '#716b61', maxTicksLimit: 6 }, grid: { display: false }, border: { color: '#34312c' } },
 					y: {
 						beginAtZero: true,
-						ticks: { color: '#64748b', precision: 0 },
-						grid: { color: '#1e293b' }
+						ticks: { color: '#716b61', precision: 0 },
+						grid: { color: '#25231f' },
+						border: { display: false }
 					}
 				}
 			}
