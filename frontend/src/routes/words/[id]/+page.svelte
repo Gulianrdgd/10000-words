@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { api, type WordDetail } from '$lib/api';
+	import PronunciationButton from '$lib/components/PronunciationButton.svelte';
 	import SpeakButton from '$lib/components/SpeakButton.svelte';
 	import WordHero from '$lib/components/WordHero.svelte';
 
@@ -16,12 +17,16 @@
 		);
 	});
 
+	/** Mirrors MASTERY_STABILITY_DAYS in the backend (routers/cards.py). */
+	const MASTERY_STABILITY_DAYS = 21;
+
 	const MODE_LABELS: Record<number, string> = {
 		1: 'Multiple choice',
 		2: 'Typed recall',
 		3: 'Sentence cloze',
 		4: 'Free production',
-		5: 'Dictation'
+		5: 'Dictation',
+		6: 'Listening'
 	};
 
 	const GENDER_LABELS: Record<string, string> = {
@@ -94,6 +99,10 @@
 			</section>
 		{/if}
 
+		{#key word.id}
+			<PronunciationButton text={word.display_lemma} />
+		{/key}
+
 		<section class="grid grid-cols-2 gap-2.5">
 			{#each word.tracks as t (t.track)}
 				<div class="surface p-4">
@@ -106,6 +115,11 @@
 					<p class="mt-3 text-xs leading-relaxed text-ink-500 tabular">
 						{#if t.introduced}
 							{t.reps} review{t.reps === 1 ? '' : 's'} · {t.lapses} lapse{t.lapses === 1 ? '' : 's'}<br />next {formatDate(t.due_date)}
+							{#if t.stability_days !== null}
+								<br /><span class={t.stability_days >= MASTERY_STABILITY_DAYS ? 'text-good' : ''}>
+									holds {t.stability_days}d
+								</span>
+							{/if}
 						{:else}
 							not started
 						{/if}

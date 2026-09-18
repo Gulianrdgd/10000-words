@@ -40,6 +40,18 @@ def card_from_row(row) -> FsrsCard:
     )
 
 
+def rating_for_spoken(correct: bool, score: int) -> Rating:
+    """Spoken answers grade on pronunciation accuracy instead of latency, so a
+    word scraped through at 72 comes back sooner than one nailed at 95."""
+    if not correct:
+        return Rating.Again
+    if score >= 90:
+        return Rating.Easy
+    if score >= 80:
+        return Rating.Good
+    return Rating.Hard
+
+
 def apply_review(row, rating: Rating, now: datetime | None = None) -> tuple[FsrsCard, int]:
     """Runs the FSRS update for a Card row and returns (updated fsrs card, next interval in days).
     `now` is when the review happened (earlier than the real now for offline-queued reviews)."""

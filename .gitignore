@@ -19,6 +19,15 @@ frontend/.svelte-kit/
 frontend/build/
 frontend/dev-dist/
 
+# local secrets (Azure Speech key)
+backend/.env.speech
+secrets/*
+!secrets/.env.example
+
 # misc
 .DS_Store
 *.log
+.idea/
+
+# stray virtualenv (the real one is .venv)
+backend/venv/

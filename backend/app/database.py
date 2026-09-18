@@ -1,10 +1,14 @@
+import os
 from pathlib import Path
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-DB_PATH = Path(__file__).parent / "data" / "app.db"
-DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+# Writable state (the DB, the VAPID key) — set DATA_DIR to put it on a volume.
+# words.json stays in the package dir, so a volume can't shadow it.
+DATA_DIR = Path(os.environ.get("DATA_DIR") or Path(__file__).parent / "data")
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+DB_PATH = DATA_DIR / "app.db"
 
 engine = create_engine(
     f"sqlite:///{DB_PATH}",

@@ -11,5 +11,15 @@ dependencies = [
     "pywebpush==2.5.0",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest==8.3.4",
+    "httpx==0.28.1",  # fastapi TestClient
+]
+
 [tool.uv]
 package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]  # the app isn't an installed package (package = false)

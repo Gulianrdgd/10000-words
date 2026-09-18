@@ -81,7 +81,7 @@ class Review(Base):
     card_id: Mapped[int] = mapped_column(ForeignKey("cards.id"), index=True)
     word_id: Mapped[str] = mapped_column(ForeignKey("words.id"), index=True)
     track: Mapped[str] = mapped_column(String)
-    mode: Mapped[int] = mapped_column(Integer)  # 1-4
+    mode: Mapped[int] = mapped_column(Integer)  # 1-6
     correct: Mapped[bool] = mapped_column(Boolean)
     near_miss: Mapped[bool] = mapped_column(Boolean, default=False)
     # None when the answer didn't test noun gender (non-nouns, MCQ, cloze, self-report)
@@ -91,6 +91,11 @@ class Review(Base):
     client_id: Mapped[str | None] = mapped_column(String, nullable=True, unique=True)
     latency_ms: Mapped[int] = mapped_column(Integer, default=0)
     rating: Mapped[int] = mapped_column(Integer)  # FSRS Rating 1-4
+    # Azure pronunciation assessment, only for spoken answers (None when typed).
+    # phonemes_json is [{"p": "ʁ", "a": 43}, ...] — kept per review so weak
+    # sounds can be aggregated across the whole history.
+    pronunciation_score: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    phonemes_json: Mapped[str | None] = mapped_column(String, nullable=True)
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, index=True)
 
 

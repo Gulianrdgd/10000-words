@@ -5,9 +5,10 @@ A spaced-repetition French vocabulary app: FastAPI + SQLite backend running
 SvelteKit + Tailwind PWA frontend for the review/goals/progress screens.
 
 Pedagogy: retrieval-first, interleaved by part of speech, dual-track mastery
-(recognition vs. production tracked as separate FSRS cards per word), five
-escalating review modes (including dictation), noun gender drilled as part of
-the word, browser text-to-speech audio, weekly goals with a soft
+(recognition vs. production tracked as separate FSRS cards per word), six
+escalating review modes (including listening and dictation), noun gender drilled as part of
+the word, neural text-to-speech audio, optional spoken-pronunciation scoring,
+weekly goals with a soft
 (freeze-protected) streak. Accounts sync progress across devices; reviews
 answered offline queue up and sync later; optional daily push reminders.
 
@@ -95,12 +96,13 @@ backend/
     routers/
       cards.py                # GET /cards/due, POST /cards/{id}/review
       goals.py                # GET/POST /goals, GET /goals/{week}/review
-      stats.py                # GET /stats/growth, GET /stats/activity
+      stats.py                # GET /stats/growth, /stats/activity, /stats/pronunciation
       words.py                # GET /words (progress browser), GET /words/{id}
+      speech.py               # GET /speech/token (Azure TTS + pronunciation)
 
 frontend/
   src/routes/
-    +page.svelte              # review session (all 5 modes)
+    +page.svelte              # review session (all 6 modes)
     login/ settings/          # sign in; session length, audio, reminders, account
     words/[id]/+page.svelte   # word detail: sentences, mastery, review history
     goals/+page.svelte        # weekly goal + last week's review
@@ -108,8 +110,9 @@ frontend/
   src/lib/
     api.ts                    # typed fetch client (bearer token)
     offline.svelte.ts         # offline review queue + session cache
-    grading.ts, speech.ts     # local grading mirror; Web Speech API wrapper
-    components/review/*       # McqCard, TypedCard (modes 2/3), DictationCard, FreeProductionCard, FeedbackBanner
+    grading.ts, speech.ts     # local grading mirror; Azure neural TTS + cache
+    azure.ts, pronunciation.ts # shared Speech token; mic scoring
+    components/review/*       # McqCard, ListenCard (6), SpokenCard (2/3/4/5), TypedCard, DictationCard, FreeProductionCard, FeedbackBanner
     components/ActivityCalendar.svelte
     components/GrowthChart.svelte
 ```
@@ -122,7 +125,30 @@ frontend/
   registered on such a database inherits that history. Startup adds missing
   columns and refreshes word data from `words.json` (`seed.py`), so an
   existing `app.db` upgrades in place.
-- **Review modes ↔ tracks.** Track `recognition` always serves mode 1 (MCQ).
+- **Spoken answers.** With a Speech key, production modes are answered out
+  loud instead of typed (`SpokenCard.svelte`). Azure transcribes the attempt —
+  graded server-side by the same text/gender rules as typing — and scores how
+  it sounded; below `PRONUNCIATION_PASS` (70) the card fails however right the
+  transcription is, because the recognizer will happily clean up a mangled
+  attempt. The score also picks the FSRS rating (`rating_for_spoken`), so a
+  word scraped through at 72 returns sooner than one nailed at 95. Mode 4
+  reads a whole sentence aloud, where fluency and completeness mean something,
+  and is graded on the score alone. Typing remains the offline/no-key path.
+- **Pronunciation history.** Every spoken review stores its score and its
+  per-phoneme accuracies (`reviews.pronunciation_score`, `phonemes_json`).
+  `GET /stats/pronunciation` turns that into the worst-spoken words and the
+  weakest individual sounds across the last 500 attempts (needing 3+ samples
+  before a sound counts), shown on the progress screen.
+- **Mastery is FSRS stability, not a counter.** A word counts as mastered once
+  both its cards have `stability >= MASTERY_STABILITY_DAYS` (21) — FSRS's own
+  estimate of the days until recall probability decays to 90%. So the question
+  is "would this still be known in three weeks?", which values four correct
+  answers spread over months very differently from four in one sitting. The
+  `mastery_level` counter still exists, but only to decide which production
+  mode a card has unlocked; it no longer decides what you know.
+- **Review modes ↔ tracks.** Track `recognition` serves mode 1 (MCQ) on a
+  word's first exposure, then alternates it with mode 6 (hear the word, choose
+  the English) so recognition isn't purely visual.
   Track `production` escalates through modes 2 (typed) → 5 (dictation: hear
   it, type it) → 3 (cloze) → 4 (free production) as that word's production
   `mastery_level` rises, per the plan's "unlock, don't gate strictly" rule.
@@ -133,9 +159,17 @@ frontend/
   gender is graded wrong, and each review records `gender_correct`, shown per
   word on its detail page. `app/gender.py` holds the rules, including a list
   of aspirated-h nouns that don't elide.
-- **Audio** uses the browser's Web Speech API (`speechSynthesis`) with a
-  French voice — no backend or API cost. Dictation falls back to typed recall
-  on browsers without it.
+- **Audio** (`lib/speech.ts`) prefers an Azure neural voice
+  (`fr-FR-DeniseNeural`) when a Speech key is configured, because the French
+  voices shipped with most machines are compact and robotic. Each clip is
+  stored in the Cache API keyed by voice + text, so a word is synthesized once
+  and then replays instantly and offline; a session prefetches its words on
+  load. Speed is applied to playback, not to the request, so the speed slider
+  and "play slowly" never re-fetch. Falls back to the browser's
+  `speechSynthesis` with no key, offline on an unplayed word, or if autoplay is
+  blocked — and dictation falls back to typed recall on browsers with neither.
+  At ~10 characters a word, F0's 500k free characters/month is effectively
+  unlimited here.
 - **Offline.** The service worker precaches the app shell; the current
   session's cards are cached in localStorage; reviews that can't reach the
   server are graded locally for feedback (`grading.ts` mirrors the server) and
@@ -148,6 +182,16 @@ frontend/
   only when cards are due and there's been no review that day. Set
   `PUSH_CONTACT` (a `mailto:`/`https:` URL) in production. On iOS, push only
   works for the app added to the Home Screen.
+- **Daily new words are a pace, not a cap.** `ceil(weekly goal / 7)` words are
+  introduced per day (3/day at the default goal of 20). When that's used up,
+  the session-complete screen offers "Learn 5 extra new words", which passes
+  `extra_new` to `GET /cards/due` and unlocks that many past the pace. Raise
+  the weekly goal on the Goals screen to change the pace itself.
+- **Pronunciation scoring** (`app/routers/speech.py`, `lib/pronunciation.ts`):
+  optional, off unless `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION` are set — see
+  below. The browser records the word and Azure returns word- and
+  phoneme-level accuracy on the word detail page. Scores are shown and thrown
+  away: they never touch FSRS, so a bad mic can't wreck the schedule.
 - **New-word scaffolding.** A word's `production` card stays hidden
   (`introduced=False`) until its `recognition` card has been reviewed at
   least once — so brand-new words are always seen in recognition mode first.
@@ -164,7 +208,34 @@ frontend/
 - **Keyboard shortcuts.** 1–4 pick an MCQ answer, Enter checks/continues,
   P (Alt+P while typing) plays audio.
 
-## Running it
+## Running it with Docker
+
+```bash
+cp secrets/.env.example secrets/.env   # optional: Azure key for voice + scoring
+docker compose up -d --build
+```
+
+Nothing is published. `frontend` (nginx) joins the external `pangolin_proxy`
+network for Pangolin to route to on port 80, and reaches `backend` over a
+private `internal` network — so the API has no port of its own and, being
+same-origin behind nginx at `/api/`, needs no CORS config.
+
+`MAX_USERS` in `docker-compose.yml` caps how many accounts can ever exist, and
+ships as `1`: register once and registration closes with a 403. It's set there
+rather than in `secrets/.env` because Compose's `environment:` overrides
+`env_file:`. Unset, registration is open — and the app is internet-facing
+behind the proxy, where every account can spend the Azure quota.
+
+The SQLite DB and the VAPID key live on the `backend-data` volume via
+`DATA_DIR=/data`; `words.json` stays inside the image, so the volume can't
+shadow it. `secrets/.env` is optional: without it the app runs with the
+browser's built-in French voice and no pronunciation scoring.
+
+The `pangolin_proxy` network must already exist (`docker network create
+pangolin_proxy` if Pangolin hasn't made it). Note that microphone access needs
+HTTPS, which Pangolin terminates.
+
+## Running it for development
 
 ### Backend
 
@@ -202,3 +273,43 @@ absolute URL (the dev proxy only exists in `vite dev`), then:
 ```bash
 deno task build   # static PWA output in frontend/build/
 ```
+
+### Optional: pronunciation scoring (Azure Speech)
+
+Off by default. Without these two variables the backend returns 503 from
+`/speech/token` and the "Say it" panel never renders, so everything else
+works untouched.
+
+1. Create a **Speech** resource in the [Azure portal](https://portal.azure.com)
+   on the **F0 (free)** tier.
+2. Copy a key and its region, then start the backend with:
+
+```bash
+AZURE_SPEECH_KEY=<key> AZURE_SPEECH_REGION=<region, e.g. swedencentral> \
+  uv run uvicorn app.main:app --reload --port 8000
+```
+
+Or keep them in `backend/.env.speech` (gitignored) and source it:
+
+```bash
+set -a && . ./.env.speech && set +a
+uv run uvicorn app.main:app --reload --port 8000
+```
+
+The key stays server-side: `/speech/token` trades it for a 10-minute Azure
+token (cached for 9) that the browser uses directly.
+
+**Free tier.** F0 covers 5 audio hours per month of real-time speech to text,
+which pronunciation assessment
+[bills as](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/pronunciation-assessment-tool#pricing)
+for the accuracy, fluency and completeness scores used here. At ~3 seconds per
+attempt that's several thousand words a month. The prosody score is a paid
+add-on and is en-US only, so it isn't requested. The allowance resets monthly
+and doesn't roll over.
+
+Microsoft also hosts a no-code
+[pronunciation assessment demo](https://ai.azure.com/explore/aiservices/speech/pronunciationassessment)
+for whole sentences, which is worth a look but isn't wired into the app.
+
+**Microphone access needs a secure context**: `localhost` in dev, HTTPS for
+the installed PWA on a phone.

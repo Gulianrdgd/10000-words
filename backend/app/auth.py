@@ -6,6 +6,8 @@ single-user era, so auth just decides which user_id a request acts as.
 """
 import hashlib
 import hmac
+import logging
+import os
 import secrets
 import uuid
 
@@ -25,6 +27,8 @@ from app.models import (
     WordMastery,
 )
 from app.seed import ensure_cards
+
+log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -82,6 +86,23 @@ def _issue_token(db: Session, user: User) -> AuthResponse:
     return AuthResponse(token=token, username=user.username)
 
 
+def _max_users() -> int | None:
+    """MAX_USERS caps how many accounts can ever exist — the app is internet-
+    facing behind a proxy, and every account can spend the Azure quota. Unset
+    (the default) leaves registration open; 0 closes it entirely."""
+    raw = os.environ.get("MAX_USERS", "").strip()
+    if not raw:
+        return None
+    try:
+        return max(0, int(raw))
+    except ValueError:
+        log.warning("MAX_USERS=%r is not a number; leaving registration open", raw)
+        return None
+
+
+MAX_USERS = _max_users()
+
+
 def _claim_single_user_data(db: Session, user_id: str) -> bool:
     """The app used to be single-user, storing everything under "default".
     The first account registered on such a database inherits that history."""
@@ -98,7 +119,11 @@ def register(body: Credentials, db: Session = Depends(get_db)):
     if db.query(User).filter(User.username == username).first():
         raise HTTPException(status_code=409, detail="That username is taken")
 
-    is_first_user = db.query(User).count() == 0
+    existing_users = db.query(User).count()
+    if MAX_USERS is not None and existing_users >= MAX_USERS:
+        raise HTTPException(status_code=403, detail="Registration is closed.")
+
+    is_first_user = existing_users == 0
     user = User(id=uuid.uuid4().hex, username=username, password_hash=hash_password(body.password))
     db.add(user)
     db.flush()

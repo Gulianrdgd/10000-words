@@ -1,5 +1,12 @@
 <script lang="ts">
-	import { api, type ActivityDay, type GrowthResponse, type WordProgress } from '$lib/api';
+	import {
+		api,
+		getWordsCached,
+		type ActivityDay,
+		type GrowthResponse,
+		type PronunciationStats,
+		type WordProgress
+	} from '$lib/api';
 	import ActivityCalendar from '$lib/components/ActivityCalendar.svelte';
 	import ArticleWord from '$lib/components/ArticleWord.svelte';
 	import GrowthChart from '$lib/components/GrowthChart.svelte';
@@ -7,6 +14,7 @@
 	let growth = $state<GrowthResponse | null>(null);
 	let words = $state<WordProgress[]>([]);
 	let activity = $state<ActivityDay[]>([]);
+	let speech = $state<PronunciationStats | null>(null);
 	let loading = $state(true);
 	let error = $state<string | null>(null);
 	let filter = $state<'all' | 'mastered' | 'learning' | 'new'>('learning');
@@ -17,10 +25,11 @@
 		loading = true;
 		error = null;
 		try {
-			const [g, w, a] = await Promise.all([api.getGrowth(), api.getWords(), api.getActivity()]);
+			const [g, w, a] = await Promise.all([api.getGrowth(), getWordsCached(), api.getActivity()]);
 			growth = g;
 			words = w;
 			activity = a.days;
+			api.getPronunciationStats().then((s) => (speech = s), () => {});
 			if (!w.some((x) => !x.mastered && (x.recognition_mastery > 0 || x.production_mastery > 0))) filter = 'all';
 		} catch (e) {
 			error = (e as Error).message;
@@ -46,6 +55,9 @@
 			return true;
 		});
 	});
+
+	const scoreTone = (n: number) =>
+		n >= 80 ? 'text-good' : n >= 60 ? 'text-ink-200' : 'text-bad';
 
 	const filters = [
 		['learning', 'Learning'],
@@ -106,6 +118,53 @@
 				</p>
 			{/if}
 		</section>
+
+		{#if speech && speech.attempts > 0}
+			<section class="surface p-5">
+				<div class="flex items-baseline justify-between gap-4">
+					<p class="label">Pronunciation</p>
+					<p class="text-sm text-ink-500 tabular">
+						<span class="text-lg {scoreTone(speech.average_score ?? 0)}">{speech.average_score}</span>
+						avg over {speech.attempts} spoken
+					</p>
+				</div>
+
+				{#if speech.weak_phonemes.length > 0}
+					<p class="mt-5 text-sm text-ink-400">Sounds to work on</p>
+					<ul class="mt-2 flex flex-wrap gap-1.5">
+						{#each speech.weak_phonemes as p (p.phoneme)}
+							<li
+								class="rounded-lg bg-ink-950 px-2 py-1 text-sm ring-1 ring-inset ring-ink-800 tabular {scoreTone(p.average_accuracy)}"
+								title="{p.samples} samples"
+							>
+								{p.phoneme}
+								<span class="ml-1 text-xs opacity-70">{p.average_accuracy}</span>
+							</li>
+						{/each}
+					</ul>
+				{/if}
+
+				{#if speech.worst_words.length > 0}
+					<p class="mt-5 text-sm text-ink-400">Hardest to say</p>
+					<ul class="mt-2 divide-y divide-ink-800">
+						{#each speech.worst_words.slice(0, 8) as w (w.word_id)}
+							<li>
+								<a href="/words/{w.word_id}" class="flex items-center gap-3 py-2.5 transition-colors hover:text-ink-100">
+									<span class="flex-1 truncate">
+										<span class="font-serif text-lg text-ink-100">{w.display_lemma}</span>
+										<span class="ml-2 text-sm text-ink-500">{w.translation_en}</span>
+									</span>
+									<span class="text-xs text-ink-500 tabular">{w.attempts}×</span>
+									<span class="w-8 text-right text-sm tabular {scoreTone(w.average_score)}">
+										{w.average_score}
+									</span>
+								</a>
+							</li>
+						{/each}
+					</ul>
+				{/if}
+			</section>
+		{/if}
 
 		<section class="pt-5">
 			<h2 class="word text-2xl">Words</h2>

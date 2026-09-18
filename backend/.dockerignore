@@ -1,0 +1,17 @@
+.venv/
+**/__pycache__/
+**/*.pyc
+
+# local state and secrets — never baked into an image
+app/data/app.db
+app/data/vapid_private.pem
+.env.speech
+
+# dataset build inputs (large; words.json is already committed)
+scripts/*_raw.txt
+scripts/*.csv
+scripts/*.zip
+scripts/*.tsv
+scripts/*.tsv.bz2
+scripts/kaikki_gender_cache.json
+scripts/emojibase_en.json

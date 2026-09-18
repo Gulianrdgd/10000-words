@@ -18,7 +18,9 @@ PRODUCTION_MODE_UNLOCKS = {
 
 def pick_mode(card: Card, has_sentences: bool) -> int:
     if card.track == "recognition":
-        return 1
+        # First exposure is always the written word (mode 1); after that,
+        # alternate with listening (mode 6) so recognition isn't text-only.
+        return 1 if card.reps == 0 else random.choice([1, 6])
     unlocked = PRODUCTION_MODE_UNLOCKS.get(card.mastery_level, [2, 5, 3, 4])
     if not has_sentences:
         # Mode 3 (cloze) needs an example sentence to blank a word out of;
@@ -84,8 +86,14 @@ _STOPWORDS = {
 }
 
 
+_PUNCTUATION = ".,!?;:…«»\"()"
+# French typography (and Tatoeba) is full of non-breaking spaces, which a plain
+# split(" ") would swallow whole — blanking an entire sentence as one token.
+_SPACES = "\xa0  \t\n"
+
+
 def _normalize_token(token: str) -> str:
-    token = token.strip(".,!?;:…").lower()
+    token = token.strip(_PUNCTUATION).lower()
     if "'" in token:
         token = token.rsplit("'", 1)[-1]
     if "-" in token:
@@ -114,18 +122,35 @@ def _stem_matches(token: str, lemma: str) -> bool:
     return prefix_len >= min(3, len(stem))
 
 
+def _token_forms(token: str) -> list[str]:
+    """Every form a token could match on, most specific first.
+
+    A token is ambiguous in both directions: "viens-tu" is the verb in front,
+    "sous-effectif" is the word behind, and "aujourd'hui" is a lemma that
+    contains its own apostrophe, so the whole bare token is offered too.
+    """
+    bare = token.strip(_PUNCTUATION).lower()
+    forms = [bare, _normalize_token(token)]
+    if "'" in bare:
+        forms.append(bare.rsplit("'", 1)[-1])
+    if "-" in bare:
+        forms.extend(bare.split("-"))
+    return [f for f in dict.fromkeys(forms) if f]
+
+
 def _find_cloze_index(words: list[str], lemma: str) -> int:
     lemma = lemma.lower()
     normalized = [_normalize_token(w) for w in words]
+    forms = [_token_forms(w) for w in words]
 
-    for i, tok in enumerate(normalized):
-        if tok == lemma:
+    for i, token_forms in enumerate(forms):
+        if lemma in token_forms:
             return i
-    for i, tok in enumerate(normalized):
-        if IRREGULAR_VERB_FORMS.get(tok) == lemma:
+    for i, token_forms in enumerate(forms):
+        if any(IRREGULAR_VERB_FORMS.get(f) == lemma for f in token_forms):
             return i
-    for i, tok in enumerate(normalized):
-        if tok not in _STOPWORDS and _stem_matches(tok, lemma):
+    for i, token_forms in enumerate(forms):
+        if any(f not in _STOPWORDS and _stem_matches(f, lemma) for f in token_forms):
             return i
 
     # fallback: closest edit-distance token, ignoring function words
@@ -137,6 +162,30 @@ def _find_cloze_index(words: list[str], lemma: str) -> int:
     return min(candidates, key=lambda i: levenshtein(normalized[i], lemma))
 
 
+def _blank_core(core: str, lemma: str) -> tuple[str, str]:
+    """Blanks the part of a token that is actually the lemma, returning
+    (answer, display). Keeps an elided prefix ("j'ai" -> "j'____") and any
+    hyphenated neighbours ("viens-tu" -> "____-tu", "sur-le-champ" for `champ`
+    -> "sur-le-____"), but never splits a lemma that owns its own apostrophe
+    ("aujourd'hui")."""
+    target = lemma.lower()
+    if core.lower() == target:
+        return core, "____"
+    if "'" in core and "'" not in target:
+        prefix, _, rest = core.partition("'")
+        # recurse: "d'auto-détection" for `détection` is an elision wrapping a
+        # compound, and both halves need handling
+        answer, display = _blank_core(rest, lemma)
+        return answer, f"{prefix}'{display}"
+    if "-" in core:
+        parts = core.split("-")
+        for i, part in enumerate(parts):
+            if part.lower() == target or _stem_matches(part.lower(), target):
+                return part, "-".join("____" if j == i else p for j, p in enumerate(parts))
+        return parts[0], "-".join(["____", *parts[1:]])
+    return core, "____"
+
+
 def build_cloze(sentence_fr: str, lemma: str) -> tuple[str, str]:
     """Returns (sentence_with_blank, the_exact_word the learner must type).
 
@@ -144,24 +193,15 @@ def build_cloze(sentence_fr: str, lemma: str) -> tuple[str, str]:
     forms ("viens-tu" -> blank "viens", keep "-tu") so the blanked answer is
     always the bare word the learner is expected to produce.
     """
+    for space in _SPACES:
+        sentence_fr = sentence_fr.replace(space, " ")
     words = sentence_fr.split(" ")
     idx = _find_cloze_index(words, lemma)
     original = words[idx]
-    trailing = "".join(ch for ch in original if ch in ".,!?;:…")
+    trailing = "".join(ch for ch in original if ch in _PUNCTUATION)
     core = original[: len(original) - len(trailing)] if trailing else original
 
-    if "'" in core:
-        prefix, _, rest = core.partition("'")
-        answer = rest
-        display = f"{prefix}'____"
-    elif "-" in core:
-        verb_part, _, rest = core.partition("-")
-        answer = verb_part
-        display = f"____-{rest}"
-    else:
-        answer = core
-        display = "____"
-
+    answer, display = _blank_core(core, lemma)
     words[idx] = display + trailing
     return " ".join(words), answer
 

@@ -4,6 +4,9 @@
 	import TypedCard from '$lib/components/review/TypedCard.svelte';
 	import DictationCard from '$lib/components/review/DictationCard.svelte';
 	import FreeProductionCard from '$lib/components/review/FreeProductionCard.svelte';
+	import SpokenCard from '$lib/components/review/SpokenCard.svelte';
+	import ListenCard from '$lib/components/review/ListenCard.svelte';
+	import { pronunciationAvailable } from '$lib/pronunciation';
 	import FeedbackBanner from '$lib/components/review/FeedbackBanner.svelte';
 	import {
 		flushQueue,
@@ -13,7 +16,14 @@
 		sync
 	} from '$lib/offline.svelte';
 	import { settings } from '$lib/settings.svelte';
-	import { speechSupported } from '$lib/speech';
+	import { prefetch, speechSupported } from '$lib/speech';
+
+	/** How many words "learn extra" unlocks past the daily pace, per press. */
+	const EXTRA_NEW_WORDS = 5;
+
+	/** Speaking needs Azure and a live connection; offline falls back to typing. */
+	let canSpeak = $state(false);
+	pronunciationAvailable().then((ok) => (canSpeak = ok));
 
 	let queue = $state<DueCard[]>([]);
 	let loading = $state(true);
@@ -26,26 +36,32 @@
 	let fromCache = $state(false);
 	let sessionTotal = $state(0);
 
-	// Dictation needs speech synthesis; without it, fall back to plain typed recall.
+	// Dictation and listening need audio from somewhere; without any voice at
+	// all, fall back to modes that read on screen.
 	const current = $derived.by(() => {
 		const card = queue[0];
-		if (card && card.mode === 5 && !speechSupported) return { ...card, mode: 2 as const };
-		return card ?? null;
+		if (!card) return null;
+		const hasAudio = speechSupported || canSpeak;
+		if (card.mode === 5 && !hasAudio) return { ...card, mode: 2 as const };
+		if (card.mode === 6 && !hasAudio) return { ...card, mode: 1 as const };
+		return card;
 	});
 	let answering = false;
 
-	async function loadSession() {
+	async function loadSession(extraNew = 0) {
 		loading = true;
 		error = null;
 		await flushQueue();
 		try {
-			const res = await api.getDueCards(settings.sessionSize);
+			const res = await api.getDueCards(settings.sessionSize, extraNew);
 			queue = res.cards;
 			sessionTotal = queue.length;
 			dailyNewLimit = res.daily_new_word_limit;
 			newIntroducedToday = res.new_words_introduced_today;
 			fromCache = false;
 			saveSessionCards(queue);
+			// warm the audio cache for this session in the background
+			prefetch(queue.flatMap((c) => [c.display_lemma, c.sentence?.fr ?? '']));
 		} catch (e) {
 			const cached = loadSessionCards();
 			if (cached.length > 0) {
@@ -66,6 +82,8 @@
 		correct?: boolean;
 		typedAnswer?: string;
 		selfReportedCorrect?: boolean;
+		pronunciationScore?: number;
+		phonemes?: { p: string; a: number }[];
 		latencyMs: number;
 	}) {
 		if (!current || answering) return;
@@ -75,6 +93,9 @@
 		if (payload.typedAnswer !== undefined) body.typed_answer = payload.typedAnswer;
 		if (payload.selfReportedCorrect !== undefined)
 			body.self_reported_correct = payload.selfReportedCorrect;
+		if (payload.pronunciationScore !== undefined)
+			body.pronunciation_score = payload.pronunciationScore;
+		if (payload.phonemes !== undefined) body.phonemes = payload.phonemes;
 
 		try {
 			const result = await submitReview(current, body, payload.typedAnswer);
@@ -120,7 +141,7 @@
 				? `Couldn't reach the server: ${error}`
 				: "You're offline and there's no saved session on this device yet."}
 		</p>
-		<button onclick={loadSession} class="btn-quiet">Try again</button>
+		<button onclick={() => loadSession()} class="btn-quiet">Try again</button>
 	</div>
 {:else if current}
 	<div class="mb-8 space-y-2.5">
@@ -147,6 +168,10 @@
 		<div class="animate-enter pb-72">
 			{#if current.mode === 1}
 				<McqCard card={current} onAnswer={handleAnswer} />
+			{:else if current.mode === 6}
+				<ListenCard card={current} onAnswer={handleAnswer} />
+			{:else if canSpeak && sync.online && (current.mode !== 4 || current.sentence)}
+				<SpokenCard card={current} onAnswer={handleAnswer} />
 			{:else if current.mode === 2 || current.mode === 3}
 				<TypedCard card={current} onAnswer={handleAnswer} />
 			{:else if current.mode === 5}
@@ -182,13 +207,24 @@
 				New words unlock each day based on your weekly goal. Come back later, or check again now.
 			</p>
 		{/if}
+		{#if !fromCache && dailyNewLimit > 0 && newIntroducedToday >= dailyNewLimit}
+			<p class="mt-4 max-w-[34ch] text-sm text-ink-500">
+				You've met today's pace of {dailyNewLimit} new word{dailyNewLimit === 1 ? '' : 's'}. Spacing them out is
+				what makes them stick — but you can push ahead.
+			</p>
+		{/if}
 		{#if sync.pending > 0}
 			<p class="mt-4 text-sm text-bad">
 				{sync.pending} review{sync.pending === 1 ? '' : 's'} waiting to sync
 			</p>
 		{/if}
-		<button onclick={loadSession} class="btn-primary mt-8 w-full">
+		<button onclick={() => loadSession()} class="btn-primary mt-8 w-full">
 			{reviewedCount > 0 ? `Keep going · ${settings.sessionSize} more` : 'Check again'}
 		</button>
+		{#if !fromCache && dailyNewLimit > 0 && newIntroducedToday >= dailyNewLimit}
+			<button onclick={() => loadSession(EXTRA_NEW_WORDS)} class="btn-quiet mt-2 w-full">
+				Learn {EXTRA_NEW_WORDS} extra new words
+			</button>
+		{/if}
 	</div>
 {/if}

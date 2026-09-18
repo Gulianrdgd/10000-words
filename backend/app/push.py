@@ -12,7 +12,6 @@ import json
 import logging
 import os
 from datetime import datetime, timezone
-from pathlib import Path
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from cryptography.hazmat.primitives import serialization
@@ -24,7 +23,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.auth import get_current_user_id
-from app.database import SessionLocal, get_db
+from app.database import DATA_DIR, SessionLocal, get_db
 from app.fsrs_engine import _as_utc
 from app.models import Card, PushSubscription, Review
 
@@ -32,7 +31,7 @@ log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/push", tags=["push"])
 
-VAPID_KEY_PATH = Path(__file__).parent / "data" / "vapid_private.pem"
+VAPID_KEY_PATH = DATA_DIR / "vapid_private.pem"
 PUSH_CONTACT = os.environ.get("PUSH_CONTACT", "mailto:admin@localhost")
 CHECK_INTERVAL_SECONDS = 300
 
