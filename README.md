@@ -1,5 +1,7 @@
 # 1000 Mots — French Vocabulary Trainer
 
+> Disclaimer: This has been completely vibe coded. I just needed something that helped me with learning french.
+
 A spaced-repetition French vocabulary app: FastAPI + SQLite backend running
 [FSRS](https://github.com/open-spaced-repetition/py-fsrs) scheduling, and a
 SvelteKit + Tailwind PWA frontend for the review/goals/progress screens.
