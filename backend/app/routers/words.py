@@ -38,6 +38,8 @@ class TrackState(BaseModel):
     lapses: int
     due_date: datetime | None
     last_review: datetime | None
+    # FSRS days-until-90%-recall; mastery is judged on this, not mastery_level
+    stability_days: float | None
 
 
 class ReviewEntry(BaseModel):
@@ -134,6 +136,7 @@ def word_detail(word_id: str, db: Session = Depends(get_db), user_id: str = Depe
                 lapses=c.lapses,
                 due_date=_as_utc(c.due_date),
                 last_review=_as_utc(c.last_review),
+                stability_days=round(c.stability, 1) if c.stability else None,
             )
             for c in cards
         ],

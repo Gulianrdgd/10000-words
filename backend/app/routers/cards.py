@@ -1,14 +1,15 @@
+import json
 import math
 from datetime import date, datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app import streaks
 from app.auth import get_current_user_id
 from app.database import get_db
-from app.fsrs_engine import _as_utc, apply_review, levenshtein, rating_for_answer
+from app.fsrs_engine import _as_utc, apply_review, levenshtein, rating_for_answer, rating_for_spoken
 from app.gender import display_form, gender_correct, production_answer, split_article
 from app.models import Card, Review, UserStreak, Word, WordMastery
 from app.schemas import DueCard, DueCardsResponse, ReviewRequest, ReviewResponse, Sentence
@@ -17,9 +18,23 @@ from app.weekly import current_week_target
 
 router = APIRouter(prefix="/cards", tags=["cards"])
 
+# Azure accuracy below this fails the card, however right the transcription is.
+PRONUNCIATION_PASS = 70
+
+# A word counts as mastered once FSRS says both its cards would still be
+# recalled with 90% probability this many days from now.
+MASTERY_STABILITY_DAYS = 21.0
+
 
 @router.get("/due", response_model=DueCardsResponse)
-def get_due_cards(limit: int = 30, db: Session = Depends(get_db), user_id: str = Depends(get_current_user_id)):
+def get_due_cards(
+    limit: int = 30,
+    extra_new: int = Query(default=0, ge=0, le=50),
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
+):
+    """`extra_new` unlocks that many words beyond today's pace, when the user
+    explicitly asks to keep learning. The daily limit is a default, not a cap."""
     now = datetime.now(timezone.utc)
     today = date.today()
 
@@ -37,7 +52,7 @@ def get_due_cards(limit: int = 30, db: Session = Depends(get_db), user_id: str =
         .scalar()
         or 0
     )
-    remaining_new = max(0, daily_new_word_limit - new_words_today)
+    remaining_new = max(0, daily_new_word_limit - new_words_today) + extra_new
 
     due_cards = (
         db.query(Card)
@@ -77,7 +92,8 @@ def get_due_cards(limit: int = 30, db: Session = Depends(get_db), user_id: str =
         cloze_sentence = None
         expected_answer = None
 
-        if mode == 1:
+        if mode in (1, 6):
+            # mode 6 is the same choice of translations, prompted by audio
             options = build_mcq_options(word, all_words)
             card.pending_answer = None
         elif mode == 3:
@@ -134,8 +150,19 @@ def _grade_typed(word: Word, typed: str) -> tuple[bool, bool, bool | None, str]:
 
 
 def _mastered(db: Session, user_id: str, word_id: str) -> bool:
+    """Mastery is FSRS's own memory estimate, not a tally of right answers.
+
+    `stability` is the number of days until recall probability decays to 90%,
+    so this asks "would I still know this in three weeks?" — which counts four
+    correct answers seconds apart very differently from four spread over
+    months. Both tracks must clear it: recognizing a word isn't producing it.
+    """
     both_cards = db.query(Card).filter(Card.user_id == user_id, Card.word_id == word_id).all()
-    return all(c.mastery_level >= 4 for c in both_cards) and len(both_cards) == 2
+    if len(both_cards) != 2:
+        return False
+    return all(
+        c.reps > 0 and (c.stability or 0.0) >= MASTERY_STABILITY_DAYS for c in both_cards
+    )
 
 
 def _replayed_response(db: Session, user_id: str, card: Card, review: Review) -> ReviewResponse:
@@ -193,12 +220,24 @@ def submit_review(
         dist = levenshtein(body.typed_answer or "", expected_answer)
         correct = dist <= 1
         near_miss = dist == 1
+    elif body.mode == 4 and body.pronunciation_score is not None:
+        # spoken mode 4: reading the example sentence aloud, graded purely on
+        # how it sounded — there's no single right answer to match text against
+        expected_answer = body.expected_answer
+        correct = body.pronunciation_score >= PRONUNCIATION_PASS
     else:
-        # mode 1 (MCQ, graded client-side against the revealed options) and
-        # mode 4 (free production, honest self-report per the plan)
+        # modes 1 and 6 (choice, graded client-side against the revealed
+        # options) and typed mode 4 (free production, honest self-report)
         correct = bool(body.self_reported_correct if body.mode == 4 else body.correct)
 
-    rating = rating_for_answer(correct, body.latency_ms, near_miss)
+    # A spoken answer has to be both the right word and intelligibly pronounced:
+    # Azure will happily transcribe a mangled attempt into the correct spelling.
+    if body.pronunciation_score is not None and body.mode in (2, 3, 4, 5):
+        if body.mode != 4:  # mode 4 was already graded on the score alone
+            correct = correct and body.pronunciation_score >= PRONUNCIATION_PASS
+        rating = rating_for_spoken(correct, body.pronunciation_score)
+    else:
+        rating = rating_for_answer(correct, body.latency_ms, near_miss)
     was_first_review = card.reps == 0
 
     updated, interval_days = apply_review(card, rating, reviewed_at)
@@ -244,6 +283,10 @@ def submit_review(
             latency_ms=body.latency_ms,
             rating=int(rating),
             timestamp=reviewed_at,
+            pronunciation_score=body.pronunciation_score,
+            phonemes_json=(
+                json.dumps([p.model_dump() for p in body.phonemes]) if body.phonemes else None
+            ),
         )
     )
 

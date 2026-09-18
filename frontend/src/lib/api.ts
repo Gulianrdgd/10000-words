@@ -68,7 +68,7 @@ export interface DueCard {
 	display_lemma: string;
 	emoji: string | null;
 	track: 'recognition' | 'production';
-	mode: 1 | 2 | 3 | 4 | 5;
+	mode: 1 | 2 | 3 | 4 | 5 | 6;
 	is_new: boolean;
 	mastery_level: number;
 	sentence: Sentence | null;
@@ -90,6 +90,8 @@ export interface ReviewRequest {
 	typed_answer?: string;
 	self_reported_correct?: boolean;
 	expected_answer?: string;
+	pronunciation_score?: number;
+	phonemes?: { p: string; a: number }[];
 	client_review_id?: string;
 	reviewed_at?: string;
 }
@@ -146,6 +148,29 @@ export interface ActivityDay {
 	correct: number;
 }
 
+export interface SpokenWordStat {
+	word_id: string;
+	lemma: string;
+	display_lemma: string;
+	translation_en: string;
+	average_score: number;
+	last_score: number;
+	attempts: number;
+}
+
+export interface PhonemeStat {
+	phoneme: string;
+	average_accuracy: number;
+	samples: number;
+}
+
+export interface PronunciationStats {
+	attempts: number;
+	average_score: number | null;
+	worst_words: SpokenWordStat[];
+	weak_phonemes: PhonemeStat[];
+}
+
 export interface WordProgress {
 	id: string;
 	lemma: string;
@@ -180,6 +205,8 @@ export interface WordDetail {
 		lapses: number;
 		due_date: string | null;
 		last_review: string | null;
+		/** FSRS days until recall drops to 90% — what mastery is judged on */
+		stability_days: number | null;
 	}[];
 	reviews: {
 		timestamp: string;
@@ -205,6 +232,30 @@ export interface PushStatus {
 const post = <T>(path: string, body: unknown) =>
 	request<T>(path, { method: 'POST', body: JSON.stringify(body) });
 
+/**
+ * The full deck is ~2.4 MB of JSON (gzipped to ~220 KB by the server), so it's
+ * held for the life of the page: navigating progress -> word -> back is
+ * instant instead of refetching. Stale-while-revalidate — the cached copy is
+ * returned at once and a refresh runs behind it, since mastery shifts with
+ * every review.
+ */
+let wordsCache: WordProgress[] | null = null;
+
+function refreshWords(): Promise<WordProgress[]> {
+	return request<WordProgress[]>('/words').then((w) => (wordsCache = w));
+}
+
+export function getWordsCached(): Promise<WordProgress[]> {
+	if (!wordsCache) return refreshWords();
+	const cached = wordsCache;
+	refreshWords().catch(() => {});
+	return Promise.resolve(cached);
+}
+
+export function clearWordsCache() {
+	wordsCache = null;
+}
+
 export const api = {
 	register: (username: string, password: string) =>
 		post<AuthResponse>('/auth/register', { username, password }),
@@ -213,7 +264,8 @@ export const api = {
 	logout: () => post<{ ok: boolean }>('/auth/logout', {}),
 	me: () => request<{ username: string }>('/auth/me'),
 
-	getDueCards: (limit = 30) => request<DueCardsResponse>(`/cards/due?limit=${limit}`),
+	getDueCards: (limit = 30, extraNew = 0) =>
+		request<DueCardsResponse>(`/cards/due?limit=${limit}&extra_new=${extraNew}`),
 	submitReview: (cardId: number, body: ReviewRequest) =>
 		post<ReviewResponse>(`/cards/${cardId}/review`, body),
 	getCurrentGoal: () => request<GoalResponse>('/goals/current'),
@@ -221,8 +273,11 @@ export const api = {
 	getWeekReview: (week: string) => request<WeekReviewResponse>(`/goals/${week}/review`),
 	getGrowth: () => request<GrowthResponse>('/stats/growth'),
 	getActivity: (days = 140) => request<{ days: ActivityDay[] }>(`/stats/activity?days=${days}`),
+	getPronunciationStats: () => request<PronunciationStats>('/stats/pronunciation'),
 	getWords: () => request<WordProgress[]>('/words'),
 	getWord: (id: string) => request<WordDetail>(`/words/${encodeURIComponent(id)}`),
+
+	getSpeechToken: () => request<{ token: string; region: string }>('/speech/token'),
 
 	getPushPublicKey: () => request<{ public_key: string }>('/push/public-key'),
 	getPushStatus: (endpoint: string) =>

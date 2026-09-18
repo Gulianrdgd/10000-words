@@ -3,10 +3,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 
 from app import auth, push
 from app.database import SessionLocal, engine
-from app.routers import cards, goals, stats, words
+from app.routers import cards, goals, speech, stats, words
 from app.seed import ensure_cards_for_all_users, sync_words, upgrade_schema
 
 
@@ -26,6 +27,9 @@ async def lifespan(_app: FastAPI):
 
 app = FastAPI(title="French Vocabulary API", lifespan=lifespan)
 
+# /words is ~2.4 MB of JSON for the full deck; it compresses ~15x.
+app.add_middleware(GZipMiddleware, minimum_size=1024)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -38,6 +42,7 @@ app.include_router(cards.router)
 app.include_router(goals.router)
 app.include_router(stats.router)
 app.include_router(words.router)
+app.include_router(speech.router)
 app.include_router(push.router)
 
 
