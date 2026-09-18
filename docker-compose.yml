@@ -1,0 +1,38 @@
+services:
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      # Pangolin reaches this container on port 80; nothing is published here
+      - pangolin_proxy
+      - internal
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file:
+      # Azure Speech key + region. Optional: without it, pronunciation scoring
+      # is hidden and audio falls back to the browser's built-in voice.
+      - path: ./secrets/.env
+        required: false
+    environment:
+      DATA_DIR: /data
+      # One account, then registration closes. This is the only place to
+      # change it: `environment` overrides `env_file`, so setting MAX_USERS in
+      # secrets/.env would be silently ignored.
+      MAX_USERS: "1"
+    volumes:
+      - backend-data:/data
+    networks:
+      # deliberately not on pangolin_proxy: only the frontend can reach it
+      - internal
+
+volumes:
+  backend-data:
+
+networks:
+  pangolin_proxy:
+    external: true
+  internal:
