@@ -48,7 +48,7 @@
 
 <div class="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-10 animate-rise px-3 pb-2" role="status">
 	<div
-		class="mx-auto max-w-md rounded-card bg-ink-900/95 p-4 shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.7)] ring-1 ring-inset backdrop-blur-md {result.correct
+		class="mx-auto max-h-[calc(100dvh-9rem)] max-w-md overflow-y-auto rounded-card bg-ink-900/95 p-4 shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.7)] ring-1 ring-inset backdrop-blur-md {result.correct
 			? 'ring-good/40'
 			: 'ring-bad/40'}"
 	>

@@ -61,8 +61,8 @@
 
 <svelte:window {onkeydown} />
 
-<div class="space-y-9">
-	<div class="space-y-6">
+<div class="space-y-6 sm:space-y-9">
+	<div class="space-y-4 sm:space-y-6">
 		<PromptLabel text="What did you hear?" pos={card.pos} />
 		<div class="flex flex-col items-center gap-4">
 			<button

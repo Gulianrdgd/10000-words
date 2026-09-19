@@ -33,7 +33,7 @@
 	}
 </script>
 
-<div class="space-y-9">
+<div class="space-y-6 sm:space-y-9">
 	<div class="space-y-6">
 		{#if card.mode === 3 && card.cloze_sentence}
 			<PromptLabel text="Complete the sentence" pos={card.pos} />

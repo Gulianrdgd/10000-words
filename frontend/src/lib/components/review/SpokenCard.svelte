@@ -62,7 +62,7 @@
 	$effect(() => recorder.dispose);
 </script>
 
-<div class="space-y-9">
+<div class="space-y-6 sm:space-y-9">
 	<div class="space-y-6">
 		{#if card.mode === 4 && card.sentence}
 			<PromptLabel text="Read this out loud" pos={card.pos} />

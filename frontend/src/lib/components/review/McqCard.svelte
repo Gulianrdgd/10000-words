@@ -52,8 +52,8 @@
 
 <svelte:window {onkeydown} />
 
-<div class="space-y-9">
-	<div class="space-y-6">
+<div class="space-y-6 sm:space-y-9">
+	<div class="space-y-4 sm:space-y-6">
 		<PromptLabel text="What does this mean?" pos={card.pos} />
 		<WordHero lemma={card.lemma} displayLemma={card.display_lemma} gender={card.gender} emoji={card.emoji} />
 		{#if card.sentence}

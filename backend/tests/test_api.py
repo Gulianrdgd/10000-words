@@ -6,6 +6,7 @@ import os
 import pytest
 
 from app import auth
+from app.routers import speech
 
 
 def _due(client, headers, **params):
@@ -201,6 +202,18 @@ def test_assess_needs_a_reference_text(client, auth):
     assert (
         client.post("/speech/assess?reference_text=", content=b"a", headers=auth).status_code == 422
     )
+
+
+def test_assess_rejects_an_oversized_recording(client, auth, monkeypatch):
+    """Bounded so a signed-in client can't have the server hold gigabytes in
+    memory, or spend Azure quota on them."""
+    monkeypatch.setenv("AZURE_SPEECH_KEY", "test-key")
+    monkeypatch.setenv("AZURE_SPEECH_REGION", "testregion")
+    oversized = b"\0" * (speech.MAX_AUDIO_BYTES + 1024)
+    res = client.post(
+        "/speech/assess?reference_text=la%20maison", content=oversized, headers=auth
+    )
+    assert res.status_code == 413
 
 
 def test_assess_rejects_an_empty_recording(client, auth, monkeypatch):

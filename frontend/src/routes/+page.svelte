@@ -161,7 +161,7 @@
 		<button onclick={() => loadSession()} class="btn-quiet">Try again</button>
 	</div>
 {:else if current}
-	<div class="mb-8 space-y-2.5">
+	<div class="mb-5 space-y-2.5 sm:mb-8">
 		<div class="h-1.5 w-full overflow-hidden rounded-full bg-ink-850">
 			<div
 				class="h-full rounded-full bg-paper transition-[width] duration-500 ease-out"
@@ -182,7 +182,10 @@
 	</div>
 
 	{#key current.card_id}
-		<div class="animate-enter pb-72">
+		<!-- Only reserve room for the feedback banner while it's actually up;
+		     padding it out unconditionally left a screen of dead space below
+		     every card and forced scrolling on a phone. -->
+		<div class="animate-enter {feedback ? 'pb-72' : 'pb-8'}">
 			{#if current.mode === 1}
 				<McqCard card={current} onAnswer={handleAnswer} />
 			{:else if current.mode === 6}

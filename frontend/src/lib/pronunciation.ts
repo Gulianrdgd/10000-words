@@ -222,6 +222,10 @@ export async function assessRecording(referenceText: string, clip: Blob): Promis
 	const best = json.NBest?.[0];
 	if (!best) throw new Error("Didn't catch that — say it again, a little slower.");
 
+	// The REST API puts these flat on NBest[0]; only the SDK nests them under a
+	// PronunciationAssessment object. Verified against live responses — see
+	// backend/scripts/verify_pronunciation.py, which fails if this drifts.
+
 	return {
 		pronunciation: Math.round(best.PronScore ?? 0),
 		accuracy: Math.round(best.AccuracyScore ?? 0),

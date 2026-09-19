@@ -15,6 +15,7 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi.concurrency import run_in_threadpool
 
 from app.auth import get_current_user_id
 from app.schemas import SpeechToken
@@ -24,7 +25,16 @@ router = APIRouter(prefix="/speech", tags=["speech"])
 # Azure issues 10-minute tokens; refresh a little early.
 TOKEN_LIFETIME = timedelta(minutes=9)
 
+# A 10s clip of 16kHz mono PCM is ~320KB; this leaves generous headroom while
+# keeping an authenticated client from uploading something enormous.
+MAX_AUDIO_BYTES = 2 * 1024 * 1024
+
 _cached: tuple[str, datetime] | None = None
+
+
+def _send(request: urllib.request.Request) -> bytes:
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return response.read()
 
 
 def _issue_token(key: str, region: str) -> str:
@@ -48,13 +58,28 @@ async def assess(
     Going through the backend rather than calling Azure from the browser keeps
     the request same-origin (no CORS preflight on a cross-origin POST carrying
     an audio body) and means the subscription key never reaches the browser.
+
+    Note this scores whatever audio it is given: it is not tied to a card, and
+    nothing stops a signed-in client sending a different recording, or skipping
+    this entirely and posting a made-up pronunciation_score to the review
+    endpoint. Binding the two (a single-use assertion, or scoring inside the
+    review call) is the fix if that ever matters. It doesn't here: MAX_USERS is
+    1, so the only person who could game it is the one whose own learning
+    schedule it corrupts — the same reason mode 4 accepts a self-report.
     """
     key = os.environ.get("AZURE_SPEECH_KEY")
     region = os.environ.get("AZURE_SPEECH_REGION")
     if not key or not region:
         raise HTTPException(status_code=503, detail="Pronunciation scoring is not configured.")
 
-    audio = await request.body()
+    # Streamed with a cap rather than buffered wholesale: an authenticated
+    # client could otherwise post gigabytes and have us hold them in memory
+    # before spending Azure quota on them.
+    audio = bytearray()
+    async for chunk in request.stream():
+        audio.extend(chunk)
+        if len(audio) > MAX_AUDIO_BYTES:
+            raise HTTPException(status_code=413, detail="Recording is too long.")
     if not audio:
         raise HTTPException(status_code=400, detail="No audio received.")
 
@@ -74,7 +99,7 @@ async def assess(
     proxied = urllib.request.Request(
         f"https://{region}.stt.speech.microsoft.com/speech/recognition/conversation"
         f"/cognitiveservices/v1?language=fr-FR&format=detailed",
-        data=audio,
+        data=bytes(audio),
         headers={
             "Ocp-Apim-Subscription-Key": key,
             "Content-Type": content_type,
@@ -83,8 +108,9 @@ async def assess(
         },
     )
     try:
-        with urllib.request.urlopen(proxied, timeout=30) as response:
-            return json.loads(response.read())
+        # urlopen blocks, and this is an async handler: without the threadpool a
+        # slow Azure call would stall every other request for up to 30 seconds.
+        return json.loads(await run_in_threadpool(_send, proxied))
     except urllib.error.HTTPError as e:
         detail = e.read().decode(errors="replace")[:200]
         raise HTTPException(status_code=502, detail=f"Azure returned {e.code}: {detail}") from e
