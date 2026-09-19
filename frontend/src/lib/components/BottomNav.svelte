@@ -9,12 +9,20 @@
 		{ href: '/settings', label: 'Settings', icon: 'M4 7h9m4 0h3M4 17h3m4 0h9M15 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM9 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' }
 	];
 
+	/** Published as --nav-h so the layout and the feedback banner can sit above
+	 *  the nav without either of them hardcoding its height. */
+	let height = $state(0);
+	$effect(() => {
+		document.documentElement.style.setProperty('--nav-h', `${height}px`);
+	});
+
 	function active(href: string, path: string) {
 		return href === '/' ? path === '/' : path.startsWith(href) || (href === '/progress' && path.startsWith('/words'));
 	}
 </script>
 
 <nav
+	bind:clientHeight={height}
 	class="fixed inset-x-0 bottom-0 z-20 border-t border-ink-800/80 bg-ink-950/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-md"
 >
 	<div class="mx-auto flex max-w-md px-2">

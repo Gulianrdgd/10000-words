@@ -26,7 +26,7 @@
 </script>
 
 {#if signedIn}
-	<div class="relative z-[1] mx-auto flex min-h-[100dvh] max-w-md flex-col pb-20 sm:pb-24">
+	<div class="relative z-[1] mx-auto flex min-h-[100dvh] max-w-md flex-col pb-[calc(var(--nav-h,5rem)+0.5rem)]">
 		<main class="flex-1 px-5 pt-[max(1.5rem,env(safe-area-inset-top))]">
 			{@render children()}
 		</main>

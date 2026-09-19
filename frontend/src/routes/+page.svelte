@@ -35,6 +35,8 @@
 	let typedFallbackFor = $state<number | null>(null);
 	/** The spoken score for the card just answered, shown in the feedback. */
 	let lastAssessment = $state<Assessment | null>(null);
+	/** Measured from the banner itself — see the padding note below. */
+	let bannerHeight = $state(0);
 
 	let queue = $state<DueCard[]>([]);
 	let loading = $state(true);
@@ -182,10 +184,11 @@
 	</div>
 
 	{#key current.card_id}
-		<!-- Only reserve room for the feedback banner while it's actually up;
-		     padding it out unconditionally left a screen of dead space below
-		     every card and forced scrolling on a phone. -->
-		<div class="animate-enter {feedback ? 'pb-72' : 'pb-8'}">
+		<!-- Reserves exactly the height the banner reports, and nothing when it
+		     isn't up. A fixed reserve was either dead space (it was 288px, most
+		     of a phone screen) or too small once a spoken result made the banner
+		     taller. -->
+		<div class="animate-enter" style:padding-bottom="{feedback ? bannerHeight + 16 : 32}px">
 			{#if current.mode === 1}
 				<McqCard card={current} onAnswer={handleAnswer} />
 			{:else if current.mode === 6}
@@ -207,7 +210,13 @@
 	{/key}
 
 	{#if feedback}
-		<FeedbackBanner result={feedback} card={current} assessment={lastAssessment} onContinue={next} />
+		<FeedbackBanner
+			result={feedback}
+			card={current}
+			assessment={lastAssessment}
+			bind:height={bannerHeight}
+			onContinue={next}
+		/>
 	{/if}
 {:else}
 	<div class="flex min-h-[65dvh] animate-enter flex-col justify-center">
