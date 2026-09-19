@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { DueCard, ReviewResponse } from '$lib/api';
+	import type { Assessment } from '$lib/pronunciation';
 	import ArticleWord from '$lib/components/ArticleWord.svelte';
 	import SpeakButton from '$lib/components/SpeakButton.svelte';
 	import { settings } from '$lib/settings.svelte';
@@ -8,12 +9,18 @@
 	let {
 		result,
 		card,
+		assessment = null,
 		onContinue
 	}: {
 		result: ReviewResponse;
 		card: DueCard;
+		/** Present when the answer was spoken: what Azure heard and scored. */
+		assessment?: Assessment | null;
 		onContinue: () => void;
 	} = $props();
+
+	const tone = (score: number) =>
+		score >= 80 ? 'text-good' : score >= 60 ? 'text-ink-200' : 'text-bad';
 
 	// What to read aloud: the full sentence for cloze, otherwise the word with its article.
 	const audioText = $derived(
@@ -85,6 +92,39 @@
 			</div>
 			<SpeakButton text={audioText} size="sm" />
 		</div>
+
+		{#if assessment}
+			<div class="mt-3 rounded-xl bg-ink-950/60 p-3">
+				<div class="flex items-baseline justify-between">
+					<p class="label">Pronunciation</p>
+					<p class="tabular">
+						<span class="text-2xl font-semibold {tone(assessment.pronunciation)}">
+							{assessment.pronunciation}
+						</span><span class="text-xs text-ink-500"> / 100</span>
+					</p>
+				</div>
+				<dl class="mt-2 flex gap-4 text-xs text-ink-500 tabular">
+					{#each [['accuracy', assessment.accuracy], ['fluency', assessment.fluency], ['complete', assessment.completeness]] as [name, score] (name)}
+						<div class="flex gap-1">
+							<dt>{name}</dt>
+							<dd class={tone(score as number)}>{score}</dd>
+						</div>
+					{/each}
+				</dl>
+				{#if assessment.words.length > 0}
+					<p class="mt-2.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+						{#each assessment.words as w (w.word)}
+							<span class="font-serif text-lg {tone(w.accuracy)}">
+								{w.word}<span class="ml-0.5 text-[0.6875rem] opacity-70 tabular">{w.accuracy}</span>
+							</span>
+						{/each}
+					</p>
+				{/if}
+				{#if assessment.recognized}
+					<p class="mt-1.5 truncate text-xs text-ink-500">Heard: “{assessment.recognized}”</p>
+				{/if}
+			</div>
+		{/if}
 
 		<div class="mt-3 flex items-center justify-between text-xs text-ink-500 tabular">
 			{#if result.offline}

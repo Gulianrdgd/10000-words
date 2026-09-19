@@ -190,8 +190,9 @@ frontend/
 - **Pronunciation scoring** (`app/routers/speech.py`, `lib/pronunciation.ts`):
   optional, off unless `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION` are set — see
   below. The browser records the word and Azure returns word- and
-  phoneme-level accuracy on the word detail page. Scores are shown and thrown
-  away: they never touch FSRS, so a bad mic can't wreck the schedule.
+  phoneme-level accuracy. On the word detail page this is practice only; in a
+  spoken review the same score decides pass/fail and the FSRS rating, and is
+  stored per review (see **Spoken answers** and **Pronunciation history**).
 - **New-word scaffolding.** A word's `production` card stays hidden
   (`introduced=False`) until its `recognition` card has been reviewed at
   least once — so brand-new words are always seen in recognition mode first.

@@ -58,6 +58,7 @@
 	</div>
 
 	<textarea
+		aria-label="Your own French sentence"
 		bind:value={draft}
 		rows="3"
 		lang="fr"

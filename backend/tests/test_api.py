@@ -104,6 +104,51 @@ def test_a_review_replayed_offline_is_only_applied_once(client, auth):
     assert first["mastery_level"] == second["mastery_level"]
 
 
+# --- the client can't grade a card however it likes ---------------------------
+
+
+def test_a_recognition_card_cannot_be_self_reported(client, auth):
+    """Mode 4 is an honour-system self-report. Accepting it on a recognition
+    card would let any client mark words known without being graded."""
+    card = _due(client, auth)["cards"][0]
+    assert card["track"] == "recognition"
+    res = client.post(
+        f"/cards/{card['card_id']}/review",
+        json={"mode": 4, "self_reported_correct": True, "latency_ms": 100},
+        headers=auth,
+    )
+    assert res.status_code == 400
+
+
+def test_an_unknown_mode_is_refused(client, auth):
+    card = _due(client, auth)["cards"][0]
+    res = client.post(
+        f"/cards/{card['card_id']}/review",
+        json={"mode": 99, "correct": True, "latency_ms": 100},
+        headers=auth,
+    )
+    assert res.status_code == 400
+
+
+def test_an_out_of_range_score_is_refused(client, auth):
+    """The score picks the FSRS rating, so 10000 would buy an 'Easy'."""
+    card = _due(client, auth)["cards"][0]
+    for score in (10000, -5):
+        res = client.post(
+            f"/cards/{card['card_id']}/review",
+            json={"mode": 1, "correct": True, "pronunciation_score": score, "latency_ms": 100},
+            headers=auth,
+        )
+        assert res.status_code == 422, f"score {score} was accepted"
+
+
+def test_an_absurd_weekly_goal_is_refused(client, auth):
+    """target_words drives the daily new-word pace, so it needs bounds."""
+    for target in (0, -10, 100000):
+        assert client.post("/goals", json={"target_words": target}, headers=auth).status_code == 422
+    assert client.post("/goals", json={"target_words": 30}, headers=auth).status_code == 200
+
+
 # --- registration cap ---------------------------------------------------------
 
 

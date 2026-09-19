@@ -127,6 +127,14 @@ def register(body: Credentials, db: Session = Depends(get_db)):
     user = User(id=uuid.uuid4().hex, username=username, password_hash=hash_password(body.password))
     db.add(user)
     db.flush()
+
+    # The count above and this insert aren't atomic on their own, so two
+    # concurrent registrations could both pass it. The flush takes the write
+    # lock, so re-counting here sees our own row plus anything already
+    # committed — whoever loses the race rolls back instead of exceeding it.
+    if MAX_USERS is not None and db.query(User).count() > MAX_USERS:
+        db.rollback()
+        raise HTTPException(status_code=403, detail="Registration is closed.")
     if is_first_user:
         _claim_single_user_data(db, user.id)
     db.commit()

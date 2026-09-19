@@ -3,25 +3,28 @@
 	// what was said and scores how it was said; the server grades the words with
 	// the same rules as a typed answer, then fails anything mumbled.
 	import type { DueCard } from '$lib/api';
-	import { assess } from '$lib/pronunciation';
+	import type { Assessment } from '$lib/pronunciation';
+	import { createRecorder } from '$lib/recorder.svelte';
 	import PromptLabel from './PromptLabel.svelte';
 
 	let {
 		card,
-		onAnswer
+		onAnswer,
+		onTypeInstead
 	}: {
 		card: DueCard;
+		/** Escape hatch: without it a blocked microphone strands every card. */
+		onTypeInstead: () => void;
 		onAnswer: (result: {
 			typedAnswer: string;
 			pronunciationScore: number;
 			phonemes: { p: string; a: number }[];
+			assessment: Assessment;
 			latencyMs: number;
 		}) => void;
 	} = $props();
 
-	let listening = $state(false);
 	let answered = $state(false);
-	let error = $state<string | null>(null);
 	const shownAt = Date.now();
 
 	const needsArticle = $derived(
@@ -43,27 +46,20 @@
 			.trim();
 	}
 
-	async function listen() {
-		if (answered || listening) return;
-		listening = true;
-		error = null;
-		try {
-			const result = await assess(expected);
-			answered = true;
-			onAnswer({
-				typedAnswer: normalize(result.recognized),
-				pronunciationScore: result.pronunciation,
-				phonemes: result.words.flatMap((w) =>
-					w.phonemes.map((p) => ({ p: p.phoneme, a: p.accuracy }))
-				),
-				latencyMs: Date.now() - shownAt
-			});
-		} catch (e) {
-			error = (e as Error).message;
-		} finally {
-			listening = false;
-		}
-	}
+	const recorder = createRecorder((result) => {
+		answered = true;
+		onAnswer({
+			typedAnswer: normalize(result.recognized),
+			pronunciationScore: result.pronunciation,
+			phonemes: result.words.flatMap((w) =>
+				w.phonemes.map((p) => ({ p: p.phoneme, a: p.accuracy }))
+			),
+			assessment: result,
+			latencyMs: Date.now() - shownAt
+		});
+	});
+
+	$effect(() => recorder.dispose);
 </script>
 
 <div class="space-y-9">
@@ -112,25 +108,39 @@
 	<div class="space-y-3">
 		<button
 			type="button"
-			onclick={listen}
-			disabled={answered}
-			class="btn-primary flex w-full items-center justify-center gap-2.5 {listening
+			onclick={() => recorder.toggle(expected)}
+			disabled={answered || recorder.scoring}
+			class="btn-primary flex w-full items-center justify-center gap-2.5 {recorder.recording
 				? 'animate-pulse'
 				: ''}"
 		>
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
-				<rect x="9" y="2" width="6" height="11" rx="3" />
-				<path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
-			</svg>
-			{listening ? 'Listening…' : 'Speak'}
-		</button>
-		<p class="text-center text-sm text-ink-500" role="status">
-			{#if error}
-				<span class="text-bad">{error}</span>
-			{:else if listening}
-				Say it out loud, then pause.
+			{#if recorder.recording}
+				<svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+					<rect x="6" y="6" width="12" height="12" rx="2" />
+				</svg>
+				Stop
 			{:else}
-				Press, then say the word.
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
+					<rect x="9" y="2" width="6" height="11" rx="3" />
+					<path d="M5 11a7 7 0 0 0 14 0M12 18v4" />
+				</svg>
+				{recorder.scoring ? 'Scoring…' : 'Speak'}
+			{/if}
+		</button>
+		{#if recorder.error}
+			<button type="button" onclick={onTypeInstead} class="btn-quiet w-full py-2.5 text-sm">
+				Type it instead
+			</button>
+		{/if}
+		<p class="text-center text-sm text-ink-500" role="status">
+			{#if recorder.error}
+				<span class="text-bad">{recorder.error}</span>
+			{:else if recorder.recording}
+				Say it, then press Stop.
+			{:else if recorder.scoring}
+				Sending to Azure…
+			{:else}
+				Press Speak, say the word, then press Stop.
 			{/if}
 		</p>
 	</div>

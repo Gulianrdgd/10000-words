@@ -6,7 +6,7 @@
 	import FreeProductionCard from '$lib/components/review/FreeProductionCard.svelte';
 	import SpokenCard from '$lib/components/review/SpokenCard.svelte';
 	import ListenCard from '$lib/components/review/ListenCard.svelte';
-	import { pronunciationAvailable } from '$lib/pronunciation';
+	import { pronunciationAvailable, type Assessment } from '$lib/pronunciation';
 	import FeedbackBanner from '$lib/components/review/FeedbackBanner.svelte';
 	import {
 		flushQueue,
@@ -23,7 +23,18 @@
 
 	/** Speaking needs Azure and a live connection; offline falls back to typing. */
 	let canSpeak = $state(false);
-	pronunciationAvailable().then((ok) => (canSpeak = ok));
+	/** Resolved before any card renders, so a card can't start typed and then
+	 *  be swapped for the spoken one mid-answer, discarding what was typed. */
+	let capabilityChecked = $state(false);
+	pronunciationAvailable().then(
+		(ok) => ((canSpeak = ok), (capabilityChecked = true)),
+		() => (capabilityChecked = true)
+	);
+
+	/** Set when a card's mic attempt failed and the user asked to type it. */
+	let typedFallbackFor = $state<number | null>(null);
+	/** The spoken score for the card just answered, shown in the feedback. */
+	let lastAssessment = $state<Assessment | null>(null);
 
 	let queue = $state<DueCard[]>([]);
 	let loading = $state(true);
@@ -41,7 +52,9 @@
 	const current = $derived.by(() => {
 		const card = queue[0];
 		if (!card) return null;
-		const hasAudio = speechSupported || canSpeak;
+		// Azure audio needs the network; offline, only a local voice counts, or
+		// a listening card would play nothing and have no prompt at all.
+		const hasAudio = speechSupported || (canSpeak && sync.online);
 		if (card.mode === 5 && !hasAudio) return { ...card, mode: 2 as const };
 		if (card.mode === 6 && !hasAudio) return { ...card, mode: 1 as const };
 		return card;
@@ -84,6 +97,7 @@
 		selfReportedCorrect?: boolean;
 		pronunciationScore?: number;
 		phonemes?: { p: string; a: number }[];
+		assessment?: Assessment;
 		latencyMs: number;
 	}) {
 		if (!current || answering) return;
@@ -96,6 +110,7 @@
 		if (payload.pronunciationScore !== undefined)
 			body.pronunciation_score = payload.pronunciationScore;
 		if (payload.phonemes !== undefined) body.phonemes = payload.phonemes;
+		lastAssessment = payload.assessment ?? null;
 
 		try {
 			const result = await submitReview(current, body, payload.typedAnswer);
@@ -110,6 +125,8 @@
 	}
 
 	function next() {
+		typedFallbackFor = null;
+		lastAssessment = null;
 		feedback = null;
 		queue = queue.slice(1);
 		saveSessionCards(queue);
@@ -120,7 +137,7 @@
 	<title>Review — 1000 Mots</title>
 </svelte:head>
 
-{#if loading}
+{#if loading || !capabilityChecked}
 	<div class="space-y-8 pt-2" aria-busy="true" aria-label="Loading your session">
 		<div class="skeleton h-1.5 w-full rounded-full"></div>
 		<div class="flex flex-col items-center gap-5 pt-6">
@@ -170,8 +187,12 @@
 				<McqCard card={current} onAnswer={handleAnswer} />
 			{:else if current.mode === 6}
 				<ListenCard card={current} onAnswer={handleAnswer} />
-			{:else if canSpeak && sync.online && (current.mode !== 4 || current.sentence)}
-				<SpokenCard card={current} onAnswer={handleAnswer} />
+			{:else if canSpeak && sync.online && typedFallbackFor !== current.card_id && (current.mode !== 4 || current.sentence)}
+				<SpokenCard
+					card={current}
+					onAnswer={handleAnswer}
+					onTypeInstead={() => (typedFallbackFor = current.card_id)}
+				/>
 			{:else if current.mode === 2 || current.mode === 3}
 				<TypedCard card={current} onAnswer={handleAnswer} />
 			{:else if current.mode === 5}
@@ -183,7 +204,7 @@
 	{/key}
 
 	{#if feedback}
-		<FeedbackBanner result={feedback} card={current} onContinue={next} />
+		<FeedbackBanner result={feedback} card={current} assessment={lastAssessment} onContinue={next} />
 	{/if}
 {:else}
 	<div class="flex min-h-[65dvh] animate-enter flex-col justify-center">
