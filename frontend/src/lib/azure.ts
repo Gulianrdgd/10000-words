@@ -12,8 +12,12 @@ export async function credentials(): Promise<{ token: string; region: string }> 
 	if (cached && cached.expiresAt > Date.now()) return cached;
 	if (Date.now() < retryAfter) throw new Error('Azure Speech is unavailable.');
 	try {
-		const { token, region } = await api.getSpeechToken();
-		cached = { token, region, expiresAt: Date.now() + 8 * 60_000 };
+		const { token, region, expires_in_seconds } = await api.getSpeechToken();
+		// Trust the server's remaining lifetime rather than assuming a fresh
+		// token: the backend caches these, so one can arrive nearly expired.
+		// The 30s margin covers a slow request mid-session.
+		const lifetime = Math.max(0, expires_in_seconds * 1000 - 30_000);
+		cached = { token, region, expiresAt: Date.now() + lifetime };
 		return cached;
 	} catch (e) {
 		retryAfter = Date.now() + 5 * 60_000;

@@ -25,7 +25,11 @@
 		loading = true;
 		error = null;
 		try {
-			const [g, w, a] = await Promise.all([api.getGrowth(), getWordsCached(), api.getActivity()]);
+			const [g, w, a] = await Promise.all([
+				api.getGrowth(),
+				getWordsCached((fresh) => (words = fresh)),
+				api.getActivity()
+			]);
 			growth = g;
 			words = w;
 			activity = a.days;

@@ -1,6 +1,6 @@
 import { goto } from '$app/navigation';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
 const TOKEN_KEY = 'authToken';
 
 export class ApiError extends Error {
@@ -21,6 +21,9 @@ export function getToken(): string | null {
 }
 
 export function setToken(token: string | null) {
+	// The words cache holds one account's progress; carrying it across a sign
+	// out or a different sign in would show the previous user's data.
+	clearWordsCache();
 	try {
 		if (token) localStorage.setItem(TOKEN_KEY, token);
 		else localStorage.removeItem(TOKEN_KEY);
@@ -239,20 +242,37 @@ const post = <T>(path: string, body: unknown) =>
  * returned at once and a refresh runs behind it, since mastery shifts with
  * every review.
  */
-let wordsCache: WordProgress[] | null = null;
+let wordsCache: { token: string | null; words: WordProgress[] } | null = null;
 
 function refreshWords(): Promise<WordProgress[]> {
-	return request<WordProgress[]>('/words').then((w) => (wordsCache = w));
+	const token = getToken();
+	return request<WordProgress[]>('/words').then((words) => {
+		// Only keep it if the session didn't change while the request was out.
+		if (getToken() === token) wordsCache = { token, words };
+		return words;
+	});
 }
 
-export function getWordsCached(): Promise<WordProgress[]> {
+/**
+ * `onRefresh` receives the revalidated list when it lands, so a page showing
+ * the cached copy still updates — mastery moves with every review, and
+ * without this the list would stay stale until a full reload.
+ */
+export function getWordsCached(
+	onRefresh?: (words: WordProgress[]) => void
+): Promise<WordProgress[]> {
+	if (wordsCache?.token !== getToken()) wordsCache = null;
 	if (!wordsCache) return refreshWords();
-	const cached = wordsCache;
-	refreshWords().catch(() => {});
+
+	const cached = wordsCache.words;
+	refreshWords().then(
+		(fresh) => onRefresh?.(fresh),
+		() => {}
+	);
 	return Promise.resolve(cached);
 }
 
-export function clearWordsCache() {
+function clearWordsCache() {
 	wordsCache = null;
 }
 
@@ -277,7 +297,8 @@ export const api = {
 	getWords: () => request<WordProgress[]>('/words'),
 	getWord: (id: string) => request<WordDetail>(`/words/${encodeURIComponent(id)}`),
 
-	getSpeechToken: () => request<{ token: string; region: string }>('/speech/token'),
+	getSpeechToken: () =>
+		request<{ token: string; region: string; expires_in_seconds: number }>('/speech/token'),
 
 	getPushPublicKey: () => request<{ public_key: string }>('/push/public-key'),
 	getPushStatus: (endpoint: string) =>

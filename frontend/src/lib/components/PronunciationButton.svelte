@@ -1,27 +1,15 @@
 <script lang="ts">
-	import { assess, pronunciationAvailable, type Assessment } from '$lib/pronunciation';
+	import { pronunciationAvailable, type Assessment } from '$lib/pronunciation';
+	import { createRecorder } from '$lib/recorder.svelte';
 
 	let { text }: { text: string } = $props();
 
 	let available = $state(false);
 	pronunciationAvailable().then((ok) => (available = ok));
 
-	let listening = $state(false);
 	let result = $state<Assessment | null>(null);
-	let error = $state<string | null>(null);
-
-	async function record() {
-		listening = true;
-		error = null;
-		result = null;
-		try {
-			result = await assess(text);
-		} catch (e) {
-			error = (e as Error).message;
-		} finally {
-			listening = false;
-		}
-	}
+	const recorder = createRecorder((assessment) => (result = assessment));
+	$effect(() => recorder.dispose);
 
 	function tone(score: number) {
 		return score >= 80 ? 'text-good' : score >= 60 ? 'text-ink-200' : 'text-bad';
@@ -34,15 +22,20 @@
 			<div>
 				<h2 class="text-[0.9375rem] font-medium">Say it</h2>
 				<p class="mt-1 text-sm text-ink-500">
-					{listening ? 'Listening — say the word out loud.' : 'Record yourself and get a pronunciation score.'}
+					{recorder.recording
+						? 'Recording — say the word, then press again to stop.'
+						: recorder.scoring
+							? 'Scoring…'
+							: 'Record yourself and get a pronunciation score.'}
 				</p>
 			</div>
 			<button
 				type="button"
-				onclick={record}
-				disabled={listening}
+				onclick={() => recorder.toggle(text)}
+				disabled={recorder.scoring}
+				aria-pressed={recorder.recording}
 				aria-label="Record your pronunciation"
-				class="inline-grid h-11 w-11 shrink-0 place-items-center rounded-full transition duration-200 active:scale-95 {listening
+				class="inline-grid h-11 w-11 shrink-0 place-items-center rounded-full transition duration-200 active:scale-95 {recorder.recording
 					? 'animate-pulse bg-bad text-paper'
 					: 'bg-ink-800 text-ink-300 hover:bg-ink-700 hover:text-ink-100'}"
 			>
@@ -53,8 +46,8 @@
 			</button>
 		</div>
 
-		{#if error}
-			<p class="mt-4 text-sm text-bad" role="status">{error}</p>
+		{#if recorder.error}
+			<p class="mt-4 text-sm text-bad" role="status">{recorder.error}</p>
 		{/if}
 
 		{#if result}

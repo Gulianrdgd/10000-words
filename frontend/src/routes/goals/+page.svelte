@@ -37,10 +37,14 @@
 
 	async function saveGoal() {
 		saving = true;
+		error = null;
 		try {
 			goal = await api.setGoal(draftTarget);
 			saved = true;
 			setTimeout(() => (saved = false), 1800);
+		} catch (e) {
+			// without this the failure was silent and the promise unhandled
+			error = (e as Error).message;
 		} finally {
 			saving = false;
 		}

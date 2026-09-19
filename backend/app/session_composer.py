@@ -42,9 +42,24 @@ def pick_sentence(word: Word, card: Card) -> dict | None:
 def build_mcq_options(word: Word, all_words: list[Word]) -> list[str]:
     same_pos = [w for w in all_words if w.pos == word.pos and w.id != word.id]
     same_pos.sort(key=lambda w: abs(w.frequency_rank - word.frequency_rank))
-    distractors = [w.translation_en for w in same_pos[:15]]
+    # Different words share a translation (918 same-POS collisions in the
+    # dataset: "emploi" and "travaux" are both "work"), so distractors are
+    # deduplicated and the correct answer excluded — otherwise a card can show
+    # the right answer twice and mark one of them wrong.
+    correct = word.translation_en.strip()
+    seen = {correct.casefold()}
+    distractors: list[str] = []
+    for candidate in same_pos:
+        translation = candidate.translation_en.strip()
+        if translation.casefold() in seen:
+            continue
+        seen.add(translation.casefold())
+        distractors.append(translation)
+        if len(distractors) == 15:
+            break
+
     random.shuffle(distractors)
-    options = [word.translation_en] + distractors[:3]
+    options = [correct] + distractors[:3]
     random.shuffle(options)
     return options
 
@@ -114,6 +129,9 @@ def _stem_matches(token: str, lemma: str) -> bool:
     stem = _stem(lemma)
     if len(stem) < 2:
         return token == lemma
+    # French verbs in -ayer/-uyer swap y for i when conjugated ("payer" ->
+    # "paie"), which a plain prefix comparison would miss.
+    token, stem = token.replace("y", "i"), stem.replace("y", "i")
     prefix_len = 0
     for a, b in zip(token, stem):
         if a != b:
@@ -135,7 +153,39 @@ def _token_forms(token: str) -> list[str]:
         forms.append(bare.rsplit("'", 1)[-1])
     if "-" in bare:
         forms.extend(bare.split("-"))
+    # a token can be wrapped in quotes ("'Spot'"), where the apostrophes are
+    # delimiters rather than an elision
+    forms.append(bare.strip("'"))
     return [f for f in dict.fromkeys(forms) if f]
+
+
+def _prepare(sentence_fr: str) -> str:
+    """Normalises the whitespace and apostrophes that split() and the elision
+    rules would otherwise mishandle."""
+    for space in _SPACES:
+        sentence_fr = sentence_fr.replace(space, " ")
+    # Tatoeba writes elisions with a curly apostrophe ("l’asile"), which the
+    # elision handling — and the article rules used to grade the answer — only
+    # recognise as a straight one.
+    return sentence_fr.replace("’", "'")
+
+
+def can_cloze(sentence_fr: str, lemma: str) -> bool:
+    """Whether this sentence can pose a fair cloze for this word.
+
+    False when the lemma isn't in the sentence as its own token — "Bonsoir!"
+    can't test `soir`, because the word exists only inside another one. Without
+    this check `build_cloze` falls back to the nearest token by edit distance
+    and invents an answer the learner cannot give.
+    """
+    lemma = lemma.lower()
+    forms = [_token_forms(w) for w in _prepare(sentence_fr).split(" ")]
+    return any(
+        lemma in token_forms
+        or any(IRREGULAR_VERB_FORMS.get(f) == lemma for f in token_forms)
+        or any(f not in _STOPWORDS and _stem_matches(f, lemma) for f in token_forms)
+        for token_forms in forms
+    )
 
 
 def _find_cloze_index(words: list[str], lemma: str) -> int:
@@ -193,16 +243,21 @@ def build_cloze(sentence_fr: str, lemma: str) -> tuple[str, str]:
     forms ("viens-tu" -> blank "viens", keep "-tu") so the blanked answer is
     always the bare word the learner is expected to produce.
     """
-    for space in _SPACES:
-        sentence_fr = sentence_fr.replace(space, " ")
-    words = sentence_fr.split(" ")
+    words = _prepare(sentence_fr).split(" ")
     idx = _find_cloze_index(words, lemma)
     original = words[idx]
-    trailing = "".join(ch for ch in original if ch in _PUNCTUATION)
-    core = original[: len(original) - len(trailing)] if trailing else original
+    # Strip punctuation from each end separately and put both back around the
+    # blank: a token like "(maison)" or "«Renaissance»" is wrapped, not just
+    # suffixed, and collecting punctuation from anywhere would eat the word.
+    # A straight apostrophe is stripped only at the ends, where it's a quote
+    # ("'Spot'"); an elision keeps its own ("l'homme"), for _blank_core to split.
+    outer = _PUNCTUATION + "'"
+    core = original.strip(outer)
+    leading = original[: len(original) - len(original.lstrip(outer))]
+    trailing = original[len(leading) + len(core) :]
 
     answer, display = _blank_core(core, lemma)
-    words[idx] = display + trailing
+    words[idx] = leading + display + trailing
     return " ".join(words), answer
 
 

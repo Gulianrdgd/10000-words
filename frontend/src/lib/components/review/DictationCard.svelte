@@ -2,6 +2,7 @@
 	import type { DueCard } from '$lib/api';
 	import SpeakButton from '$lib/components/SpeakButton.svelte';
 	import PromptLabel from './PromptLabel.svelte';
+	import { settings } from '$lib/settings.svelte';
 	import { isSpeakShortcut, speak } from '$lib/speech';
 
 	let {
@@ -21,6 +22,7 @@
 	$effect(() => {
 		inputEl?.focus();
 		// give the browser a beat to settle focus before speaking
+		if (!settings.autoplayAudio) return;
 		const t = setTimeout(() => speak(audioText), 150);
 		return () => clearTimeout(t);
 	});

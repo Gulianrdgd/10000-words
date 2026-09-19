@@ -89,6 +89,13 @@ export async function prefetch(texts: string[]) {
 // --- playback ----------------------------------------------------------------
 
 let current: HTMLAudioElement | null = null;
+/** Bumped on every speak()/stop so a slow fetch can't play over a newer one. */
+let generation = 0;
+
+function release(audio: HTMLAudioElement) {
+	audio.pause();
+	URL.revokeObjectURL(audio.src);
+}
 
 function speakLocally(text: string, rate: number) {
 	if (!speechSupported) return;
@@ -103,22 +110,34 @@ function speakLocally(text: string, rate: number) {
 export async function speak(text: string, { slow = false } = {}) {
 	if (!text) return;
 	stopSpeaking();
+	const mine = generation;
 	const rate = slow ? 0.6 : settings.speechRate;
 	try {
 		const audio = new Audio(URL.createObjectURL(await clipFor(text)));
+		// An uncached word takes a network round trip; by the time it lands the
+		// user may have moved on, and this clip must not talk over the new card.
+		if (mine !== generation) return release(audio);
 		audio.playbackRate = rate;
 		audio.preservesPitch = true;
 		audio.addEventListener('ended', () => URL.revokeObjectURL(audio.src), { once: true });
 		current = audio;
 		await audio.play();
-	} catch {
-		// no Azure key, offline on a word never played, or autoplay blocked
-		speakLocally(text, rate);
+	} catch (e) {
+		// A blocked autoplay is the browser refusing sound without a gesture, not
+		// the voice being unavailable. Substituting the built-in voice there just
+		// makes a robot shout the word; stay silent instead — the play button is
+		// a gesture, so pressing it works.
+		if ((e as Error)?.name === 'NotAllowedError') return;
+		// genuinely no voice: no Azure key, or offline on a word never played
+		if (mine === generation) speakLocally(text, rate);
 	}
 }
 
-export function stopSpeaking() {
-	current?.pause();
+function stopSpeaking() {
+	generation += 1;
+	// revoke here too: 'ended' never fires for a clip cut short, which would
+	// leak a blob URL per interrupted play
+	if (current) release(current);
 	current = null;
 	if (speechSupported) speechSynthesis.cancel();
 }

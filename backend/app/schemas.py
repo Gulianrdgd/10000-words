@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Sentence(BaseModel):
@@ -37,8 +37,8 @@ class DueCardsResponse(BaseModel):
 
 
 class SpokenPhoneme(BaseModel):
-    p: str  # the phoneme
-    a: int  # accuracy 0-100
+    p: str = Field(max_length=16)  # the phoneme
+    a: int = Field(ge=0, le=100)  # accuracy
 
 
 class ReviewRequest(BaseModel):
@@ -48,8 +48,10 @@ class ReviewRequest(BaseModel):
     typed_answer: str | None = None  # for fuzzy-matched modes (2, 3, 5)
     self_reported_correct: bool | None = None  # for mode 4 (free production)
     expected_answer: str | None = None  # mode 3: the blank the client was actually shown
-    pronunciation_score: int | None = None  # 0-100 when the answer was spoken, not typed
-    phonemes: list["SpokenPhoneme"] | None = None  # per-sound accuracy from the same attempt
+    # Bounded because the score picks the FSRS rating: an unvalidated 10000
+    # would buy an "Easy" and poison the pronunciation stats.
+    pronunciation_score: int | None = Field(default=None, ge=0, le=100)
+    phonemes: list["SpokenPhoneme"] | None = Field(default=None, max_length=256)
     client_review_id: str | None = None  # idempotency key for retries / offline replay
     reviewed_at: datetime | None = None  # when answered, if queued offline
 
@@ -70,7 +72,8 @@ class ReviewResponse(BaseModel):
 
 
 class GoalRequest(BaseModel):
-    target_words: int
+    # bounded: this drives the daily new-word pace (ceil/7)
+    target_words: int = Field(ge=1, le=500)
 
 
 class GoalResponse(BaseModel):
@@ -115,6 +118,7 @@ class ActivityResponse(BaseModel):
 class SpeechToken(BaseModel):
     token: str
     region: str
+    expires_in_seconds: int
 
 
 class SpokenWordStat(BaseModel):

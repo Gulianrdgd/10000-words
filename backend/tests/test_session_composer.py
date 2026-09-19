@@ -12,9 +12,12 @@ import pytest
 
 from app.fsrs_engine import levenshtein
 from app.session_composer import (
+    _PUNCTUATION,
     IRREGULAR_VERB_FORMS,
     _stem_matches,
     build_cloze,
+    build_mcq_options,
+    can_cloze,
     interleave_by_pos,
     pick_mode,
 )
@@ -80,6 +83,11 @@ def test_build_cloze_handles_conjugations_sharing_no_stem():
         ("Le programme d'auto-détection des langues ne fonctionne plus.", "détection", "détection"),
         # the original behaviour must survive all of the above
         ("Que fais-tu ?", "faire", "fais"),
+        # wrapped in punctuation: both delimiters must survive the blank
+        ("Il y a une (maison) ici.", "maison", "maison"),
+        ("Le mot «Renaissance» veut dire quoi ?", "renaissance", "Renaissance"),
+        # wrapping apostrophes are quotes, not an elision
+        ("Le chien est appelé 'Spot' par la famille.", "spot", "Spot"),
     ],
 )
 def test_cloze_blanks_the_lemma_not_a_neighbour(sentence, lemma, expected_answer):
@@ -100,25 +108,96 @@ def _answer_fits_the_lemma(answer: str, lemma: str) -> bool:
         answer == lemma
         or _stem_matches(answer, lemma)
         or IRREGULAR_VERB_FORMS.get(answer) == lemma
-        or levenshtein(answer, lemma) <= 3
+        # a tight budget on purpose: a loose one hid "(maiso" being returned
+        # for "maison" when punctuation was stripped from the wrong end
+        or levenshtein(answer, lemma) <= 1
     )
 
 
+def test_a_blanked_answer_never_keeps_punctuation():
+    """The answer key is graded against what the learner types, so it must be
+    the bare word — no brackets, quotes or terminators clinging to it."""
+    for sentence, lemma in [
+        ("Il y a une (maison) ici.", "maison"),
+        ("Le mot «Renaissance» veut dire quoi ?", "renaissance"),
+        ("C'est une maison.", "maison"),
+    ]:
+        _, answer = build_cloze(sentence, lemma)
+        assert not any(ch in _PUNCTUATION for ch in answer), f"{answer!r} from {sentence!r}"
+
+
+@pytest.mark.parametrize(
+    "sentence,lemma",
+    [
+        ("Bonsoir!", "soir"),  # the word exists only inside another
+        ("Bonjour, comment vas-tu?", "jour"),
+    ],
+)
+def test_a_sentence_without_the_word_is_not_offered_as_a_cloze(sentence, lemma):
+    assert can_cloze(sentence, lemma) is False
+
+
+@pytest.mark.parametrize(
+    "sentence,lemma",
+    [
+        ("La maison est grande.", "maison"),
+        ("Je paie l'addition.", "payer"),  # -ayer verbs swap y for i
+        ("Je suis fatigué.", "être"),
+        ("Notre département est en sous-effectif.", "effectif"),
+    ],
+)
+def test_a_sentence_containing_the_word_is_cloze_able(sentence, lemma):
+    assert can_cloze(sentence, lemma) is True
+
+
 @pytest.mark.skipif(not WORDS_JSON.exists(), reason="words.json not built")
-def test_every_authored_sentence_produces_an_answerable_cloze():
-    """Across the whole dataset, every cloze must blank a real token and hand
-    back an answer key that is actually the word being taught."""
+def test_every_cloze_the_app_would_serve_is_answerable():
+    """Across the whole dataset, every cloze that passes can_cloze() — the
+    same gate cards.py uses — must blank a real token and return an answer key
+    that is the word being taught."""
     words = json.loads(WORDS_JSON.read_text())
-    checked = 0
+    checked = skipped = 0
     failures = []
     for word in words:
         for sentence in word.get("sentences") or []:
+            if not can_cloze(sentence["fr"], word["lemma"]):
+                skipped += 1
+                continue
             blanked, answer = build_cloze(sentence["fr"], word["lemma"])
             checked += 1
             if not answer or "____" not in blanked or not _answer_fits_the_lemma(answer, word["lemma"]):
                 failures.append((word["lemma"], sentence["fr"], blanked, answer))
     assert checked > 0, "no sentences found to check"
     assert not failures, f"{len(failures)} of {checked} clozes are unanswerable: {failures[:5]}"
+    # the gate should be excluding a small tail, not most of the dataset
+    assert skipped / (checked + skipped) < 0.10, f"can_cloze rejected {skipped}/{checked + skipped}"
+
+
+# --- multiple choice ----------------------------------------------------------
+
+
+def word(id, translation, pos="noun", rank=1):
+    return SimpleNamespace(id=id, translation_en=translation, pos=pos, frequency_rank=rank)
+
+
+def test_mcq_options_never_repeat_a_translation():
+    """Different words share a translation ("emploi" and "travaux" are both
+    "work"), which would render the same option twice with one marked wrong."""
+    target = word("1", "work", rank=1)
+    others = [word(str(i), "work", rank=i) for i in range(2, 12)] + [
+        word("50", "house", rank=50),
+        word("51", "tree", rank=51),
+    ]
+    options = build_mcq_options(target, [target, *others])
+    assert len(options) == len(set(options)), options
+    assert options.count("work") == 1
+
+
+def test_mcq_options_always_contain_the_answer():
+    target = word("1", "house")
+    others = [word(str(i), f"other{i}", rank=i) for i in range(2, 20)]
+    for _ in range(20):
+        assert "house" in build_mcq_options(target, [target, *others])
 
 
 # --- interleaving -------------------------------------------------------------

@@ -13,7 +13,14 @@ from app.fsrs_engine import _as_utc, apply_review, levenshtein, rating_for_answe
 from app.gender import display_form, gender_correct, production_answer, split_article
 from app.models import Card, Review, UserStreak, Word, WordMastery
 from app.schemas import DueCard, DueCardsResponse, ReviewRequest, ReviewResponse, Sentence
-from app.session_composer import build_cloze, build_mcq_options, interleave_by_pos, pick_mode, pick_sentence
+from app.session_composer import (
+    build_cloze,
+    build_mcq_options,
+    can_cloze,
+    interleave_by_pos,
+    pick_mode,
+    pick_sentence,
+)
 from app.weekly import current_week_target
 
 router = APIRouter(prefix="/cards", tags=["cards"])
@@ -24,6 +31,10 @@ PRONUNCIATION_PASS = 70
 # A word counts as mastered once FSRS says both its cards would still be
 # recalled with 90% probability this many days from now.
 MASTERY_STABILITY_DAYS = 21.0
+
+# Which review modes each track may be graded with (see pick_mode).
+RECOGNITION_MODES = {1, 6}
+PRODUCTION_MODES = {2, 3, 4, 5}
 
 
 @router.get("/due", response_model=DueCardsResponse)
@@ -86,7 +97,11 @@ def get_due_cards(
     result: list[DueCard] = []
     for card, word in ordered:
         sentence_dict = pick_sentence(word, card)
-        mode = pick_mode(card, has_sentences=sentence_dict is not None)
+        # A sentence is only cloze-able if it actually contains the word as its
+        # own token; otherwise mode 3 would blank a neighbour and grade against
+        # an answer the learner was never asked for.
+        clozeable = sentence_dict is not None and can_cloze(sentence_dict["fr"], word.lemma)
+        mode = pick_mode(card, has_sentences=clozeable)
         sentence = Sentence(**sentence_dict) if sentence_dict else None
         options = None
         cloze_sentence = None
@@ -195,6 +210,18 @@ def submit_review(
     card = db.query(Card).filter(Card.id == card_id, Card.user_id == user_id).first()
     if card is None:
         raise HTTPException(status_code=404, detail="Card not found")
+
+    # The mode arrives from the client, so it has to match the card's track:
+    # otherwise a recognition card could be advanced with a mode-4 self-report,
+    # skipping the grading its track is supposed to enforce.
+    allowed = RECOGNITION_MODES if card.track == "recognition" else PRODUCTION_MODES
+    if body.mode not in allowed:
+        raise HTTPException(
+            status_code=400, detail=f"Mode {body.mode} is not valid for a {card.track} card"
+        )
+    if not card.introduced:
+        raise HTTPException(status_code=400, detail="That card hasn't been introduced yet")
+
     word = db.query(Word).filter(Word.id == card.word_id).first()
 
     if body.client_review_id:

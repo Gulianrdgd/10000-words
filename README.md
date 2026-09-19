@@ -86,6 +86,7 @@ backend/
   scripts/build_dataset.py   # fetches frequency corpus, builds app/data/words.json
   scripts/curated_words.json # hand-authored word + sentence data
   scripts/enrich_dataset.py  # adds noun gender + Tatoeba sentences to words.json
+  scripts/verify_pronunciation.py # end-to-end check of the scoring pipeline
   app/
     main.py                  # FastAPI app, CORS, startup seeding
     models.py                # SQLAlchemy: Word, Card, Review, WeeklyGoal, WordMastery, UserStreak
@@ -100,7 +101,7 @@ backend/
       goals.py                # GET/POST /goals, GET /goals/{week}/review
       stats.py                # GET /stats/growth, /stats/activity, /stats/pronunciation
       words.py                # GET /words (progress browser), GET /words/{id}
-      speech.py               # GET /speech/token (Azure TTS + pronunciation)
+      speech.py               # POST /speech/assess (scoring proxy), GET /speech/token (TTS)
 
 frontend/
   src/routes/
@@ -113,7 +114,8 @@ frontend/
     api.ts                    # typed fetch client (bearer token)
     offline.svelte.ts         # offline review queue + session cache
     grading.ts, speech.ts     # local grading mirror; Azure neural TTS + cache
-    azure.ts, pronunciation.ts # shared Speech token; mic scoring
+    azure.ts, pronunciation.ts # TTS token; record + score pronunciation
+    recorder.svelte.ts        # press-to-record state, shared by both mic UIs
     components/review/*       # McqCard, ListenCard (6), SpokenCard (2/3/4/5), TypedCard, DictationCard, FreeProductionCard, FeedbackBanner
     components/ActivityCalendar.svelte
     components/GrowthChart.svelte
@@ -128,7 +130,13 @@ frontend/
   columns and refreshes word data from `words.json` (`seed.py`), so an
   existing `app.db` upgrades in place.
 - **Spoken answers.** With a Speech key, production modes are answered out
-  loud instead of typed (`SpokenCard.svelte`). Azure transcribes the attempt —
+  loud instead of typed (`SpokenCard.svelte`): press Speak, say it, press Stop.
+  The clip is recorded with `MediaRecorder`, decoded to 16kHz mono WAV and
+  posted to `/speech/assess`, which forwards it to Azure — same-origin, so the
+  key never reaches the browser. The Speech SDK is deliberately unused: its
+  browser path streams through an AudioContext it owns, which in Firefox sent
+  the right byte count and pure silence, and Firefox's Ogg/Opus container makes
+  Azure's decoder hang. Azure transcribes the attempt —
   graded server-side by the same text/gender rules as typing — and scores how
   it sounded; below `PRONUNCIATION_PASS` (70) the card fails however right the
   transcription is, because the recognizer will happily clean up a mangled
@@ -192,8 +200,9 @@ frontend/
 - **Pronunciation scoring** (`app/routers/speech.py`, `lib/pronunciation.ts`):
   optional, off unless `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION` are set — see
   below. The browser records the word and Azure returns word- and
-  phoneme-level accuracy on the word detail page. Scores are shown and thrown
-  away: they never touch FSRS, so a bad mic can't wreck the schedule.
+  phoneme-level accuracy. On the word detail page this is practice only; in a
+  spoken review the same score decides pass/fail and the FSRS rating, and is
+  stored per review (see **Spoken answers** and **Pronunciation history**).
 - **New-word scaffolding.** A word's `production` card stays hidden
   (`introduced=False`) until its `recognition` card has been reviewed at
   least once — so brand-new words are always seen in recognition mode first.
@@ -315,3 +324,16 @@ for whole sentences, which is worth a look but isn't wired into the app.
 
 **Microphone access needs a secure context**: `localhost` in dev, HTTPS for
 the installed PWA on a phone.
+
+To check the pipeline without a browser — useful when scoring misbehaves, since
+it isolates the server, the key and the resampling from browser capture:
+
+```bash
+cd backend
+AZURE_SPEECH_KEY=<key> AZURE_SPEECH_REGION=<region> \
+  uv run scripts/verify_pronunciation.py "la maison"
+```
+
+It synthesizes the phrase with Azure's own voice, puts it through the same
+resampling the frontend applies to a recording, scores it, and fails if the
+result comes back under 80.
