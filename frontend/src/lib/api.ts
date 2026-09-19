@@ -272,7 +272,7 @@ export function getWordsCached(
 	return Promise.resolve(cached);
 }
 
-export function clearWordsCache() {
+function clearWordsCache() {
 	wordsCache = null;
 }
 

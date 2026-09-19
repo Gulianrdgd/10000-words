@@ -185,6 +185,32 @@ def test_max_users_parses_the_environment(monkeypatch):
 # --- speech token -------------------------------------------------------------
 
 
+def test_assess_is_503_without_a_key(client, auth):
+    res = client.post("/speech/assess?reference_text=la%20maison", content=b"fake-audio", headers=auth)
+    assert res.status_code == 503
+
+
+def test_assess_requires_a_login(client):
+    assert client.post("/speech/assess?reference_text=x", content=b"a").status_code in (401, 403)
+
+
+def test_assess_needs_a_reference_text(client, auth):
+    """The reference is what the score is measured against; without it Azure
+    would happily transcribe and report nothing useful."""
+    assert client.post("/speech/assess", content=b"a", headers=auth).status_code == 422
+    assert (
+        client.post("/speech/assess?reference_text=", content=b"a", headers=auth).status_code == 422
+    )
+
+
+def test_assess_rejects_an_empty_recording(client, auth, monkeypatch):
+    """A recording that captured nothing shouldn't cost an Azure round trip."""
+    monkeypatch.setenv("AZURE_SPEECH_KEY", "test-key")
+    monkeypatch.setenv("AZURE_SPEECH_REGION", "testregion")
+    res = client.post("/speech/assess?reference_text=la%20maison", content=b"", headers=auth)
+    assert res.status_code == 400
+
+
 def test_speech_token_is_503_without_a_key(client, auth):
     assert "AZURE_SPEECH_KEY" not in os.environ
     assert client.get("/speech/token", headers=auth).status_code == 503

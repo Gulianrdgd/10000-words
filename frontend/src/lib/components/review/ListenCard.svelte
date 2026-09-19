@@ -4,6 +4,7 @@
 	// spelling. Only served after a word's first written exposure.
 	import type { DueCard } from '$lib/api';
 	import PromptLabel from './PromptLabel.svelte';
+	import { settings } from '$lib/settings.svelte';
 	import { isSpeakShortcut, isTypingTarget, speak } from '$lib/speech';
 
 	let {
@@ -17,8 +18,10 @@
 	let picked = $state<string | null>(null);
 	const shownAt = Date.now();
 
-	// always autoplay: with nothing on screen there's no prompt without it
+	// Respects "Play words automatically": with it off the big play button is
+	// the prompt, rather than the app speaking the moment a card appears.
 	$effect(() => {
+		if (!settings.autoplayAudio) return;
 		const t = setTimeout(() => speak(card.display_lemma), 150);
 		return () => clearTimeout(t);
 	});

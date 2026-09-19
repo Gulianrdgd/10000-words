@@ -67,7 +67,10 @@
 		{#if card.mode === 4 && card.sentence}
 			<PromptLabel text="Read this out loud" pos={card.pos} />
 			<div class="space-y-3 text-center">
-				<p class="font-serif text-[1.75rem] leading-snug text-ink-100">{card.sentence.fr}</p>
+				<!-- a full sentence at 28px wraps to five lines on a narrow phone -->
+				<p class="font-serif text-xl leading-snug text-ink-100 sm:text-[1.75rem]">
+					{card.sentence.fr}
+				</p>
 				<p class="text-ink-400">{card.sentence.en}</p>
 			</div>
 		{:else if card.mode === 3 && card.cloze_sentence}

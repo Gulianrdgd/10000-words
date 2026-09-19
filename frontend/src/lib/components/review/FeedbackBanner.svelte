@@ -103,7 +103,7 @@
 						</span><span class="text-xs text-ink-500"> / 100</span>
 					</p>
 				</div>
-				<dl class="mt-2 flex gap-4 text-xs text-ink-500 tabular">
+				<dl class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-500 tabular">
 					{#each [['accuracy', assessment.accuracy], ['fluency', assessment.fluency], ['complete', assessment.completeness]] as [name, score] (name)}
 						<div class="flex gap-1">
 							<dt>{name}</dt>
@@ -112,7 +112,9 @@
 					{/each}
 				</dl>
 				{#if assessment.words.length > 0}
-					<p class="mt-2.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+					<!-- a read-aloud sentence can run to a dozen words; cap the height so
+				     the banner can't grow taller than the card it reports on -->
+				<p class="mt-2.5 flex max-h-24 flex-wrap items-baseline gap-x-2 gap-y-1 overflow-y-auto">
 						{#each assessment.words as w (w.word)}
 							<span class="font-serif text-lg {tone(w.accuracy)}">
 								{w.word}<span class="ml-0.5 text-[0.6875rem] opacity-70 tabular">{w.accuracy}</span>

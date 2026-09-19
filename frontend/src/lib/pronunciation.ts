@@ -1,13 +1,12 @@
-// Pronunciation scoring: record a whole clip with MediaRecorder, then POST it
-// to Azure's REST endpoint.
+// Pronunciation scoring: record a whole clip with MediaRecorder, convert it to
+// 16kHz mono WAV, and post it to our backend, which forwards it to Azure.
 //
-// This deliberately avoids the Speech SDK. Its browser path streams live audio
-// through an AudioContext it owns, which in Firefox delivered the right number
-// of bytes but pure silence (NoMatch, SNR 0) — reproducible in the app and in a
-// standalone page, while the identical resampling and chunking scored 98/100
-// when driven from Deno. Recording a finished clip sidesteps the whole
-// streaming path, needs no AudioContext, worklet or resampling, and drops a
-// 380KB dependency.
+// Deliberately not the Speech SDK: its browser path streams live audio through
+// an AudioContext it owns, which in Firefox sent the right number of bytes and
+// pure silence (NoMatch, SNR 0). Firefox's MediaRecorder also writes a
+// streaming Ogg container that Azure's decoder waits on forever, hence
+// decoding to WAV here. A finished clip avoids both, and needs no AudioContext,
+// worklet or live resampling.
 //
 // Used for practice on the word page and to grade spoken reviews, where the
 // score decides pass/fail and the FSRS rating.
@@ -46,7 +45,7 @@ const PREFERRED_TYPES = [
 	'audio/webm'
 ];
 
-export const micSupported =
+const micSupported =
 	typeof navigator !== 'undefined' &&
 	!!navigator.mediaDevices?.getUserMedia &&
 	typeof MediaRecorder !== 'undefined';

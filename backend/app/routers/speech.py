@@ -1,8 +1,11 @@
-"""Short-lived Azure Speech tokens for in-browser pronunciation assessment.
+"""Azure Speech endpoints.
 
-The subscription key stays on the server; the browser gets a 10-minute token
-it trades directly with Azure. Unset AZURE_SPEECH_KEY/AZURE_SPEECH_REGION
-(the default) returns 503 and the frontend hides the feature.
+/assess proxies a recorded clip to Azure's pronunciation REST API, keeping the
+request same-origin and the subscription key server-side. /token mints the
+short-lived token the browser uses for text-to-speech only.
+
+Unset AZURE_SPEECH_KEY/AZURE_SPEECH_REGION (the default) returns 503 and the
+frontend hides the feature.
 """
 import base64
 import json

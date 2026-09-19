@@ -122,13 +122,18 @@ export async function speak(text: string, { slow = false } = {}) {
 		audio.addEventListener('ended', () => URL.revokeObjectURL(audio.src), { once: true });
 		current = audio;
 		await audio.play();
-	} catch {
-		// no Azure key, offline on a word never played, or autoplay blocked
+	} catch (e) {
+		// A blocked autoplay is the browser refusing sound without a gesture, not
+		// the voice being unavailable. Substituting the built-in voice there just
+		// makes a robot shout the word; stay silent instead — the play button is
+		// a gesture, so pressing it works.
+		if ((e as Error)?.name === 'NotAllowedError') return;
+		// genuinely no voice: no Azure key, or offline on a word never played
 		if (mine === generation) speakLocally(text, rate);
 	}
 }
 
-export function stopSpeaking() {
+function stopSpeaking() {
 	generation += 1;
 	// revoke here too: 'ended' never fires for a clip cut short, which would
 	// leak a blob URL per interrupted play
